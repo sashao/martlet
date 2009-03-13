@@ -9,7 +9,7 @@
 class filter : public QObject
 {
    Q_OBJECT
-
+public:
     filter(){ w = 0;}
 QWidget* w;
 protected:

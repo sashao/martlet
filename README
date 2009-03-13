@@ -15,3 +15,15 @@ git clone git@github.com:sashao/easytrans.git
 
 
 For Fun
+
+
+This is Qt4 project.
+Currently Linux supported only.
+
+Build all:
+    qmake && make
+
+run:
+    ./QSpy <qt4_executable>
+
+Now you can click on application widgets and see its object tree.
