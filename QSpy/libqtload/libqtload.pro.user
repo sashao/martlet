@@ -1,0 +1,241 @@
+<!DOCTYPE QtCreatorProject>
+<qtcreator>
+ <data>
+  <variable>RunConfiguration0-Arguments</variable>
+  <valuelist type="QVariantList" />
+ </data>
+ <data>
+  <variable>RunConfiguration0-Executable</variable>
+  <value type="QString" ></value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-RunConfiguration.name</variable>
+  <value type="QString" >Custom Executable</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-UseTerminal</variable>
+  <value type="bool" >true</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-WorkingDirectory</variable>
+  <value type="QString" >$BUILDDIR</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-type</variable>
+  <value type="QString" >ProjectExplorer.CustomExecutableRunConfiguration</value>
+ </data>
+ <data>
+  <variable>activeRunConfiguration</variable>
+  <value type="int" >0</value>
+ </data>
+ <data>
+  <variable>activebuildconfiguration</variable>
+  <value type="QString" >Debug</value>
+ </data>
+ <data>
+  <variable>buildConfiguration-Debug</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
+   <value key="QtVersionId" type="int" >2</value>
+   <value key="addQDumper" type="" ></value>
+   <value key="buildDirectory" type="QString" >/media/Trans/easytrans/QSpy/libqtload</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Debug-buildstep0</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >COLORTERM=gnome-terminal</value>
+    <value type="QString" >CVSROOT=:ext:oomel@cvs.ics.com:/home/cvs/root</value>
+    <value type="QString" >CVS_RSH=/home/oomel/.ssh/script</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-WCjgP3mEfQ,guid=d3fff991a12dda669c6b6eaf49b62588</value>
+    <value type="QString" >DESKTOP_SESSION=gnome</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >GDMSESSION=gnome</value>
+    <value type="QString" >GDM_LANG=uk_UA.UTF-8</value>
+    <value type="QString" >GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
+    <value type="QString" >GNOME_KEYRING_PID=2833</value>
+    <value type="QString" >GNOME_KEYRING_SOCKET=/tmp/keyring-hDR2Ce/socket</value>
+    <value type="QString" >GTK_MODULES=gail:atk-bridge</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/oomel/.gtkrc-1.2-gnome2</value>
+    <value type="QString" >G_BROKEN_FILENAMES=1</value>
+    <value type="QString" >HISTSIZE=1500</value>
+    <value type="QString" >HOME=/home/oomel</value>
+    <value type="QString" >HOSTNAME=rv016.softservecom.com</value>
+    <value type="QString" >INPUTRC=/etc/inputrc</value>
+    <value type="QString" >LANG=uk_UA.UTF-8</value>
+    <value type="QString" >LD_LIBRARY_PATH=/media/QtCreator/qt-creator/lib:/home/oomel/Projects/outliner/branches/Phase III/outliner/bin:/home/oomel/app/oomel/product/11.1.0/client_1/lib</value>
+    <value type="QString" >LESSOPEN=|/usr/bin/lesspipe.sh %s</value>
+    <value type="QString" >LIBGL_DRIVERS_PATH=/usr/lib/dri</value>
+    <value type="QString" >LOGNAME=oomel</value>
+    <value type="QString" >LS_COLORS=no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:do=00;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=00;32:*.tar=00;31:*.tgz=00;31:*.svgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.lzma=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.dz=00;31:*.gz=00;31:*.bz2=00;31:*.tbz2=00;31:*.bz=00;31:*.tz=00;31:*.deb=00;31:*.rpm=00;31:*.jar=00;31:*.rar=00;31:*.ace=00;31:*.zoo=00;31:*.cpio=00;31:*.7z=00;31:*.rz=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.pbm=00;35:*.pgm=00;35:*.ppm=00;35:*.tga=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.png=00;35:*.mng=00;35:*.pcx=00;35:*.mov=00;35:*.mpg=00;35:*.mpeg=00;35:*.m2v=00;35:*.mkv=00;35:*.ogm=00;35:*.mp4=00;35:*.m4v=00;35:*.mp4v=00;35:*.vob=00;35:*.qt=00;35:*.nuv=00;35:*.wmv=00;35:*.asf=00;35:*.rm=00;35:*.rmvb=00;35:*.flc=00;35:*.avi=00;35:*.fli=00;35:*.gl=00;35:*.dl=00;35:*.xcf=00;35:*.xwd=00;35:*.yuv=00;35:*.svg=00;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</value>
+    <value type="QString" >MAIL=/var/spool/mail/oomel</value>
+    <value type="QString" >ORACLE_HOME=/home/oomel/app/oomel/product/11.1.0/client_1/</value>
+    <value type="QString" >ORBIT_SOCKETDIR=/tmp/orbit-oomel</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.5.0/bin:/usr/lib/qt4/bin:/usr/kerberos/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/oomel/bin:/sbin:/usr/sbin:usr/local/sbin</value>
+    <value type="QString" >PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig</value>
+    <value type="QString" >PWD=/home/oomel</value>
+    <value type="QString" >QTDIR=/usr/lib/qt4</value>
+    <value type="QString" >QTINC=/usr/lib/qt4/include</value>
+    <value type="QString" >QTLIB=/usr/lib/qt4/lib</value>
+    <value type="QString" >SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/2836,unix/unix:/tmp/.ICE-unix/2836</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SHLVL=3</value>
+    <value type="QString" >SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/keyring-hDR2Ce/ssh</value>
+    <value type="QString" >SVN_EDITOR=/usr/bin/vim</value>
+    <value type="QString" >TERM=xterm</value>
+    <value type="QString" >USER=oomel</value>
+    <value type="QString" >WINDOWID=115343565</value>
+    <value type="QString" >XAUTHORITY=/var/run/gdm/auth-for-oomel-ePMYRn/database</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fb7bce424ba2a156f425190c492e41de-1236673928.27809-254113609</value>
+    <value type="QString" >XMODIFIERS=@im=imsettings</value>
+    <value type="QString" >_=/media/QtCreator/qt-creator/bin/qtcreator.bin</value>
+    <value type="QString" >http_proxy=http://localhost:3128/</value>
+    <value type="QString" >no_proxy=localhost,127.0.0.0/8,*.softservecom.com,.softservecom.com</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >/media/Trans/easytrans/QSpy/libqtload/libqtload.pro</value>
+    <value type="QString" >-spec</value>
+    <value type="QString" >linux-g++</value>
+    <value type="QString" >-r</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/lib/qt4/bin/qmake</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/media/Trans/easytrans/QSpy/libqtload</value>
+   <value key="buildConfiguration" type="int" >2</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Debug-buildstep1</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >COLORTERM=gnome-terminal</value>
+    <value type="QString" >CVSROOT=:ext:oomel@cvs.ics.com:/home/cvs/root</value>
+    <value type="QString" >CVS_RSH=/home/oomel/.ssh/script</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-WCjgP3mEfQ,guid=d3fff991a12dda669c6b6eaf49b62588</value>
+    <value type="QString" >DESKTOP_SESSION=gnome</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >GDMSESSION=gnome</value>
+    <value type="QString" >GDM_LANG=uk_UA.UTF-8</value>
+    <value type="QString" >GNOME_DESKTOP_SESSION_ID=this-is-deprecated</value>
+    <value type="QString" >GNOME_KEYRING_PID=2833</value>
+    <value type="QString" >GNOME_KEYRING_SOCKET=/tmp/keyring-hDR2Ce/socket</value>
+    <value type="QString" >GTK_MODULES=gail:atk-bridge</value>
+    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/home/oomel/.gtkrc-1.2-gnome2</value>
+    <value type="QString" >G_BROKEN_FILENAMES=1</value>
+    <value type="QString" >HISTSIZE=1500</value>
+    <value type="QString" >HOME=/home/oomel</value>
+    <value type="QString" >HOSTNAME=rv016.softservecom.com</value>
+    <value type="QString" >INPUTRC=/etc/inputrc</value>
+    <value type="QString" >LANG=uk_UA.UTF-8</value>
+    <value type="QString" >LD_LIBRARY_PATH=/media/QtCreator/qt-creator/lib:/home/oomel/Projects/outliner/branches/Phase III/outliner/bin:/home/oomel/app/oomel/product/11.1.0/client_1/lib</value>
+    <value type="QString" >LESSOPEN=|/usr/bin/lesspipe.sh %s</value>
+    <value type="QString" >LIBGL_DRIVERS_PATH=/usr/lib/dri</value>
+    <value type="QString" >LOGNAME=oomel</value>
+    <value type="QString" >LS_COLORS=no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:do=00;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=00;32:*.tar=00;31:*.tgz=00;31:*.svgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.lzma=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.dz=00;31:*.gz=00;31:*.bz2=00;31:*.tbz2=00;31:*.bz=00;31:*.tz=00;31:*.deb=00;31:*.rpm=00;31:*.jar=00;31:*.rar=00;31:*.ace=00;31:*.zoo=00;31:*.cpio=00;31:*.7z=00;31:*.rz=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.pbm=00;35:*.pgm=00;35:*.ppm=00;35:*.tga=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.png=00;35:*.mng=00;35:*.pcx=00;35:*.mov=00;35:*.mpg=00;35:*.mpeg=00;35:*.m2v=00;35:*.mkv=00;35:*.ogm=00;35:*.mp4=00;35:*.m4v=00;35:*.mp4v=00;35:*.vob=00;35:*.qt=00;35:*.nuv=00;35:*.wmv=00;35:*.asf=00;35:*.rm=00;35:*.rmvb=00;35:*.flc=00;35:*.avi=00;35:*.fli=00;35:*.gl=00;35:*.dl=00;35:*.xcf=00;35:*.xwd=00;35:*.yuv=00;35:*.svg=00;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:</value>
+    <value type="QString" >MAIL=/var/spool/mail/oomel</value>
+    <value type="QString" >ORACLE_HOME=/home/oomel/app/oomel/product/11.1.0/client_1/</value>
+    <value type="QString" >ORBIT_SOCKETDIR=/tmp/orbit-oomel</value>
+    <value type="QString" >PATH=/usr/local/Trolltech/Qt-4.5.0/bin:/usr/lib/qt4/bin:/usr/kerberos/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/oomel/bin:/sbin:/usr/sbin:usr/local/sbin</value>
+    <value type="QString" >PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:/usr/lib/pkgconfig</value>
+    <value type="QString" >PWD=/home/oomel</value>
+    <value type="QString" >QTDIR=/usr/lib/qt4</value>
+    <value type="QString" >QTINC=/usr/lib/qt4/include</value>
+    <value type="QString" >QTLIB=/usr/lib/qt4/lib</value>
+    <value type="QString" >SESSION_MANAGER=local/unix:@/tmp/.ICE-unix/2836,unix/unix:/tmp/.ICE-unix/2836</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SHLVL=3</value>
+    <value type="QString" >SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/keyring-hDR2Ce/ssh</value>
+    <value type="QString" >SVN_EDITOR=/usr/bin/vim</value>
+    <value type="QString" >TERM=xterm</value>
+    <value type="QString" >USER=oomel</value>
+    <value type="QString" >WINDOWID=115343565</value>
+    <value type="QString" >XAUTHORITY=/var/run/gdm/auth-for-oomel-ePMYRn/database</value>
+    <value type="QString" >XDG_SESSION_COOKIE=fb7bce424ba2a156f425190c492e41de-1236673928.27809-254113609</value>
+    <value type="QString" >XMODIFIERS=@im=imsettings</value>
+    <value type="QString" >_=/media/QtCreator/qt-creator/bin/qtcreator.bin</value>
+    <value type="QString" >http_proxy=http://localhost:3128/</value>
+    <value type="QString" >no_proxy=localhost,127.0.0.0/8,*.softservecom.com,.softservecom.com</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/media/Trans/easytrans/QSpy/libqtload</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Debug-cleanstep0</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfiguration-Debug-cleanstep1</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildconfigurations</variable>
+  <valuelist type="QVariantList" >
+   <value type="QString" >Debug</value>
+  </valuelist>
+ </data>
+ <data>
+  <variable>buildstep0</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
+   <value key="mkspec" type="QString" ></value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildstep1</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>buildsteps</variable>
+  <valuelist type="QVariantList" >
+   <value type="QString" >trolltech.qt4projectmanager.qmake</value>
+   <value type="QString" >trolltech.qt4projectmanager.make</value>
+  </valuelist>
+ </data>
+ <data>
+  <variable>cleanstep0</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
+   <value key="clean" type="bool" >true</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>cleanstep1</variable>
+  <valuemap type="QVariantMap" >
+   <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" ></value>
+   <value key="clean" type="bool" >true</value>
+  </valuemap>
+ </data>
+ <data>
+  <variable>cleansteps</variable>
+  <valuelist type="QVariantList" >
+   <value type="QString" >trolltech.qt4projectmanager.gdbmaros</value>
+   <value type="QString" >trolltech.qt4projectmanager.make</value>
+  </valuelist>
+ </data>
+ <data>
+  <variable>defaultFileEncoding</variable>
+  <value type="QByteArray" >System</value>
+ </data>
+ <data>
+  <variable>project</variable>
+  <valuemap type="QVariantMap" />
+ </data>
+</qtcreator>
