@@ -10,3 +10,5 @@ INCLUDEPATH += .
 SOURCES += lib.cpp \
     filter.cpp
 HEADERS += filter.h
+
+TRANSLATIONS += lib_ua.ts

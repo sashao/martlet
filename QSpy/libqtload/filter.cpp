@@ -22,7 +22,7 @@ bool filter::eventFilter(QObject *obj, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-		qDebug("Ate key press %d", keyEvent->key());
+		qDebug(tr("Ate key press %d"), keyEvent->key());
 		message();
 		return false;
 	}
