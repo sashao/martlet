@@ -8,17 +8,15 @@
 
 class filter : public QObject
 {
-   Q_OBJECT
+	Q_OBJECT
+
 public:
-    filter(){ w = 0;}
-QWidget* w;
+	filter(){ }
+
 protected:
-bool eventFilter(QObject *obj, QEvent *event);
+	bool eventFilter(QObject *obj, QEvent *event);
+
 };
-//class filter : public QObject
-//{
-//public:
-//    filter();
-//};
+
 
 #endif // FILTER_H

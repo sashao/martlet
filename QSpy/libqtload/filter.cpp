@@ -1,4 +1,5 @@
 #include "filter.h"
+#include "qspywidget.h"
 
 
 #include <QKeyEvent>
@@ -22,13 +23,13 @@ bool filter::eventFilter(QObject *obj, QEvent *event)
 	if (event->type() == QEvent::KeyPress)
 	{
 		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-		qDebug(tr("Ate key press %d"), keyEvent->key());
+		qDebug("Ate key press %d", keyEvent->key());
 		message();
 		return false;
 	}
 	if (event->type() == QEvent::MouseMove)
 	{
-		QMouseEvent *keyEvent = static_cast<QMouseEvent *>(event);
+//		QMouseEvent *keyEvent = static_cast<QMouseEvent *>(event);
 //		qDebug("Mouse move %d", keyEvent->pos().x());
 		return false;
 	}
@@ -36,17 +37,15 @@ bool filter::eventFilter(QObject *obj, QEvent *event)
 	{
 		QMouseEvent *keyEvent = static_cast<QMouseEvent *>(event);
 		qDebug("Mouse pres %d", keyEvent->pos().x());
-		obj->dumpObjectTree();
+		QSpyWidget::instance()->setObject(obj);
+		QSpyWidget::instance()->show();
 		return false;
 	}
 	if (event->type() == QEvent::Show)
 	{
-		static bool created = false;
-		if (!QCoreApplication::startingUp () && !created)
+		if (!QCoreApplication::startingUp ())
 		{
-			created = true;
-			w = new QWidget();
-			w->show();
+			QSpyWidget::instance()->show();
 		}
 		return false;
 	}

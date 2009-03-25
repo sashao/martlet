@@ -7,6 +7,23 @@ TARGET =
 DEPENDPATH += .
 INCLUDEPATH += .
 
+# -- figure out shared dir location
+!exists($$[QT_INSTALL_HEADERS]/QtDesigner/private/qdesigner_integration_p.h) {
+    QT_SOURCE_TREE=$$fromfile($$(QTDIR)/.qmake.cache,QT_SOURCE_TREE)
+    INCLUDEPATH += $$QT_SOURCE_TREE/include
+}
+
+INCLUDEPATH += $$QMAKE_INCDIR_QT/QtDesigner \
+    ../../tools/utils
+
+qtAddLibrary(QtDesigner)
+qtAddLibrary(QtDesignerComponents)
+
+CONFIG += designer uitools
+QT+=xml
+
 # Input
-HEADERS += widget.h main.cpp
-SOURCES += main.cpp widget.cpp
+HEADERS += main.cpp
+SOURCES += main.cpp
+
+

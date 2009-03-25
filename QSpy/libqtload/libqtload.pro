@@ -6,9 +6,19 @@ TARGET = QtLoad
 DEPENDPATH += .
 INCLUDEPATH += .
 
+CONFIG += designer
+CONFIG += uitools
+
+qtAddLibrary(QtDesigner)
+qtAddLibrary(QtDesignerComponents)
+
+QT += xml
+
 # Input
 SOURCES += lib.cpp \
-    filter.cpp
-HEADERS += filter.h
-
+    filter.cpp \
+    qspywidget.cpp
+HEADERS += filter.h \
+    qspywidget.h
 TRANSLATIONS += lib_ua.ts
+FORMS += qspywidget.ui
