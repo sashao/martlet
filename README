@@ -16,9 +16,12 @@ Currently Linux supported only.
 Build all:
     qmake && make
 
-run:
+Run:
     cd /bin
     ./martex <qt4_executable>
+
+Install:
+    Any Authomatic installations is not supported.
 
 Now you can click on application widgets and see its object tree and object properties in "Spy Window".
 Enjoy.

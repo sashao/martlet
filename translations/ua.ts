@@ -5,7 +5,41 @@
     <name>QObject</name>
     <message>
         <source>translate me</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Перекладіть Мене</translation>
+    </message>
+</context>
+<context>
+    <name>QSpyForm</name>
+    <message>
+        <source>Form</source>
+        <translation>Форма</translation>
+    </message>
+    <message>
+        <source>Class</source>
+        <translation>Клас</translation>
+    </message>
+    <message>
+        <source>Object</source>
+        <translation>Об&apos;єкт</translation>
+    </message>
+</context>
+<context>
+    <name>QSpyWidget</name>
+    <message>
+        <source>Property editor</source>
+        <translation>Редактор властивостей</translation>
+    </message>
+    <message>
+        <source>Mi&amp;nimize</source>
+        <translation>&amp;Згорнути</translation>
+    </message>
+    <message>
+        <source>&amp;Restore</source>
+        <translation>Розгорнути</translation>
+    </message>
+    <message>
+        <source>&amp;Quit</source>
+        <translation>Вийти</translation>
     </message>
 </context>
 <context>
