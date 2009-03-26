@@ -1,34 +1,29 @@
+This is 0.1 version of Martlet Qt4 based application for developers.
+
+Main features:
+Spy Qt4 applications object trees and properties.
+
 Next steps:
 
-mkdir easytrans
-cd easytrans
-git init
-touch README
-git add README
-git commit -m 'first commit'
-git remote add origin git@github.com:sashao/easytrans.git
-git push origin master
-
 Get sources:
-git clone git@github.com:sashao/easytrans.git
+git clone git@github.com:sashao/martlet.git
 
-
-
-For Fun
 
 
 This is Qt4 project.
 Currently Linux supported only.
 
 Build all:
+    cd QSpy
     qmake && make
+    cd libqtload
+    qmake && make    
 
 run:
     ./QSpy <qt4_executable>
 
-Now you can click on application widgets and see its object tree.
-
-
+Now you can click on application widgets and see its object tree and object properties in "Spy Window".
+Enjoy.
 
 Developers:
 
