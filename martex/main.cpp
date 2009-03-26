@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
 	    int ret;
             char *nargv[] = { (char *)0 };
-            char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libqtload/libQtLoad.so", (char *)0 };
+            char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libQtLoad.so", (char *)0 };
 //            char *env[] = { "HOME=/usr/home", "LOGNAME=home", "DISPLAY=:0.0",  (char *)0 };
 //            ret = execve ("../../qcontrol/Sphere/Sphere", cmd, env);
             ret = execve (argv[1], nargv, env);

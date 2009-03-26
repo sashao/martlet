@@ -13,6 +13,6 @@ include (../globinclude.pri)
 
 TRANSLATIONS = $$GLOBTRANS
 RESOURCES   += $$GLOBRESOURCES
-
+DESTDIR = $$GLOBTOP/bin
 
 

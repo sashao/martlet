@@ -14,13 +14,11 @@ This is Qt4 project.
 Currently Linux supported only.
 
 Build all:
-    cd QSpy
     qmake && make
-    cd libqtload
-    qmake && make    
 
 run:
-    ./QSpy <qt4_executable>
+    cd /bin
+    ./martex <qt4_executable>
 
 Now you can click on application widgets and see its object tree and object properties in "Spy Window".
 Enjoy.
