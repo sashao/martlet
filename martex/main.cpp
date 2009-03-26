@@ -11,6 +11,7 @@ int main(int argc, char *argv[])
 //    Widget w;
 //    w.show();
 	if (argc < 1) return -1;
+	QString str(QObject::tr("translate me"));
 
 
 //	void *handle;

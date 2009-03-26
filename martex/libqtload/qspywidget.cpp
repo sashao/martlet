@@ -164,7 +164,7 @@ void QSpyWidget::createTrayIcon()
 
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setContextMenu(trayIconMenu);
-    trayIcon->setIcon(QIcon("./images/bad.svg"));
+    trayIcon->setIcon(QIcon(":libs/bad.svg"));
 }
 
 void QSpyWidget::setVisible(bool visible)

@@ -20,5 +20,13 @@ SOURCES += lib.cpp \
     qspywidget.cpp
 HEADERS += filter.h \
     qspywidget.h
-TRANSLATIONS += lib_ua.ts
+
+
 FORMS += qspywidget.ui
+
+include (../../globinclude.pri)
+
+TRANSLATIONS = $$GLOBTRANS
+RESOURCES   += $$GLOBRESOURCES
+
+

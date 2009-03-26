@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="lib" >
+    <file>bad.svg</file>
+  </qresource>
+</RCC>

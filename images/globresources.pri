@@ -1,0 +1,2 @@
+GLOBRESOURCES = $$PWD/lib.qrc
+
