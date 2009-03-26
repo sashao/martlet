@@ -48,9 +48,6 @@ int main(int argc, char *argv[])
            
            printf("Instance\n" );*/
 //           execv("../Sphere/Sphere", NULL);
-	    qWarning("TODO check for lib existance: %s:%d", __FILE__, __LINE__);
-	    qWarning("TODO check for executable existance: %s:%d", __FILE__, __LINE__);
-	    qWarning("TODO: %s:%d", __FILE__, __LINE__);
 
 	    int ret;
             char *nargv[] = { (char *)0 };

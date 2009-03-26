@@ -8,8 +8,6 @@ Next steps:
 Get sources:
 git clone git@github.com:sashao/martlet.git
 
-License articles:
-http://www.mono-project.com/Licensing
 
 
 This is Qt4 project.
@@ -26,6 +24,14 @@ Now you can click on application widgets and see its object tree and object prop
 Enjoy.
 
 Developers:
+    Oleksandr Omelchuk sashao@e-mail.ua
+Thanks for Help:
+    Anatoliy Kyrylyuk anatoliykyryliuk@gmail.com
 
-Oleksandr Omelchuk sashao@e-mail.ua
-Anatoliy Kyrylyuk anatoliykyryliuk@gmail.com
+
+GIT COMMANDS:
+
+Roll back:
+    $ git checkout A2 -- .  
+    $ git commit -m 'going back to A2'
+
