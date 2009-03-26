@@ -49,11 +49,11 @@ int main(int argc, char *argv[])
 //           execv("../Sphere/Sphere", NULL);
 
 	    int ret;
-            char *cmd[] = { "Sphere", (char *)0 };
-            char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libqtload/libQtLoad.so:libQtDesigner.so", (char *)0 };
+            char *nargv[] = { (char *)0 };
+            char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libqtload/libQtLoad.so", (char *)0 };
 //            char *env[] = { "HOME=/usr/home", "LOGNAME=home", "DISPLAY=:0.0",  (char *)0 };
 //            ret = execve ("../../qcontrol/Sphere/Sphere", cmd, env);
-            ret = execve (argv[1], cmd, env);
+            ret = execve (argv[1], nargv, env);
 
 //            printf("Instance\n" );
 
