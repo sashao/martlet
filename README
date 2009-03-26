@@ -27,3 +27,10 @@ run:
     ./QSpy <qt4_executable>
 
 Now you can click on application widgets and see its object tree.
+
+
+
+Developers:
+
+Oleksandr Omelchuk sashao@e-mail.ua
+Anatoliy Kyrylyuk anatoliykyryliuk@gmail.com

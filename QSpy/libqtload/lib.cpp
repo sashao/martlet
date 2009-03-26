@@ -21,7 +21,7 @@ void QCoreApplication::exit(int)
 
 bool QCoreApplication::event(QEvent *e)
 {
-	printf(":)  %d \n", e->type());
+//	printf(":)  %d \n", e->type());
     if (e->type() == QEvent::Quit) {
         quit();
         return true;

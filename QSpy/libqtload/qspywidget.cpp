@@ -11,6 +11,11 @@
 #include <QtDesigner/QDesignerPropertyEditorInterface>
 #include <QtDesigner/QDesignerObjectInspectorInterface>
 
+#include <QMenu>
+#include <QMessageBox>
+#include <QCloseEvent>
+#include <QDebug>
+
 
 QSpyWidget * QSpyWidget::m_instance = 0;
 
@@ -20,7 +25,9 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 	m_ui(new Ui::QSpyForm)
 {
 	selected = 0;
-    m_ui->setupUi(this);
+	m_top = 0;
+	m_ui->setupUi(this);
+	m_ui->treeWidget->setColumnWidth(0, 220);
 
 	m_formeditor = QDesignerComponents::createFormEditor(0);
 
@@ -35,6 +42,17 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 	m_ui->splitter->addWidget(pe);
 
 //	pe->setObject(oi);
+
+	createActions();
+	createTrayIcon();
+
+//	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+//	    this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+	connect(pe, SIGNAL(propertyChanged(const QString &, const QVariant &)),
+			this, SLOT(handle_propertyChanged(const QString &, const QVariant &)));
+
+	trayIcon->show();
+	this->show();
 }
 
 QSpyWidget *QSpyWidget::instance()
@@ -61,17 +79,17 @@ bool QSpyWidget::updateObjectTree(QObject * obj)
 	if (obj && obj->isWidgetType())
 	{
 		QWidget* w = qobject_cast<QWidget *>(obj);
-		QWidget* tw  = w->topLevelWidget();
-		if (tw == this) return false;
+		m_top = w->topLevelWidget();
+		if (m_top == this) return false;
 
 		m_ui->treeWidget->clear();
 
 		QTreeWidgetItem *objItem = new QTreeWidgetItem(m_ui->treeWidget);
-		objItem->setText(1, tw->objectName());
-		objItem->setText(0, tw->metaObject()->className());
+		objItem->setText(1, m_top->objectName());
+		objItem->setText(0, m_top->metaObject()->className());
 		m_ui->treeWidget->addTopLevelItem(objItem);
 
-		addChildrens(objItem, tw);
+		addChildrens(objItem, m_top);
 
 		m_ui->treeWidget->expandAll();
 		return true;
@@ -89,7 +107,7 @@ void QSpyWidget::addChildrens(QTreeWidgetItem *parent, QObject * obj)
 		QTreeWidgetItem *objItem = new QTreeWidgetItem(parent);
 		objItem->setText(1, child->objectName());
 		objItem->setText(0, child->metaObject()->className());
-		objItem->setData(0, Qt::UserRole, QVariant::fromValue(child));
+		objItem->setData(0, Qt::UserRole, qVariantFromValue((void *) child));
 		if (child == selected)
 			objItem->setSelected(true);
 
@@ -114,3 +132,73 @@ void QSpyWidget::changeEvent(QEvent *e)
         break;
     }
 }
+
+void QSpyWidget::closeEvent(QCloseEvent *event)
+{
+	hide();
+	event->ignore();
+}
+
+// + system tray
+
+void QSpyWidget::createActions()
+{
+    minimizeAction = new QAction(tr("Mi&nimize"), this);
+    connect(minimizeAction, SIGNAL(triggered()), this, SLOT(hide()));
+    minimizeAction->setEnabled(isVisible());
+
+    restoreAction = new QAction(tr("&Restore"), this);
+    connect(restoreAction, SIGNAL(triggered()), this, SLOT(showNormal()));
+
+    quitAction = new QAction(tr("&Quit"), this);
+    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+}
+
+void QSpyWidget::createTrayIcon()
+{
+    trayIconMenu = new QMenu(this);
+    trayIconMenu->addAction(minimizeAction);
+    trayIconMenu->addAction(restoreAction);
+    trayIconMenu->addSeparator();
+    trayIconMenu->addAction(quitAction);
+
+    trayIcon = new QSystemTrayIcon(this);
+    trayIcon->setContextMenu(trayIconMenu);
+    trayIcon->setIcon(QIcon("./images/bad.svg"));
+}
+
+void QSpyWidget::setVisible(bool visible)
+{
+    minimizeAction->setEnabled(visible);
+    restoreAction->setEnabled(!visible);
+    QWidget::setVisible(visible);
+}
+
+// - system tray
+
+void QSpyWidget::on_treeWidget_itemActivated(QTreeWidgetItem* /*item*/, int /*column*/)
+{
+}
+
+void QSpyWidget::on_treeWidget_itemClicked(QTreeWidgetItem* item, int /*column*/)
+{
+	QVariant varObj = item->data(0, Qt::UserRole);
+	if ( varObj.isValid() /*&& (varObj.type() == QMetaType::QObjectStar)*/)
+	{
+		QObject * obj = (QObject *) varObj.value<void *>();
+		//	qWarning("TODO: %s:%d", __FILE__, __LINE__);
+		//	qDebug()<< varObj << item->data(0, Qt::EditRole) << "    "<< long(obj);
+		if (obj)
+		{
+			pe->setObject(obj);
+			selected = obj;
+		}
+	}
+}
+
+void QSpyWidget::handle_propertyChanged ( const QString & name, const QVariant & value )
+{
+	qWarning("TODO: %s:%d", __FILE__, __LINE__);
+	pe->object()->setProperty(name.toLocal8Bit(), value);
+}
+

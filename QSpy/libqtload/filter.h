@@ -11,7 +11,7 @@ class filter : public QObject
 	Q_OBJECT
 
 public:
-	filter(){ }
+	filter();
 
 protected:
 	bool eventFilter(QObject *obj, QEvent *event);
