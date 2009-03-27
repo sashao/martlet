@@ -19,11 +19,13 @@ int message()
 
 filter::filter()
 {
-	QSpyWidget::instance()->setObject(0);
+	//QSpyWidget::instance()->setObject(0);
 }
 
 bool filter::eventFilter(QObject *obj, QEvent *event)
 {
+	qDebug("Ate key press");
+
 	if (event->type() == QEvent::KeyPress)
 	{
 //		QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);

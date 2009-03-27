@@ -6,6 +6,10 @@
 
 #include <QKeyEvent>
 
+#include <windows.h> 
+__declspec( dllexport ) void Proc();
+LRESULT __declspec(dllexport) CALLBACK GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam);
+
 class filter : public QObject
 {
 	Q_OBJECT

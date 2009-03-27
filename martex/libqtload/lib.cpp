@@ -19,15 +19,39 @@ void QCoreApplication::exit(int)
 }
 */
 
-#ifdef Q_OS_WIN
+
+
+void Proc()
+{
+}
+
 
 #include <windows.h> 
 
-bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
+//LRESULT CALLBACK GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam)
+
+
+ __declspec(dllexport) LRESULT CALLBACK GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
-   if(dwReason == DLL_PROCESS_ATTACH)
+	if (!installed)
+	{
+		QCoreApplication::instance()->installEventFilter( new filter());
+		installed = true;
+	}
+
+
+    return CallNextHookEx (NULL, nCode, wParam, lParam);
+}
+
+#ifdef Q_OS_WIN
+
+/*bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
+{
+	printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+
+	if(dwReason == DLL_PROCESS_ATTACH)
    {
-      printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+      
    }
    else if(dwReason == DLL_PROCESS_DETACH)
    {
@@ -35,7 +59,7 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
    }
    return true;
 }
-
+*/
 /*BOOL APIENTRY DllMain( HANDLE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved )

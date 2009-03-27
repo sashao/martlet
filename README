@@ -35,3 +35,7 @@ Roll back:
     $ git checkout A2 -- .  
     $ git commit -m 'going back to A2'
 
+
+http://www.codebreakers-journal.com/downloads/cbj/2006/CBM_1_2_2006_Nigurrath_Loaders_for_DLLs.pdf
+http://msdn.microsoft.com/en-us/library/7k30y2k5.aspx
+http://www.codeproject.com/KB/system/hooksys.aspx
