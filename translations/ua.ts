@@ -2,51 +2,57 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="uk_UA" sourcelanguage="en">
 <context>
-    <name>QObject</name>
-    <message>
-        <source>translate me</source>
-        <translation type="obsolete">Перекладіть Мене</translation>
-    </message>
-</context>
-<context>
     <name>QSpyForm</name>
     <message>
-        <source>Form</source>
-        <translation>Форма</translation>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Class</source>
-        <translation>Клас</translation>
+        <source>Open Application</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Object</source>
-        <translation>Об&apos;єкт</translation>
+        <source>Execute Files (*.exe)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Execute Files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process already running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unable to start </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Running...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>App path is incorrect!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>QSpyWidget</name>
+    <name>qspyForm</name>
     <message>
-        <source>Property editor</source>
-        <translation>Редактор властивостей</translation>
+        <source>qspy</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Mi&amp;nimize</source>
-        <translation>&amp;Згорнути</translation>
+        <source>Choose app:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Restore</source>
-        <translation>Розгорнути</translation>
-    </message>
-    <message>
-        <source>&amp;Quit</source>
-        <translation>Вийти</translation>
-    </message>
-</context>
-<context>
-    <name>filter</name>
-    <message>
-        <source>Ate key press %d</source>
-        <translation type="obsolete">З&apos;їли кнопку %d</translation>
+        <source>...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

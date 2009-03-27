@@ -1,74 +1,84 @@
 #include <QtGui/QApplication>
 
+#include <stdio.h>
+#include <stdlib.h>
 
-       #include <stdio.h>
-       #include <stdlib.h>
-       #include <dlfcn.h>
+#ifdef Q_OS_WIN
+
+#include <windows.h>
+
+#else
+
+#include <dlfcn.h>
+
+#endif
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-//    Widget w;
-//    w.show();
 	if (argc < 1) return -1;
 	QString str(QObject::tr("translate me"));
-
-
-//	void *handle;
-//        double (*cosine)(double);
-//        QCoreApplication * (*QCoreApplication_instance)();
-//           char *error;
-
-//           handle = dlopen("./libqtload/libQtLoad.so", RTLD_LAZY/* RTLD_NOW*/ | RTLD_GLOBAL);
-/*           if (!handle) {
-               fprintf(stderr, "%s\n", dlerror());
-               exit(EXIT_FAILURE);
-           }
-*/
-//           dlerror();    /* Clear any existing error */
-
-           /* Writing: cosine = (double (*)(double)) dlsym(handle, "cos");
-              would seem more natural, but the C99 standard leaves
-              casting from "void *" to a function pointer undefined.
-              The assignment used below is the POSIX.1-2003 (Technical
-              Corrigendum 1) workaround; see the Rationale for the
-              POSIX specification of dlsym(). */
-
-           //*(void **) (&cosine) = dlsym(handle, "cos");
-//           *(void **) (&QCoreApplication_instance) = dlsym(handle, "QCoreApplication::instance");
-//           *(void **) (&QCoreApplication_instance) = dlsym(handle, "appInstance");
-
-/*           if ((error = dlerror()) != NULL)  {
-               fprintf(stderr, "%s\n", error);
-               exit(EXIT_FAILURE);
-           }
-
-           printf("appInstance -01- %d\n", (*QCoreApplication_instance)());
-           printf("appInstance -02- %d\n", QCoreApplication::instance());
-           
-           printf("Instance\n" );*/
-//           execv("../Sphere/Sphere", NULL);
 	    qWarning("TODO check for lib existance: %s:%d", __FILE__, __LINE__);
 	    qWarning("TODO check for executable existance: %s:%d", __FILE__, __LINE__);
 	    qWarning("TODO: %s:%d", __FILE__, __LINE__);
 
-	    int ret;
+#ifdef Q_OS_WIN
+
+HANDLE hProcess;
+
+HANDLE hThread;
+char    szLibPath[_MAX_PATH];  // The name of our "LibSpy.dll" module
+
+                               // (including full path!);
+
+void*   pLibRemote;   // The address (in the remote process) where 
+
+                      // szLibPath will be copied to;
+
+DWORD   hLibModule;   // Base address of loaded module (==HMODULE);
+
+HMODULE hKernel32 = ::GetModuleHandle(L"Kernel32");
+
+// initialize szLibPath
+
+//...
+
+
+// 1. Allocate memory in the remote process for szLibPath
+
+// 2. Write szLibPath to the allocated memory
+
+pLibRemote = ::VirtualAllocEx( hProcess, NULL, sizeof(szLibPath),
+                               MEM_COMMIT, PAGE_READWRITE );
+::WriteProcessMemory( hProcess, pLibRemote, (void*)szLibPath,
+                      sizeof(szLibPath), NULL );
+
+
+// Load "LibSpy.dll" into the remote process
+
+// (via CreateRemoteThread & LoadLibrary)
+
+hThread = ::CreateRemoteThread( hProcess, NULL, 0,
+            (LPTHREAD_START_ROUTINE) ::GetProcAddress( hKernel32,
+                                       "LoadLibraryA" ),
+             pLibRemote, 0, NULL );
+::WaitForSingleObject( hThread, INFINITE );
+
+// Get handle of the loaded module
+
+::GetExitCodeThread( hThread, &hLibModule );
+
+// Clean up
+
+::CloseHandle( hThread );
+::VirtualFreeEx( hProcess, pLibRemote, sizeof(szLibPath), MEM_RELEASE );
+
+#else
+		    int ret;
             char *nargv[] = { (char *)0 };
             char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libQtLoad.so", (char *)0 };
-//            char *env[] = { "HOME=/usr/home", "LOGNAME=home", "DISPLAY=:0.0",  (char *)0 };
-//            ret = execve ("../../qcontrol/Sphere/Sphere", cmd, env);
             ret = execve (argv[1], nargv, env);
 
-//            printf("Instance\n" );
+#endif
 
-//           printf("cosine --- %f\n", (*cosine)(2.0));
-//           printf("appInstance -1- %d\n", (*QCoreApplication_instance)());
-//           printf("appInstance -2- %d\n", QCoreApplication::instance());
-//           dlclose(handle);
-
-
-
-    
-//    QApplication::instance()->installEventFilter( new filter());
-//    return a.exec();
 }
