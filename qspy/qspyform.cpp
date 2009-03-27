@@ -19,7 +19,7 @@ QSpyForm::QSpyForm( QWidget * parent, Qt::WindowFlags f) : QWidget(parent,f)
 	martexPath = QString("../bin/martex");
 #endif
 	this->setMinimumWidth(250);
-	settings = new QSettings("oomel&akyryl", "qspy");
+	settings = new QSettings("Martlet", "QSpy");
 	settings->sync();
 
 	// load combo items
