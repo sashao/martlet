@@ -1,0 +1,9 @@
+
+Coding standarts:
+
+* No warnings or build errors should be introduced.
+* Tab size = 4, use spaces instead tabs.
+* Doxygen comments for new classes / members.
+
+
+
