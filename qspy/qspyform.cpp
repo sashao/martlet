@@ -12,7 +12,7 @@ QSpyForm::QSpyForm( QWidget * parent, Qt::WindowFlags f) : QWidget(parent,f)
 	setupUi(this);
 	martexProc = 0;
 	messageLabel->setVisible(false);
-	startStopPushButton->setText("Start");
+	startStopPushButton->setText(tr("Start"));
 #ifdef Q_OS_WIN
 	martexPath = QString("../bin/martex.exe");
 #else
@@ -72,7 +72,7 @@ void QSpyForm::on_dirToolButton_clicked()
 
 void QSpyForm::on_startStopPushButton_clicked()
 {
-	if (startStopPushButton->text() == QString("Start"))
+	if (startStopPushButton->text() == QString(tr("Start")))
 		startProcess();
 	else
 		stopProcess();
@@ -119,7 +119,7 @@ bool QSpyForm::stopProcess()
 
 void QSpyForm::setRunningState(QString message, QString appPath)
 {
-	startStopPushButton->setText("Stop");
+	startStopPushButton->setText(tr("Stop"));
 	messageLabel->setVisible(true);
 	messageLabel->setText(message);
 	if (appPathComboBox->findText(appPath) == -1)
@@ -132,7 +132,7 @@ void QSpyForm::setStopState(QString message, bool isMsgLabelVisible, QString app
 {
 	messageLabel->setVisible(isMsgLabelVisible);
 	messageLabel->setText(message);
-	startStopPushButton->setText("Start");
+	startStopPushButton->setText(("Start"));
 	appPathComboBox->setEnabled(true);
 	dirToolButton->setEnabled(true);
 	// if path passes to this function only if it is incorrect, so remove them from settings
