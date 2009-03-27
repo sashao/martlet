@@ -9,7 +9,8 @@ Get sources:
 git clone git://github.com/sashao/martlet.git
 
 This is Qt4 project.
-Currently Linux supported only.
+Currently only Linux OS supported.
+Tested platforms: Fedora 10,9 / Qt 4.4.0-4.5.0
 
 Build all:
     qmake && make
