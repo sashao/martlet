@@ -35,3 +35,9 @@ Roll back:
     $ git checkout A2 -- .  
     $ git commit -m 'going back to A2'
 
+If someone happens to have a problem with pushing updates, at this command:
+	$ git config branch.__brunch__.remote origin
+EX:	$ git config branch.master.remote origin
+
+
+
