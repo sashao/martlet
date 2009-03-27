@@ -6,9 +6,7 @@ Spy Qt4 applications object trees and properties.
 Next steps:
 
 Get sources:
-git clone git@github.com:sashao/martlet.git
-
-
+git clone git://github.com/sashao/martlet.git
 
 This is Qt4 project.
 Currently Linux supported only.
