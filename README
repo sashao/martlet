@@ -31,10 +31,41 @@ Thanks for Help:
 
 GIT COMMANDS:
 
-Roll back:
-    $ git checkout A2 -- .  
-    $ git commit -m 'going back to A2'
+Git config:
+	$ git config branch.autosetupmerge true
 
+Tells git-branch and git-checkout to setup new branches so that git-pull(1)
+will appropriately merge from that remote branch. Recommended. Without this,
+you will have to add –track to your branch command or manually merge remote
+tracking branches with “fetch” and then “merge”.
+
+-----------------------------------------------------------
+~/.gitconfig file
+-----------------------------------------------------------
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[user]
+	name = Oleksandr Omelchuk
+	email = sashao@e-mail.ua
+[branch]
+	autosetupmerge = true
+-----------------------------------------------------------
+
+
+Roll back:
+	$ git checkout A2 -- .  
+	$ git commit -m 'going back to A2'
+
+Create remote branch:
+	is easier to first create the branch locally and then push it to the remote repo:
+	
+	$ git checkout -b new_feature_name
+	$ git push origin new_feature_name
+
+
+Win Dll Injection Links:
 
 http://www.codebreakers-journal.com/downloads/cbj/2006/CBM_1_2_2006_Nigurrath_Loaders_for_DLLs.pdf
 http://msdn.microsoft.com/en-us/library/7k30y2k5.aspx
