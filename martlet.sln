@@ -1,0 +1,34 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QtLoad", "martex\libqtload\QtLoad.vcproj", "{0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "martex", "martex\martex.vcproj", "{A15F3E79-698A-34CA-9311-54E8496A7DDA}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+	ProjectSection(ProjectDependencies) = postProject
+		{0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7} = {0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7}.Debug|Win32.Build.0 = Debug|Win32
+		{0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7}.Release|Win32.ActiveCfg = Release|Win32
+		{0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7}.Release|Win32.Build.0 = Release|Win32
+		{A15F3E79-698A-34CA-9311-54E8496A7DDA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A15F3E79-698A-34CA-9311-54E8496A7DDA}.Debug|Win32.Build.0 = Debug|Win32
+		{A15F3E79-698A-34CA-9311-54E8496A7DDA}.Release|Win32.ActiveCfg = Release|Win32
+		{A15F3E79-698A-34CA-9311-54E8496A7DDA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
