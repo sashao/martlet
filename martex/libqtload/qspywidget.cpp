@@ -26,10 +26,13 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 {
 	selected = 0;
 	m_top = 0;
+//	m_ui->moveToThread(QCoreApplication::instance()->thread());
+//	this->moveToThread(QCoreApplication::instance()->thread());
 	m_ui->setupUi(this);
 	m_ui->treeWidget->setColumnWidth(0, 220);
 
 	m_formeditor = QDesignerComponents::createFormEditor(0);
+//	m_formeditor->moveToThread(QCoreApplication::instance()->thread());
 
 //	oi = QDesignerComponents::createObjectInspector(m_formeditor, 0);
 //	oi->setWindowTitle(tr("Object inspector"));
@@ -37,6 +40,7 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 //	QDesignerObjectInspector *oi2 = qobject_cast<QDesignerObjectInspector *>(oi);
 
 	pe = QDesignerComponents::createPropertyEditor(m_formeditor, 0);
+//	pe->moveToThread(QCoreApplication::instance()->thread());
 	pe->setWindowTitle(tr("Property editor"));
 //	m_ui->splitter->addWidget(oi);
 	m_ui->splitter->addWidget(pe);
@@ -70,8 +74,9 @@ void QSpyWidget::setObject(QObject * obj)
 	if (obj) selected = obj;
 	else return;
 
-	if (updateObjectTree(obj))
-		pe->setObject(obj);
+	updateObjectTree(obj);
+//	if (updateObjectTree(obj))
+//		pe->setObject(obj);
 }
 
 bool QSpyWidget::updateObjectTree(QObject * obj)
@@ -92,6 +97,7 @@ bool QSpyWidget::updateObjectTree(QObject * obj)
 		addChildrens(objItem, m_top);
 
 		m_ui->treeWidget->expandAll();
+		
 		return true;
 	}
 	return false;
@@ -118,6 +124,8 @@ void QSpyWidget::addChildrens(QTreeWidgetItem *parent, QObject * obj)
 
 QSpyWidget::~QSpyWidget()
 {
+	delete trayIconMenu;
+	delete trayIcon;
     delete m_ui;
 }
 

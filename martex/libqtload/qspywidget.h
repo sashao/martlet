@@ -28,13 +28,15 @@ class QSpyWidget : public QWidget {
 
 public:
 	static QSpyWidget *instance();
+
+public slots:
 	void setObject(QObject * obj);
 
+protected:
 	void createActions();
 	void createTrayIcon();
 	void setVisible(bool visible);
 
-protected:
     virtual void changeEvent(QEvent *e);
 	bool updateObjectTree(QObject * obj);
 	void addChildrens(QTreeWidgetItem *parent, QObject * obj);

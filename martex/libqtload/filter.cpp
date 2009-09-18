@@ -20,6 +20,13 @@ int message()
 filter::filter()
 {
 	QSpyWidget::instance()->setObject(0);
+//	QSpyWidget::instance()->moveToThread(QCoreApplication::instance()->thread());
+	//QSpyWidget::instance()->setParent(this);
+	this->moveToThread(QCoreApplication::instance()->thread());
+
+	connect(this, SIGNAL(objChanged(QObject *)),
+			QSpyWidget::instance(), SLOT(setObject(QObject *)), Qt::QueuedConnection);
+
 }
 
 bool filter::eventFilter(QObject *obj, QEvent *event)
@@ -41,8 +48,8 @@ bool filter::eventFilter(QObject *obj, QEvent *event)
 	{
 //		QMouseEvent *keyEvent = static_cast<QMouseEvent *>(event);
 //		qDebug("Mouse pres %d", keyEvent->pos().x());
-		QSpyWidget::instance()->setObject(obj);
-		//QSpyWidget::instance()->show();
+		//QSpyWidget::instance()->setObject(obj);
+		emit objChanged(obj);
 		return false;
 	}
 	if (event->type() == QEvent::Show)

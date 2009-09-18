@@ -7,7 +7,11 @@ TARGET = martex
 DEPENDPATH += .
 INCLUDEPATH += .
 
-SOURCES += main.cpp
+LIBS += Advapi32.lib User32.lib
+
+
+HEADERS += QInjector.h
+SOURCES += main.cpp QInjector.cpp
 
 include (../globinclude.pri)
 
@@ -15,4 +19,6 @@ TRANSLATIONS = $$GLOBTRANS
 RESOURCES   += $$GLOBRESOURCES
 DESTDIR = $$GLOBTOP/bin
 
+
+win32:CONFIG+=console
 
