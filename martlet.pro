@@ -4,6 +4,7 @@ TEMPLATE = subdirs
 CONFIG += ordered
 
 SUBDIRS  = martex/libqtload \
-           martex
+           martex \
+           qspy
 
 

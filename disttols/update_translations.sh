@@ -1,5 +1,3 @@
 #!/bin/sh
 
-cd ..
-
-find . -iname *.pro -type f -exec lupdate {} \;
+find ../ -iname *.pro -type f -exec lupdate {} \;
