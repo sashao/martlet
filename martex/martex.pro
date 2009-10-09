@@ -7,7 +7,7 @@ TARGET = martex
 DEPENDPATH += .
 INCLUDEPATH += .
 
-LIBS += Advapi32.lib User32.lib
+win32:LIBS += Advapi32.lib User32.lib
 
 
 HEADERS += QInjector.h

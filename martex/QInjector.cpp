@@ -4,9 +4,8 @@
 #include <QTimer>
 #include <QDebug>
 #include <QCoreApplication>
-
-#include <windows.h>
-
+#include <QDir>
+#include <QFile>
 
 QInjector::QInjector(void): QObject(0)
 {
@@ -18,25 +17,45 @@ QInjector::~QInjector(void)
 	delete proc;
 }
 
-	void QInjector::start(QString name)
-	{
-		if (!proc)
-		{
-			proc = new QProcess(this);
-			proc->setObjectName("proc");
-			QMetaObject::connectSlotsByName ( this );
-			printf(" Win   starting \n" );
-			proc->start(name);  
-		}
-	}
+QString QInjector::libraryPath()
+{
+#ifdef Q_OS_WIN
+    const QString libraryExtension("dll");
+#endif
+#ifdef Q_OS_LINUX
+    const QString libraryExtension("so");
+#endif
+    const QString libName("libQtLoad.");
+    return QDir::currentPath()+QDir::separator()+libName+libraryExtension;
+}
 
+bool QInjector::libraryFileExists()
+{
+    return QFile::exists (libraryPath());
+}
 
-
+void QInjector::start(QString name)
+{
+    if (!proc)
+    {
+        proc = new QProcess(this);
+        proc->setObjectName("proc");
+        QMetaObject::connectSlotsByName ( this );
+        QStringList env = QProcess::systemEnvironment();
+        // Does nothing on Windows
+        env << QString("LD_PRELOAD=%1").arg(libraryPath());
+        proc->setEnvironment(env);
+        proc->start(name);  
+    }
+}
 
 void QInjector::on_proc_started()
 {
 	QTimer::singleShot(500, this, SLOT(inject()));
 }
+
+#ifdef Q_OS_WIN
+#include <windows.h>
 
 void QInjector::inject()
 {
@@ -126,12 +145,23 @@ void QInjector::inject()
 	qDebug("injected %08x\n", (DWORD)hLibrary);
 
 }
+#endif
 
-void QInjector::on_proc_stateChanged ( QProcess::ProcessState newState )
+#ifdef Q_OS_LINUX
+
+void QInjector::inject()
+{
+    
+}
+
+#endif
+
+
+void QInjector::on_proc_stateChanged ( QProcess::ProcessState /*newState*/ )
 {
 }
 
-void QInjector::on_proc_finished ( int exitCode, QProcess::ExitStatus exitStatus )
+void QInjector::on_proc_finished ( int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/ )
 {
 	QCoreApplication::exit();
 }

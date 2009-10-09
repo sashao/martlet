@@ -10,7 +10,9 @@ class QInjector :
 public:
 	QInjector(void);
 	~QInjector(void);
-	void QInjector::start(QString name);
+	void start(QString name);
+    QString libraryPath();
+    bool libraryFileExists();
 protected:
 	QProcess * proc;
 protected slots:

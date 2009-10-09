@@ -9,44 +9,9 @@
 static bool installed = false;
 
 
-
-/*
-int QCoreApplication::exec()
-{
-    printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-
-
-}
-
-void QCoreApplication::exit(int)
-{
-    printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-}
-*/
-
-//#pragma comment(linker, "/export:QCoreApplication::event=_RegistrationDll.QCoreApplication::event")
+#ifdef Q_OS_WIN
 
 #include <windows.h> 
-
-//LRESULT CALLBACK GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam)
-
-
- __declspec(dllexport) LRESULT CALLBACK GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam)
-{
-
-		printf("helo   GetMsgProc  !!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-
-/*	if (!installed)
-	{
-		QCoreApplication::instance()->installEventFilter( new filter());
-		installed = true;
-	}
-*/
-
-    return CallNextHookEx (NULL, nCode, wParam, lParam);
-}
-
-#ifdef Q_OS_WIN
 
  class MyThread : public QThread
  {

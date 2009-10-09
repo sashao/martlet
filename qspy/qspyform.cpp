@@ -14,7 +14,7 @@ QSpyForm::QSpyForm( QWidget * parent, Qt::WindowFlags f) : QWidget(parent,f)
 	messageLabel->setVisible(false);
 	startStopPushButton->setText(tr("Start"));
 #ifdef Q_OS_WIN
-	martexPath = QString("../bin/martex.exe");
+	martexPath = QString("..\\bin\\martex.exe");
 #else
 	martexPath = QString("../bin/martex");
 #endif

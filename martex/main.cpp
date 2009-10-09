@@ -2,52 +2,49 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
-#ifdef Q_OS_WIN
-
-
-#include <QProcess>
-#include <QObject>
-#include <QThread>
+#include <QInjector.h>
+#include <QFile>
 #include <QDebug>
 
-#include <windows.h>
-#include <QInjector.h>
-
-
-
-#else
-
-#include <dlfcn.h>
-
-#endif
+//#ifdef Q_OS_WIN
+//#include <windows.h>
+//#else
+//#include <dlfcn.h>
+//#endif
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-	if (argc < 1) return -1;
-	QString str(QObject::tr("translate me"));
-	qWarning("TODO check for lib existance: %s:%d", __FILE__, __LINE__);
-	qWarning("TODO check for executable existance: %s:%d", __FILE__, __LINE__);
 	qWarning("TODO: %s:%d", __FILE__, __LINE__);
+    QApplication a(argc, argv);
+    if (argc != 2) {
+        qDebug("Usage: martex <qt executable>");
+        return -1;
+    }
+	QString str(QObject::tr("translate me"));
 
-#ifdef Q_OS_WIN
+//#ifdef Q_OS_WIN
 
+        const QString appName(argv[1]);
 		QInjector inj;
-		QString name(argv[1]/*"loopback.exe"*/);
-		inj.start(name);
+        if (!inj.libraryFileExists()) {
+            qDebug()<<"Injection library does not exist. Ecpected "<< inj.libraryPath();
+        } else if (QFile::exists(appName)) {
+            qDebug()<<"Injection library : "<< inj.libraryPath();
+            qDebug()<<"Application : "<< appName;            
+            inj.start(appName);
+        } else {
+            qDebug()<<"Application does not exist. Given "<< appName;            
+        }
 
-//QThread::currentThread()->wait(2000);  
-
-
-#else
+/*#else
 		    int ret;
             char *nargv[] = { (char *)0 };
             char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libQtLoad.so", (char *)0 };
             ret = execve (argv[1], nargv, env);
 
-#endif
+#endif*/
 			return a.exec();
+        return 0;
 }
 
 

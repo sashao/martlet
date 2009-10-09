@@ -9,7 +9,7 @@ INCLUDEPATH += .
 CONFIG += designer
 CONFIG += uitools
 
-LIBS += User32.lib
+win32:LIBS += User32.lib
 
 qtAddLibrary(QtDesigner)
 qtAddLibrary(QtDesignerComponents)
