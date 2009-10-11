@@ -20,13 +20,15 @@ QInjector::~QInjector(void)
 QString QInjector::libraryPath()
 {
 #ifdef Q_OS_WIN
-    const QString libraryExtension("dll");
+    const QString libraryExtension(".dll");
+    const QString libraryVersion("0");
 #endif
 #ifdef Q_OS_LINUX
-    const QString libraryExtension("so");
+    const QString libraryExtension(".so");
+    const QString libraryVersion("");
 #endif
-    const QString libName("libQtLoad.");
-    return QDir::currentPath()+QDir::separator()+libName+libraryExtension;
+    const QString libName("libQtLoad");
+    return QDir::currentPath()+QDir::separator()+libName+libraryVersion+libraryExtension;
 }
 
 bool QInjector::libraryFileExists()
