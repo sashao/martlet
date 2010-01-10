@@ -4,25 +4,35 @@
 #include <QObject>
 #include <QEvent>
 #include <QString>
+#include <QMap>
 
-class AbstractCommand;
+#include "AbstractCommand.h"
+
+typedef QMap<QEvent::Type, AbstractCommand*> TypeCommandMap;
 
 class AbstractEventFabric : public QObject
 {
 	Q_OBJECT
 
-public:
+protected:
 	AbstractEventFabric(QObject *parent);
 	~AbstractEventFabric();
+public:
+	static AbstractEventFabric* instance();
+	static void setInstance(AbstractEventFabric* fabric);
 
-	QString recordEvent(QEvent* event);
+	virtual QString recordEvent(QEvent* event, QObject* obj);
 	QEvent* deserializeEvent(const QString& commandStr);
 
-	void registerCommand(QEvent::Type type, AbstractCommand* command);
+	virtual void registerCommand(AbstractCommand* command);
 
+protected:
+		static AbstractEventFabric* m_instance;
 private:
-	QAbstractCommand* commandFromEvent(QEvent* event);
-	
+	virtual AbstractCommand* commandFromEvent(QEvent* event) = 0;
+
+	TypeCommandMap m_commandMap;
+
 };
 
 #endif // ABSTRACTEVENTFABRIC_H
