@@ -29,7 +29,7 @@ public:
 protected:
 		static AbstractEventFabric* m_instance;
 private:
-	virtual AbstractCommand* commandFromEvent(QEvent* event) = 0;
+	//virtual AbstractCommand* commandFromEvent(QEvent* event) = 0;
 
 	TypeCommandMap m_commandMap;
 

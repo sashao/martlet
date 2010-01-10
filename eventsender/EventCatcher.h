@@ -11,6 +11,9 @@ public:
 	EventCatcher(QObject *parent);
 	~EventCatcher();
 
+	void startRecording();
+	void stopRecording();
+
 private:
 	bool eventFilter(QObject *obj, QEvent *ev);	
 };

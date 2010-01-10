@@ -4,7 +4,8 @@
 #include <QKeyEvent>
 
 eventsender::eventsender(QWidget *parent, Qt::WFlags flags)
-	: QMainWindow(parent, flags)
+	: QMainWindow(parent, flags),
+	catcher(this)
 {
 	ui.setupUi(this);
 }
@@ -27,4 +28,14 @@ void eventsender::on_pushButton_clicked()
 	QApplication::sendEvent(ui.checkBox, me);
 	QMouseEvent* me2 = new QMouseEvent(QEvent::MouseButtonRelease,QPoint(5,5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
 	QApplication::sendEvent(ui.checkBox, me2);
+}
+
+void eventsender::on_pushButton_2_clicked()
+{
+	catcher.startRecording();
+}
+
+void eventsender::on_pushButton_3_clicked()
+{
+	catcher.stopRecording();
 }

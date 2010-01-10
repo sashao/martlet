@@ -3,6 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include "ui_eventsender.h"
+#include "EventCatcher.h"
 
 class eventsender : public QMainWindow
 {
@@ -14,8 +15,11 @@ public:
 
 private:
 	Ui::eventsenderClass ui;
+	EventCatcher catcher;
 
 private slots:
+	void on_pushButton_3_clicked();
+	void on_pushButton_2_clicked();
 	void on_pushButton_clicked();
 	void on_checkBox_clicked(bool);
 };
