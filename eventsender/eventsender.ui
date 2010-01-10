@@ -1,0 +1,102 @@
+<ui version="4.0" >
+ <class>eventsenderClass</class>
+ <widget class="QMainWindow" name="eventsenderClass" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>eventsender</string>
+  </property>
+  <widget class="QWidget" name="centralWidget" >
+   <widget class="QPushButton" name="pushButton" >
+    <property name="geometry" >
+     <rect>
+      <x>420</x>
+      <y>250</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox" >
+    <property name="geometry" >
+     <rect>
+      <x>190</x>
+      <y>40</y>
+      <width>72</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>CheckBox</string>
+    </property>
+   </widget>
+   <widget class="QCommandLinkButton" name="commandLinkButton" >
+    <property name="geometry" >
+     <rect>
+      <x>70</x>
+      <y>140</y>
+      <width>168</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>CommandLinkButton</string>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar" >
+    <property name="geometry" >
+     <rect>
+      <x>80</x>
+      <y>230</y>
+      <width>118</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value" >
+     <number>24</number>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser" >
+    <property name="geometry" >
+     <rect>
+      <x>340</x>
+      <y>0</y>
+      <width>256</width>
+      <height>192</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar" >
+   <attribute name="toolBarArea" >
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak" >
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar" />
+ </widget>
+ <layoutdefault spacing="6" margin="11" />
+ <resources/>
+ <connections/>
+</ui>

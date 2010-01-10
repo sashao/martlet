@@ -20,8 +20,8 @@ Makefile
 *.user
 qrc_*
 *.rc
-*.
-*.
+*.obj
+*.manifest
 *.
 *.
 *.

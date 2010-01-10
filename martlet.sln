@@ -13,6 +13,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "martex", "martex\martex.vcp
 		{0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7} = {0A6C7BAD-B97F-3E76-B6C7-7276E49FA8B7}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "eventsender", "eventsender\eventsender.vcproj", "{466B313C-A67C-4508-8119-3756BAF5AAB6}"
+	GlobalSection(Qt) = preSolution
+		Integration = True
+	EndGlobalSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -27,6 +32,10 @@ Global
 		{A15F3E79-698A-34CA-9311-54E8496A7DDA}.Debug|Win32.Build.0 = Debug|Win32
 		{A15F3E79-698A-34CA-9311-54E8496A7DDA}.Release|Win32.ActiveCfg = Release|Win32
 		{A15F3E79-698A-34CA-9311-54E8496A7DDA}.Release|Win32.Build.0 = Release|Win32
+		{466B313C-A67C-4508-8119-3756BAF5AAB6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{466B313C-A67C-4508-8119-3756BAF5AAB6}.Debug|Win32.Build.0 = Debug|Win32
+		{466B313C-A67C-4508-8119-3756BAF5AAB6}.Release|Win32.ActiveCfg = Release|Win32
+		{466B313C-A67C-4508-8119-3756BAF5AAB6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
