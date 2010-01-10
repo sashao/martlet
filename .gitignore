@@ -9,6 +9,8 @@ moc_*
 ui_*
 debug
 release
+*.Debug
+*.Release
 *.idb
 *.pdb
 Makefile
@@ -17,7 +19,7 @@ Makefile
 *.ncb
 *.user
 qrc_*
-*.
+*.rc
 *.
 *.
 *.
