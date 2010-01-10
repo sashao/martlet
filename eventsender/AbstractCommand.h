@@ -15,7 +15,7 @@ public:
 	/// Return true iff this instance can be deserialized from this string.
 	virtual bool canDeserialize(const QString commanStr) = 0;
 	
-	virtual QString record(const QEvent* event) = 0;
+	virtual QString record(const QEvent* event,const QString& objNameString) = 0;
 	/// Returns True if success.
 	virtual bool exec() = 0;
 

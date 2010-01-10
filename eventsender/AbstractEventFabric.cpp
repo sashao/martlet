@@ -28,9 +28,9 @@ QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 {
 	if (m_commandMap.contains(event->type())){
 		AbstractCommand* command = m_commandMap.value(event->type());
-		return command->record(event);
+		return command->record(event, obj->objectName());
 	}
-	qDebug("AbstractEventFabric::recordEvent: Event wasn't recorded");
+	//qDebug("AbstractEventFabric::recordEvent: Event wasn't recorded");
 	return QString();
 }
 
