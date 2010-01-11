@@ -8,12 +8,24 @@
 
 
 
+
 CSVCommand::CSVCommand(QObject *parent)
 	: AbstractCommand(parent)
 {
 
 }
 
+void CSVCommand::fillDataFromList(CommandData& data, QStringList& list) const
+{
+    Q_ASSERT(list.count()==5);
+    data.pause_msecs = list.at(1).toUInt();
+    data.objNameString = list.at(4);
+    QPoint pos(list.at(2).toInt(), list.at(3).toInt());
+
+//	QMouseEvent* me = new QMouseEvent(QEvent::MouseButtonPress,QPoint(5,5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    QMouseEvent* me = new QMouseEvent(type(), pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    data.event = me;
+}
 
 
 
@@ -37,8 +49,18 @@ QString CSVMousePressCommand::record(const CommandData& data)
     }
 	return QString();
 }
-	
-QEvent::Type CSVMousePressCommand::type()
+
+CommandData CSVMousePressCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("MousePress")) {
+        QStringList items = commanStr.split(',');
+        fillDataFromList(returnData, items);
+    }
+    return returnData;
+}
+
+QEvent::Type CSVMousePressCommand::type() const
 {
 	return QEvent::MouseButtonPress;
 }
@@ -65,8 +87,18 @@ QString CSVMouseReleaseCommand::record(const CommandData& data)
     }
 	return QString();
 }
+
+CommandData CSVMouseReleaseCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("MouseRelease")) {
+        QStringList items = commanStr.split(',');
+        fillDataFromList(returnData, items);
+    }
+    return returnData;
+}
 	
-QEvent::Type CSVMouseReleaseCommand::type()
+QEvent::Type CSVMouseReleaseCommand::type() const
 {
 	return QEvent::MouseButtonRelease;
 }
@@ -94,8 +126,18 @@ QString CSVMouseMoveCommand::record(const CommandData& data)
     }
 	return QString();
 }
+
+CommandData CSVMouseMoveCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("MouseMove")) {
+        QStringList items = commanStr.split(',');
+        fillDataFromList(returnData, items);
+    }
+    return returnData;
+}
 	
-QEvent::Type CSVMouseMoveCommand::type()
+QEvent::Type CSVMouseMoveCommand::type() const
 {
 	return QEvent::MouseMove;
 }
@@ -121,8 +163,18 @@ QString CSVMouseEnterCommand::record(const CommandData& data)
 	}
 	return QString();
 }
+
+CommandData CSVMouseEnterCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("MouseEnter")) {
+        QStringList items = commanStr.split(',');
+        fillDataFromList(returnData, items);
+    }
+    return returnData;
+}
 	
-QEvent::Type CSVMouseEnterCommand::type()
+QEvent::Type CSVMouseEnterCommand::type() const
 {
 	return QEvent::Enter;
 }
@@ -149,8 +201,18 @@ QString CSVMouseLeaveCommand::record(const CommandData& data)
 	}
 	return QString();
 }
+
+CommandData CSVMouseLeaveCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("MouseLeave")) {
+        QStringList items = commanStr.split(',');
+        fillDataFromList(returnData, items);
+    }
+    return returnData;
+}
 	
-QEvent::Type CSVMouseLeaveCommand::type()
+QEvent::Type CSVMouseLeaveCommand::type() const
 {
 	return QEvent::Leave;
 }

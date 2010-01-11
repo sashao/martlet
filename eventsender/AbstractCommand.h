@@ -7,7 +7,7 @@
 /**
  *  Data needed to record and play single event basic params
  */
-class CommandData 
+class CommandData // : public QSharedData
 {
 public:
     CommandData();
@@ -31,12 +31,10 @@ public:
 	virtual bool canDeserialize(const QString commanStr) = 0;
 	
 	virtual QString record(const CommandData& data) = 0;
-	/// Returns True if success.
-	virtual bool exec() = 0;
 
 	virtual CommandData deserialize(const QString commanStr) = 0;
 	
-	virtual QEvent::Type type() = 0;
+	virtual QEvent::Type type() const = 0;
 
     static void clearTimers();
     static unsigned int getPauseMSecs();

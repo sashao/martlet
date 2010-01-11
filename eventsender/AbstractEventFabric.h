@@ -31,7 +31,7 @@ public:
     virtual void playSingleLineEvent(const QString& commandStr);
 
 protected:
-    QPair<QEvent*, QObject*> deserializeEvent(const QString& commandStr);
+    CommandData deserializeEvent(const QString& commandStr);
     QObject* findObjectFromName(const QString& objNameStr);
     
     static AbstractEventFabric* m_instance;

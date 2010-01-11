@@ -2,6 +2,7 @@
 #define CSVCOMMAND_H
 
 #include "AbstractCommand.h"
+#include <QStringList>
 
 class CSVCommand : public AbstractCommand
 {
@@ -11,10 +12,9 @@ public:
 	CSVCommand(QObject *parent);
 
 	virtual bool canDeserialize(const QString commanStr){ return false; }
-	
-	virtual bool exec(){ return false;}
 
-    virtual CommandData deserialize(const QString commanStr){ return CommandData();}
+protected:
+    void fillDataFromList(CommandData& data, QStringList& list) const;
 };
 
 
@@ -26,8 +26,9 @@ public:
 	CSVMousePressCommand(QObject *parent);
 
 	virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
 	
-	virtual QEvent::Type type();
+	virtual QEvent::Type type() const;
 };
 
 
@@ -40,8 +41,9 @@ public:
 	CSVMouseReleaseCommand(QObject *parent);
 
 	virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
 	
-	virtual QEvent::Type type();
+	virtual QEvent::Type type() const;
 };
 
 
@@ -54,8 +56,9 @@ public:
 	CSVMouseMoveCommand(QObject *parent);
 
 	virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
 	
-	virtual QEvent::Type type();
+	virtual QEvent::Type type() const;
 };
 
 
@@ -69,8 +72,9 @@ public:
 	CSVMouseEnterCommand(QObject *parent);
 
 	virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
 	
-	virtual QEvent::Type type();
+	virtual QEvent::Type type() const;
 };
 
 
@@ -85,8 +89,9 @@ public:
 	CSVMouseLeaveCommand(QObject *parent);
 
 	virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
 	
-	virtual QEvent::Type type();
+	virtual QEvent::Type type() const;
 };
 
 

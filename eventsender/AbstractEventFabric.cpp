@@ -45,33 +45,33 @@ QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 
 void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
 {
-    QPair<QEvent*, QObject*> pair = deserializeEvent(commandStr);
-    if ((pair.first !=0) && (pair.second != 0)) {
-
+    CommandData data = deserializeEvent(commandStr);
+    QObject* widget = findObjectFromName(data.objNameString);
+    if (data.isValid() && (widget != 0)) {
+        //    QThread::currentThread()->wait(30);
+        // this loop sould be removed when following loop moved to Thread class.
+        for (int i  = 0; i<= 50000; ++i) {
+            QApplication::processEvents();
+        }
+        QApplication::sendEvent(widget, data.event);
     } else {
-        qDebug("Something went wrong while string decoding. (event = %d, object= %d)", int(pair.first), int(pair.second));
+        qDebug("Something went wrong while string decoding. (event = %d, object= %d)", int(data.event), int(widget));
     }
 }
 
 
-QPair<QEvent*, QObject*> AbstractEventFabric::deserializeEvent(const QString& commandStr)
+CommandData AbstractEventFabric::deserializeEvent(const QString& commandStr)
 {
-    QPair<QEvent*, QObject*> result(0, 0);
+    CommandData result;
     CommandData data;
     qDebug("Deserialization of '%s'", qPrintable(commandStr));
-//    QThread::currentThread()->wait(30);
-    // this loop sould be removed when following loop moved to Thread class.
-    for (int i  = 0; i<= 50000; ++i) {
-        QApplication::processEvents();
-    }
 
     TypeCommandMap::const_iterator iter;
     for (iter = m_commandMap.constBegin(); iter != m_commandMap.constEnd(); ++iter)
     {
         CommandData data = iter.value()->deserialize(commandStr);
         if (data.isValid()) {
-            result.first = data.event;
-            result.second = findObjectFromName(data.objNameString);
+            result = data;
             break;
         }
     }
