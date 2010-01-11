@@ -1,5 +1,6 @@
 #include "EventCatcher.h"
 #include "AbstractEventFabric.h"
+#include "AbstractCommand.h"
 #include <QApplication>
 
 EventCatcher::EventCatcher(QObject *parent)
@@ -15,6 +16,7 @@ EventCatcher::~EventCatcher()
 
 void EventCatcher::startRecording()
 {
+    AbstractCommand::clearTimers();
 	QApplication::instance()->installEventFilter(this);
 }
 

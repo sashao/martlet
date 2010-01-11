@@ -1,4 +1,6 @@
 #include "eventsender.h"
+#include "AbstractEventFabric.h"
+
 #include <QApplication>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -38,4 +40,20 @@ void eventsender::on_pushButton_2_clicked()
 void eventsender::on_pushButton_3_clicked()
 {
 	catcher.stopRecording();
+    ui.textBrowser->setText(AbstractEventFabric::instance()->getOutput());
+}
+
+void eventsender::on_groupBox_toggled(bool)
+{
+
+}
+
+void eventsender::on_playBtn_clicked()
+{
+    QStringList lines = ui.textBrowser->toPlainText().split("\n", QString::SkipEmptyParts);
+    QString line;
+    foreach (line, lines)
+    {
+        AbstractEventFabric::instance()->playSingleLineEvent(line);
+    }
 }

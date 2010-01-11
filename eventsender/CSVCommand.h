@@ -14,7 +14,7 @@ public:
 	
 	virtual bool exec(){ return false;}
 
-	virtual AbstractCommand* deserialize(const QString commanStr){ return 0;}
+    virtual CommandData deserialize(const QString commanStr){ return CommandData();}
 };
 
 
@@ -25,7 +25,7 @@ class CSVMousePressCommand : public CSVCommand
 public:
 	CSVMousePressCommand(QObject *parent);
 
-	virtual QString record(const QEvent* event, const QString& objNameString);
+	virtual QString record(const CommandData& data);
 	
 	virtual QEvent::Type type();
 };
@@ -39,10 +39,59 @@ class CSVMouseReleaseCommand : public CSVCommand
 public:
 	CSVMouseReleaseCommand(QObject *parent);
 
-	virtual QString record(const QEvent* event, const QString& objNameString);
+	virtual QString record(const CommandData& data);
 	
 	virtual QEvent::Type type();
 };
+
+
+
+class CSVMouseMoveCommand : public CSVCommand
+{
+	Q_OBJECT
+
+public:
+	CSVMouseMoveCommand(QObject *parent);
+
+	virtual QString record(const CommandData& data);
+	
+	virtual QEvent::Type type();
+};
+
+
+
+
+class CSVMouseEnterCommand : public CSVCommand
+{
+	Q_OBJECT
+
+public:
+	CSVMouseEnterCommand(QObject *parent);
+
+	virtual QString record(const CommandData& data);
+	
+	virtual QEvent::Type type();
+};
+
+
+
+
+
+class CSVMouseLeaveCommand : public CSVCommand
+{
+	Q_OBJECT
+
+public:
+	CSVMouseLeaveCommand(QObject *parent);
+
+	virtual QString record(const CommandData& data);
+	
+	virtual QEvent::Type type();
+};
+
+
+
+
 
 
 #endif // CSVCOMMAND_H

@@ -18,6 +18,8 @@ private:
 	EventCatcher catcher;
 
 private slots:
+    void on_playBtn_clicked();
+    void on_groupBox_toggled(bool);
 	void on_pushButton_3_clicked();
 	void on_pushButton_2_clicked();
 	void on_pushButton_clicked();

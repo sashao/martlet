@@ -11,6 +11,8 @@ debug
 release
 *.Debug
 *.Release
+Debug/
+Release/
 *.idb
 *.pdb
 Makefile
