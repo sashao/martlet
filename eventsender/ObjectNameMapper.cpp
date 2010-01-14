@@ -32,17 +32,22 @@ QObject* ObjectNameMapper::objectFromName(const QString& path ) const
     }
     for( ;iname != names.constEnd(); ++iname )
     {
+        QString name = (*iname);
+        int searchedNum = 0;
         // search for our object
+        int num = 0;
         foreach (QObject* iobj, olist)
         {
-            if (iobj->objectName() == (*iname))
+            if (iobj->objectName() == name)
             {
+                ++num;
                 obj = iobj;
-                break;
+                if (searchedNum == num){
+                    break;
+                }
             }
         }
         olist = obj->children();
-        qDebug("parsed %s", qPrintable((*iname)));
     }
     if (!obj) {
         qDebug("Unable to find object with name '%s'", qPrintable(path));
