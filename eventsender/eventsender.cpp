@@ -57,3 +57,8 @@ void eventsender::on_playBtn_clicked()
         AbstractEventFabric::instance()->playSingleLineEvent(line);
     }
 }
+
+void eventsender::on_comboBox_textChanged(const QString &)
+{
+
+}

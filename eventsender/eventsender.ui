@@ -42,8 +42,8 @@
    <widget class="QCommandLinkButton" name="commandLinkButton" >
     <property name="geometry" >
      <rect>
-      <x>70</x>
-      <y>140</y>
+      <x>140</x>
+      <y>350</y>
       <width>168</width>
       <height>41</height>
      </rect>
@@ -55,8 +55,8 @@
    <widget class="QProgressBar" name="progressBar" >
     <property name="geometry" >
      <rect>
-      <x>80</x>
-      <y>230</y>
+      <x>20</x>
+      <y>360</y>
       <width>118</width>
       <height>23</height>
      </rect>
@@ -151,6 +151,145 @@
       </spacer>
      </item>
     </layout>
+   </widget>
+   <widget class="QTabWidget" name="tabWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>321</width>
+      <height>241</height>
+     </rect>
+    </property>
+    <property name="currentIndex" >
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="tab" >
+     <attribute name="title" >
+      <string>Tab 1</string>
+     </attribute>
+     <widget class="QSlider" name="horizontalSlider" >
+      <property name="geometry" >
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>160</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="orientation" >
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+     <widget class="QSlider" name="verticalSlider" >
+      <property name="geometry" >
+       <rect>
+        <x>280</x>
+        <y>30</y>
+        <width>21</width>
+        <height>160</height>
+       </rect>
+      </property>
+      <property name="orientation" >
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="lineEdit" >
+      <property name="geometry" >
+       <rect>
+        <x>80</x>
+        <y>120</y>
+        <width>113</width>
+        <height>20</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_4" >
+     <attribute name="title" >
+      <string>Page</string>
+     </attribute>
+     <layout class="QVBoxLayout" name="verticalLayout" >
+      <item>
+       <widget class="QPlainTextEdit" name="plainTextEdit" />
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="tab_3" >
+     <attribute name="title" >
+      <string>Page</string>
+     </attribute>
+     <widget class="QCalendarWidget" name="calendarWidget" >
+      <property name="geometry" >
+       <rect>
+        <x>50</x>
+        <y>30</y>
+        <width>200</width>
+        <height>148</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_2" >
+     <attribute name="title" >
+      <string>Tab 2</string>
+     </attribute>
+     <widget class="QComboBox" name="comboBox" >
+      <property name="geometry" >
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>161</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text" >
+        <string>New Item</string>
+       </property>
+      </item>
+      <item>
+       <property name="text" >
+        <string>New Item</string>
+       </property>
+      </item>
+      <item>
+       <property name="text" >
+        <string>New Item</string>
+       </property>
+      </item>
+      <item>
+       <property name="text" >
+        <string>New Item</string>
+       </property>
+      </item>
+      <item>
+       <property name="text" >
+        <string>New Item</string>
+       </property>
+      </item>
+      <item>
+       <property name="text" >
+        <string>New Item</string>
+       </property>
+      </item>
+      <item>
+       <property name="text" >
+        <string>New Item</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QTimeEdit" name="timeEdit" >
+      <property name="geometry" >
+       <rect>
+        <x>170</x>
+        <y>60</y>
+        <width>118</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar" >

@@ -8,6 +8,7 @@
 #include <QPair>
 
 #include "AbstractCommand.h"
+#include "ExecutionThread.h"
 
 typedef QMap<QEvent::Type, AbstractCommand*> TypeCommandMap;
 
@@ -39,7 +40,7 @@ protected:
 private:
 
 	TypeCommandMap m_commandMap;
-
+    ExecutionThread m_pauseThread;
 };
 
 QString AbstractEventFabric::getOutput() const

@@ -18,6 +18,7 @@ private:
 	EventCatcher catcher;
 
 private slots:
+    void on_comboBox_textChanged(const QString &);
     void on_playBtn_clicked();
     void on_groupBox_toggled(bool);
 	void on_pushButton_3_clicked();

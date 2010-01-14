@@ -7,9 +7,10 @@
 AbstractEventFabric* AbstractEventFabric::m_instance = 0;
 
 AbstractEventFabric::AbstractEventFabric(QObject *parent)
-	: QObject(parent)
+	: QObject(parent),
+    m_pauseThread(this)
 {
-
+    //m_pauseThread.start();
 }
 
 AbstractEventFabric::~AbstractEventFabric()
@@ -49,11 +50,13 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
     CommandData data = deserializeEvent(commandStr);
     QObject* widget = findObjectFromName(data.objNameString);
     if (data.isValid() && (widget != 0)) {
+        //m_pauseThread.usleep(data.pause_msecs);
         //    QThread::currentThread()->wait(30);
         // this loop sould be removed when following loop moved to Thread class.
-        for (int i  = 0; i<= 10000; ++i) {
+        for (int i  = 0; i<= 200*data.pause_msecs; ++i) {
             QApplication::processEvents();
         }
+        
         const QWidget* w = qobject_cast<QWidget *>(widget);
         const QMouseEvent* me = static_cast<QMouseEvent* >(data.event);
         if (w && me) 
