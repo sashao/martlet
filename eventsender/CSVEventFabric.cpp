@@ -6,9 +6,9 @@ CSVEventFabric::CSVEventFabric(QObject *parent)
 {
 	registerCommand( new CSVMousePressCommand(this) );
 	registerCommand( new CSVMouseReleaseCommand(this) );
-//	registerCommand( new CSVMouseMoveCommand(this) );
-	registerCommand( new CSVMouseEnterCommand(this) );
-	registerCommand( new CSVMouseLeaveCommand(this) );
+	registerCommand( new CSVMouseMoveCommand(this) );
+//	registerCommand( new CSVMouseEnterCommand(this) );
+//	registerCommand( new CSVMouseLeaveCommand(this) );
 }
 
 CSVEventFabric::~CSVEventFabric()

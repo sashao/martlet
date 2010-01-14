@@ -2,6 +2,7 @@
 #include <QThread>
 #include <QApplication>
 #include <QWidget>
+#include <QMouseEvent>
 
 AbstractEventFabric* AbstractEventFabric::m_instance = 0;
 
@@ -50,10 +51,20 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
     if (data.isValid() && (widget != 0)) {
         //    QThread::currentThread()->wait(30);
         // this loop sould be removed when following loop moved to Thread class.
-        for (int i  = 0; i<= 50000; ++i) {
+        for (int i  = 0; i<= 10000; ++i) {
             QApplication::processEvents();
         }
-        QApplication::sendEvent(widget, data.event);
+        const QWidget* w = qobject_cast<QWidget *>(widget);
+        const QMouseEvent* me = static_cast<QMouseEvent* >(data.event);
+        if (w && me) 
+        {
+            const QPoint mpos(w->mapToGlobal(me->pos()));
+            QCursor::setPos(mpos);
+        }
+        if (data.event->type() != QEvent::MouseMove)
+        {
+            QApplication::sendEvent(widget, data.event);
+        }
     } else {
         qDebug("Something went wrong while string decoding. (event = %d, object= %d)", int(data.event), int(widget));
     }
