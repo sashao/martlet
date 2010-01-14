@@ -10,6 +10,15 @@ eventsender::eventsender(QWidget *parent, Qt::WFlags flags)
 	catcher(this)
 {
 	ui.setupUi(this);
+    ui.horizontalSlider_2->setObjectName("horizontalSlider");
+    ui.timeEdit_2->setObjectName("");
+    ui.timeEdit_3->setObjectName("");
+    ui.timeEdit_4->setObjectName("");
+    ui.timeEdit_5->setObjectName("");
+
+    ui.widget->setObjectName("");
+    ui.widget_2->setObjectName("");
+    ui.widget_3->setObjectName("");
 }
 
 eventsender::~eventsender()
@@ -26,10 +35,10 @@ void eventsender::on_checkBox_clicked(bool)
 void eventsender::on_pushButton_clicked()
 {
 	qDebug("eventsender::on_pushButton_clicked()");
-	QMouseEvent* me = new QMouseEvent(QEvent::MouseButtonPress,QPoint(5,5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-	QApplication::sendEvent(ui.checkBox, me);
-	QMouseEvent* me2 = new QMouseEvent(QEvent::MouseButtonRelease,QPoint(5,5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-	QApplication::sendEvent(ui.checkBox, me2);
+//	QMouseEvent* me = new QMouseEvent(QEvent::MouseButtonPress,QPoint(5,5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+//	QApplication::sendEvent(ui.checkBox, me);
+//	QMouseEvent* me2 = new QMouseEvent(QEvent::MouseButtonRelease,QPoint(5,5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+//	QApplication::sendEvent(ui.checkBox, me2);
 }
 
 void eventsender::on_pushButton_2_clicked()

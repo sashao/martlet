@@ -1,9 +1,9 @@
 #ifndef OBJECTNAMEMAPPER_H
 #define OBJECTNAMEMAPPER_H
 
-#include <QObject>
+#include "AbstractObjectNameMapper.h"
 
-class ObjectNameMapper : public QObject
+class ObjectNameMapper : public AbstractObjectNameMapper
 {
     Q_OBJECT
 
@@ -12,9 +12,10 @@ public:
     ~ObjectNameMapper();
 
     QObject* objectFromName(const QString& name ) const;
-    QString makeObjectName(const QObject* obj ) const;
+    QString makeObjectName(QObject* obj ) const;
 
 private:
+    static const QChar delimiter, open_bracket, close_bracket;
     
 };
 

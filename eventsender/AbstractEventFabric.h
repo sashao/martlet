@@ -9,9 +9,9 @@
 
 #include "AbstractCommand.h"
 #include "ExecutionThread.h"
-#include "ObjectNameMapper.h"
 
 typedef QMap<QEvent::Type, AbstractCommand*> TypeCommandMap;
+class AbstractObjectNameMapper;
 
 class AbstractEventFabric : public QObject
 {
@@ -41,7 +41,7 @@ private:
 
 	TypeCommandMap m_commandMap;
     ExecutionThread m_pauseThread;
-    ObjectNameMapper m_nameMapper;
+    AbstractObjectNameMapper* m_pNameMapper;
 };
 
 QString AbstractEventFabric::getOutput() const

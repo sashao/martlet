@@ -2,8 +2,13 @@
 #include <QApplication>
 #include <QWidget>
 
+const QChar ObjectNameMapper::delimiter     = '.';
+const QChar ObjectNameMapper::open_bracket  = '(';
+const QChar ObjectNameMapper::close_bracket = ')';
+
+
 ObjectNameMapper::ObjectNameMapper(QObject *parent)
-    : QObject(parent)
+    : AbstractObjectNameMapper(parent)
 {
 
 }
@@ -13,49 +18,90 @@ ObjectNameMapper::~ObjectNameMapper()
 
 }
 
-QObject* ObjectNameMapper::objectFromName(const QString& name ) const
+QObject* ObjectNameMapper::objectFromName(const QString& path ) const
 {
-    QObject* obj = QApplication::activeWindow()->findChild<QObject*>(name);
+    Q_ASSERT(!path.isEmpty());
+    QObject* obj = 0;
+    QStringList names = path.split(delimiter, QString::KeepEmptyParts);
+    Q_ASSERT(names.size()>1);
+    QStringList::const_iterator iname = names.constBegin();
+    ++iname; // omit allways empty first string before leading delimmiterdeli
+    QObjectList olist;
+    foreach (QWidget* w, QApplication::topLevelWidgets()) {
+        olist.append(w);
+    }
+    for( ;iname != names.constEnd(); ++iname )
+    {
+        // search for our object
+        foreach (QObject* iobj, olist)
+        {
+            if (iobj->objectName() == (*iname))
+            {
+                obj = iobj;
+                break;
+            }
+        }
+        olist = obj->children();
+        qDebug("parsed %s", qPrintable((*iname)));
+    }
     if (!obj) {
-        qDebug("Unable to find object with name '%s'", qPrintable(name));
+        qDebug("Unable to find object with name '%s'", qPrintable(path));
     }
     return obj;
 }
 
-QString ObjectNameMapper::makeObjectName(const QObject* obj ) const
+QString ObjectNameMapper::makeObjectName(QObject* obj ) const
 {
-    const QChar delimiter = '.';
+    // Name spec
+    // Domain names with delimiter char '.'
+    // Always Should start with delimiter character
+    // Eg. .top_level_parent.group_box.frame(1).button_ok
+    // Simple name could be empty string.
+    // if object name is not unique optionaly index of this object may be specified in brackets "(1-n)"
+    // Eg. .parent.groupBox(2).startButton
+    // Eg. .parent.(2).startButton
     QString namePath;
     QObject* object = obj;
     while (object)
     {
-        QObject* parent = obj->parent();
+        QObject* parent = object->parent();
         if (parent)
             // Find unique name among parent's children
         {
-            const QString name = object->objectName();
-            namePath.append(delimiter);
+            // TODO: mask delimiter char '.'
+            QString name = object->objectName();
+
+            // Find "brothers" and "sisters" with the same name if any
             QObject* child = 0;
-            const QObjectList& pchildren = children();
-            int num = 0; // How many childrens
+            const QObjectList& pchildren = parent->children();
+            int inum = 0; // index in children list with the same name
+            int anum = 0; // How many childrens
             foreach (child, pchildren)
             {
                 if (child->objectName() == name) {
-                    ++num;
+                    ++anum;
                     if (child == object) {
-                        break;
+                        inum = anum;
                     }
+                    //qDebug("%d/%d %s (%s)", inum, anum, qPrintable(object->objectName()), object->metaObject()->className());
                 }
             }
-            if (num > 0) {
-                name.append('(');
-                name.append(QString::number(num));
-                name.append(')');
+            // add brackets if needed
+            if ((inum > 0) && (anum > 1)) {
+                name.append(open_bracket);
+                name.append(QString::number(inum));
+                name.append(close_bracket);
             }
+            // update whole path
+            namePath.prepend(name);
+            namePath.prepend(delimiter);
+            // do loop again
+            object = parent;
         }
         else
-            // this object is toplevel widget
         {
+            namePath.prepend(object->objectName());
+            namePath.prepend(delimiter);
             object = 0;
             break;
         }
