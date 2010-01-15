@@ -33,7 +33,22 @@ QObject* ObjectNameMapper::objectFromName(const QString& path ) const
     for( ;iname != names.constEnd(); ++iname )
     {
         QString name = (*iname);
-        int searchedNum = 0;
+        int searchedNum = 1;
+        if (name.contains(open_bracket) && name.contains(close_bracket)){
+            // TODO: handle various connversion/extracting exceptions
+            // guess number in the brackets
+            const int left = name.indexOf(open_bracket);
+            Q_ASSERT(left != -1);
+            const int right = name.indexOf(close_bracket, left);
+            Q_ASSERT(right != -1);
+            Q_ASSERT(left < right);
+            const QString num = name.mid(left+1, right-left-1);
+            Q_ASSERT(! num.isEmpty());
+            searchedNum = num.toInt();
+            Q_ASSERT(searchedNum > 0);
+            // sanity name to search
+            name.chop(name.length()-left);
+        }
         // search for our object
         int num = 0;
         foreach (QObject* iobj, olist)
