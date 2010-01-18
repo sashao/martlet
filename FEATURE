@@ -1,3 +1,8 @@
 
 QSpy:
     * Events spy
+    
+    
+    
+http://code.google.com/p/qxmlrpc/
+

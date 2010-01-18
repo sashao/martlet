@@ -14,7 +14,6 @@ AbstractEventFabric::AbstractEventFabric(QObject *parent)
     m_pauseThread(this),
     m_pNameMapper( new ObjectNameMapper(this))
 {
-    //m_pauseThread.start();
 }
 
 AbstractEventFabric::~AbstractEventFabric()
@@ -38,7 +37,6 @@ QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 	QString output;
 	if (m_commandMap.contains(event->type())){
         AbstractCommand* command = m_commandMap.value(event->type());
-        // TODO: delegate this to separate obj_name_resolver class
         const QString uniqueObjName = m_pNameMapper->makeCachedObjectName(obj);
         CommandData data(event, uniqueObjName, AbstractCommand::getPauseMSecs());
         output = command->record( data );
@@ -54,9 +52,6 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
     CommandData data = deserializeEvent(commandStr);
     QObject* widget = m_pNameMapper->getObjectFromName(data.objNameString);
     if (data.isValid() && (widget != 0)) {
-        //m_pauseThread.usleep(data.pause_msecs);
-        //    QThread::currentThread()->wait(30);
-        // this loop sould be removed when following loop moved to Thread class.
         QTime timer;
         timer.start();
         const unsigned int pause = 8;
