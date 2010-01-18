@@ -39,7 +39,7 @@ QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 	if (m_commandMap.contains(event->type())){
         AbstractCommand* command = m_commandMap.value(event->type());
         // TODO: delegate this to separate obj_name_resolver class
-        const QString uniqueObjName = m_pNameMapper->makeObjectName(obj);
+        const QString uniqueObjName = m_pNameMapper->makeCachedObjectName(obj);
         CommandData data(event, uniqueObjName, AbstractCommand::getPauseMSecs());
         output = command->record( data );
         AbstractCommand::recordLastEventTime();
@@ -52,13 +52,21 @@ QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
 {
     CommandData data = deserializeEvent(commandStr);
-    QObject* widget = m_pNameMapper->objectFromName(data.objNameString);
+    QObject* widget = m_pNameMapper->getObjectFromName(data.objNameString);
     if (data.isValid() && (widget != 0)) {
         //m_pauseThread.usleep(data.pause_msecs);
         //    QThread::currentThread()->wait(30);
         // this loop sould be removed when following loop moved to Thread class.
-        for (int i  = 0; i<= 200*data.pause_msecs; ++i) {
-            QApplication::processEvents();
+        QTime timer;
+        timer.start();
+        const unsigned int pause = 8;
+        if ( pause < data.pause_msecs ) {
+            int delta =  data.pause_msecs /*- timer.elapsed()*/;
+            while ( delta > 0 ) {
+                usleep(qMin((int)pause, delta));
+                QApplication::processEvents();
+                delta = data.pause_msecs - timer.elapsed();
+            }
         }
         
         const QWidget* w = qobject_cast<QWidget *>(widget);

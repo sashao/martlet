@@ -16,7 +16,6 @@ public:
 
 private:
     static const QChar delimiter, open_bracket, close_bracket;
-    
 };
 
 #endif // OBJECTNAMEMAPPER_H
