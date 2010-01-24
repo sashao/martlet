@@ -1,7 +1,7 @@
 
 TEMPLATE = lib
-unix:TARGET = ../qxmlrpc
-win32:TARGET = ../qxmlrpc
+unix:TARGET = qxmlrpc
+win32:TARGET = qxmlrpc
 
 CONFIG += warn_on
 CONFIG += staticlib
@@ -59,3 +59,8 @@ macx-g++ {
     }
 }
 
+include (../../globinclude.pri)
+
+TRANSLATIONS = $$GLOBTRANS
+RESOURCES   += $$GLOBRESOURCES
+DESTDIR = $$GLOBTOP/bin
