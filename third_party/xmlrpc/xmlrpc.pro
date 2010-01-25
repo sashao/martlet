@@ -9,7 +9,7 @@ CONFIG += debug_and_release
 CONFIG += precompile_header
 
 DEPENDPATH += .
-INCLUDEPATH += . ..
+INCLUDEPATH += .
 
 QT += xml
 QT += network 
