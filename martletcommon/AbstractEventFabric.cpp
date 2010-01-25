@@ -11,7 +11,6 @@ AbstractEventFabric* AbstractEventFabric::m_instance = 0;
 
 AbstractEventFabric::AbstractEventFabric(QObject *parent)
 	: QObject(parent),
-    m_pauseThread(this),
     m_pNameMapper( new ObjectNameMapper(this))
 {
 }
@@ -76,7 +75,7 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
             QApplication::sendEvent(widget, data.event);
         }
     } else {
-        qDebug("Something went wrong while string decoding. (event = %d, object= %d)", int(data.event), int(widget));
+        qDebug("Something went wrong while string decoding. (event = %d, object= %d)", long(data.event), long(widget));
     }
 }
 

@@ -8,7 +8,6 @@
 #include <QPair>
 
 #include "AbstractCommand.h"
-#include "ExecutionThread.h"
 
 typedef QMap<QEvent::Type, AbstractCommand*> TypeCommandMap;
 class AbstractObjectNameMapper;
@@ -39,8 +38,7 @@ protected:
     QString m_output;
 private:
 
-	TypeCommandMap m_commandMap;
-    ExecutionThread m_pauseThread;
+    TypeCommandMap m_commandMap;
     AbstractObjectNameMapper* m_pNameMapper;
 };
 
