@@ -3,7 +3,11 @@ GLOBTOP = $$PWD
 include ($$GLOBTOP/images/globresources.pri)
 include ($$GLOBTOP/translations/translations.pri)
 
-VERSION = 0.2
+VERSION = 0.3
+
+# dirs
+THIRDPARTYDIR = $$GLOBTOP/third_party/
+MARTLETCOMMONDIR = $$GLOBTOP/matletcommon/
 
  message(Qt version: $$[QT_VERSION])
   message(Qt is installed in $$[QT_INSTALL_PREFIX])

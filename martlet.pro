@@ -6,4 +6,5 @@ SUBDIRS  = martex/libqtload \
            third_party/xmlrpc \
            martletcommon \
            martex \
+           martlet \
            qspy
