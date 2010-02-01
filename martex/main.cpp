@@ -6,11 +6,11 @@
 #include <QFile>
 #include <QDebug>
 
-//#ifdef Q_OS_WIN
-//#include <windows.h>
-//#else
-//#include <dlfcn.h>
-//#endif
+#ifdef Q_OS_WIN
+#include <windows.h>
+#else
+#include <dlfcn.h>
+#endif
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     }
 	QString str(QObject::tr("translate me"));
 
-//#ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
 
         const QString appName(argv[1]);
 		QInjector inj;
@@ -36,13 +36,13 @@ int main(int argc, char *argv[])
             qDebug()<<"Application does not exist. Given "<< appName;            
         }
 
-/*#else
+#else
 		    int ret;
             char *nargv[] = { (char *)0 };
             char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libQtLoad.so", (char *)0 };
             ret = execve (argv[1], nargv, env);
 
-#endif*/
+#endif
 			return a.exec();
         return 0;
 }

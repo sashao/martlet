@@ -14,6 +14,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QPointer>
 #include <QDebug>
 
 
@@ -42,6 +43,8 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 	pe = QDesignerComponents::createPropertyEditor(m_formeditor, 0);
 //	pe->moveToThread(QCoreApplication::instance()->thread());
 	pe->setWindowTitle(tr("Property editor"));
+//    pe->setReadOnly(true);
+
 //	m_ui->splitter->addWidget(oi);
 	m_ui->splitter->addWidget(pe);
 
@@ -49,11 +52,9 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 
 	createActions();
 	createTrayIcon();
-
-//	connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-//	    this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
-	connect(pe, SIGNAL(propertyChanged(const QString &, const QVariant &)),
-			this, SLOT(handle_propertyChanged(const QString &, const QVariant &)));
+    
+	connect(pe, SIGNAL(propertyChanged(QString,  QVariant)),
+			this, SLOT(handle_propertyChanged(QString,  QVariant)));
 
 	trayIcon->show();
 	this->show();
@@ -76,14 +77,23 @@ void QSpyWidget::setObject(QObject * obj)
 
 	updateObjectTree(obj);
 //	if (updateObjectTree(obj))
-//		pe->setObject(obj);
+		pe->setObject(obj);
 }
 
 bool QSpyWidget::updateObjectTree(QObject * obj)
 {
+		static QPointer<QWidget> ww;
+
 	if (obj && obj->isWidgetType())
 	{
+		qDebug(" Object name %s", qPrintable(obj->objectName()));
 		QWidget* w = qobject_cast<QWidget *>(obj);
+/*		if (ww.isNull()) ww= new QWidget();
+		ww->setAutoFillBackground(true);
+		ww->setParent(w);
+		ww->setGeometry(QRect(QPoint(0,0), w->size() ));
+		ww->show();
+		ww->raise();                */
 		m_top = w->topLevelWidget();
 		if (m_top == this) return false;
 
@@ -206,7 +216,7 @@ void QSpyWidget::on_treeWidget_itemClicked(QTreeWidgetItem* item, int /*column*/
 
 void QSpyWidget::handle_propertyChanged ( const QString & name, const QVariant & value )
 {
-	qWarning("TODO: %s:%d", __FILE__, __LINE__);
-	pe->object()->setProperty(name.toLocal8Bit(), value);
+    qDebug()<< "Changing property "<< name << " to "<< value;
+	pe->object()->setProperty(qPrintable(name), value);
 }
 

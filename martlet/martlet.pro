@@ -28,4 +28,5 @@ RESOURCES   += $$GLOBRESOURCES
 DESTDIR = $$GLOBTOP/bin
 
 INCLUDEPATH += $$THIRDPARTYDIR $$MARTLETCOMMONDIR
-LIBS += martletcommon xmlrpc
+LIBS += -lmartletcommon -lqxmlrpc
+LIBPATH += $$GLOBTOP/bin
