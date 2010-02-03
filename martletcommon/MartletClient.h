@@ -26,6 +26,11 @@ public:
      void uploadScript(const QString& relativePath, const QString& scriptLines);
      void paly(const QString& relativePath);
      
+     void startRecording();
+     void stopRecording();
+     // TODO: temporary thing. Remove this.
+     QString getRecorded();
+    
 signals:
     void aplicationStarted(int portID);
 

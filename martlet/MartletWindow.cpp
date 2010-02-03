@@ -1,11 +1,14 @@
 #include "MartletWindow.h"
 #include "ui_MartletWindow.h"
+#include "CSVEventFabric.h"
+
 
 MartletWindow::MartletWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MartletWindow)
 {
     ui->setupUi(this);
+    AbstractEventFabric::setInstance(new CSVEventFabric(this));
 }
 
 MartletWindow::~MartletWindow()
@@ -23,4 +26,29 @@ void MartletWindow::changeEvent(QEvent *e)
     default:
         break;
     }
+}
+
+void MartletWindow::on_pushButton_3_toggled(bool checked)
+{
+    if (checked) {
+        m_client->startRecording();
+    } else {
+        m_client->stopRecording();
+        ui->serverTextEdit->appendPlainText(m_client->
+    }
+}
+
+void MartletWindow::on_pushButton_4_clicked()
+{
+    // play
+}
+
+void MartletWindow::on_pushButton_clicked()
+{
+    // start server
+    
+    m_server = new MartletServer;
+
+    m_client = new MartletClient;
+
 }

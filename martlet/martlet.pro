@@ -8,7 +8,7 @@ QT       += network script xml
 
 TARGET = martlet
 TEMPLATE = app
-
+CONFIG += debug
 
 SOURCES += main.cpp\
         MartletWindow.cpp
@@ -27,6 +27,8 @@ TRANSLATIONS = $$GLOBTRANS
 RESOURCES   += $$GLOBRESOURCES
 DESTDIR = $$GLOBTOP/bin
 
-INCLUDEPATH += $$THIRDPARTYDIR $$MARTLETCOMMONDIR
+INCLUDEPATH += $$MARTLETCOMMONDIR
+INCLUDEPATH += $$THIRDPARTYDIR
+#message(Martlet common dir !!!!!!!!!  $$MARTLETCOMMONDIR $$THIRDPARTYDIR $$GLOBTOP)
 LIBS += -lmartletcommon -lqxmlrpc
 LIBPATH += $$GLOBTOP/bin

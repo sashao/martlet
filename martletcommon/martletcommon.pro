@@ -7,7 +7,7 @@ DEPENDPATH += .
 INCLUDEPATH += .
 CONFIG += warn_on
 CONFIG += staticlib
-CONFIG += debug_and_release
+CONFIG += debug
 QT += xml
 QT += network
 

@@ -31,11 +31,40 @@ xmlrpc::Client* MartletClient::client()
 
 void MartletClient::processReturnValue( int requestId, QVariant value )
 {
-    client();
+    //client();
 }
 
 void MartletClient::processFault( int requestId, int errorCode, QString errorString )
 {
     QMessageBox::critical(0, "Error", errorString, QMessageBox::Ok);
 }
+
+void MartletClient::startApp(const QString& path, const QString& parameters)
+{
+}
+
+void MartletClient::uploadScript(const QString& relativePath, const QString& scriptLines)
+{
+}
+
+void MartletClient::paly(const QString& relativePath)
+{
+}
+
+     
+void MartletClient::startRecording()
+{
+    client()->request("recording::start");
+}
+
+void MartletClient::stopRecording()
+{
+    client()->request("recording::stop");
+}
+
+QString MartletClient::getRecorded()
+{
+    //client()->
+}
+
 

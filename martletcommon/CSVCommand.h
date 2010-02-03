@@ -11,7 +11,7 @@ class CSVCommand : public AbstractCommand
 public:
 	CSVCommand(QObject *parent);
 
-	virtual bool canDeserialize(const QString commanStr){ return false; }
+	virtual bool canDeserialize(const QString ){ return false; }
 
 protected:
     void fillDataFromList(CommandData& data, QStringList& list) const;
