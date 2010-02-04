@@ -36,7 +36,10 @@ void MartletClient::processReturnValue( int requestId, QVariant value )
 
 void MartletClient::processFault( int requestId, int errorCode, QString errorString )
 {
-    QMessageBox::critical(0, "Error", errorString, QMessageBox::Ok);
+    QMessageBox::warning(0, tr("Request failed"),
+         QString("XML-RPC request  failed.\n\nFault code: %1\n'%2'\n") \
+         .arg(errorCode).arg(errorString),
+         QMessageBox::Ok );
 }
 
 void MartletClient::startApp(const QString& path, const QString& parameters)
@@ -45,10 +48,12 @@ void MartletClient::startApp(const QString& path, const QString& parameters)
 
 void MartletClient::uploadScript(const QString& relativePath, const QString& scriptLines)
 {
+    client()->request("playback::upload", relativePath, scriptLines );
 }
 
-void MartletClient::paly(const QString& relativePath)
+void MartletClient::play(const QString& relativePath)
 {
+    client()->request("playback::play", relativePath );
 }
 
      

@@ -24,7 +24,7 @@ public:
 public:
      void startApp(const QString& path, const QString& parameters);
      void uploadScript(const QString& relativePath, const QString& scriptLines);
-     void paly(const QString& relativePath);
+     void play(const QString& relativePath);
      
      void startRecording();
      void stopRecording();

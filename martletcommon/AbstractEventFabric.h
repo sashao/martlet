@@ -30,6 +30,7 @@ public:
     inline QString getOutput() const;
 
     virtual void playSingleLineEvent(const QString& commandStr);
+    virtual void playAll(const QString& commandStrings);
 
 protected:
     CommandData deserializeEvent(const QString& commandStr);

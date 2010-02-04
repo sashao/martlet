@@ -48,7 +48,15 @@ QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 
 void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
 {
+    // Omit empty strings
+    if (commandStr.isEmpty()) return;
     CommandData data = deserializeEvent(commandStr);
+    // Sanity check
+    if (!data.isValid()) {
+        qWarning("Error Deserializating '%s'", qPrintable(commandStr));
+        return;
+    }
+
     QObject* widget = m_pNameMapper->getObjectFromName(data.objNameString);
     if (data.isValid() && (widget != 0)) {
         QTime timer;
@@ -79,6 +87,14 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
     }
 }
 
+void AbstractEventFabric::playAll(const QString& commandStrings)
+{
+    QStringList list = commandStrings.split('\n');
+    QString line;
+    foreach (line, list) {
+        playSingleLineEvent(line);
+    }
+}
 
 CommandData AbstractEventFabric::deserializeEvent(const QString& commandStr)
 {

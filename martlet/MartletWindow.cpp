@@ -34,13 +34,14 @@ void MartletWindow::on_pushButton_3_toggled(bool checked)
         m_client->startRecording();
     } else {
         m_client->stopRecording();
-        ui->serverTextEdit->appendPlainText(m_client->
     }
 }
 
 void MartletWindow::on_pushButton_4_clicked()
 {
     // play
+    m_client->uploadScript("main.csv", ui->plainTextEdit->toPlainText());
+    m_client->play("main.csv");
 }
 
 void MartletWindow::on_pushButton_clicked()

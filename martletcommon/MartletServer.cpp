@@ -1,5 +1,6 @@
 #include "MartletServer.h"
 #include "xmlrpc/server.h"
+#include "AbstractEventFabric.h"
 
 
 MartletServer::MartletServer():
@@ -10,7 +11,10 @@ MartletServer::MartletServer():
     //register sum and difference methods, with return type int and two int parameters
     server->registerMethod( "recording::start", QVariant::Int );
     server->registerMethod( "recording::stop" , QVariant::Int);
-
+    
+    server->registerMethod( "playback::upload" , QVariant::Int, QVariant::String, QVariant::String);
+    server->registerMethod( "playback::play"   , QVariant::Int, QVariant::String);
+    
     connect( server, SIGNAL(incomingRequest( int, QString, QList<xmlrpc::Variant>)),
              this, SLOT(processRequest( int, QString, QList<xmlrpc::Variant>)));
     
@@ -37,11 +41,31 @@ void MartletServer::processRequest( int requestId, QString methodName, QList<xml
         qDebug() << methodName <<  "   params: " << parameters;// << x << y; 
         m_catcher.startRecording();
         server->sendReturnValue( requestId, 0 );
-    }
-    
-    if ( methodName == "recording::stop" ) {
+    } else if ( methodName == "recording::stop" ) {
         m_catcher.stopRecording();
-        server->sendReturnValue( requestId, 0 );
+        server->sendReturnValue( requestId, 0 ); 
+    } else if ( methodName == "playback::upload" ) {
+        server->sendReturnValue( requestId, uploadScript(parameters[0].toString(), parameters[1].toString()));
+    } else if ( methodName == "playback::play" ) {
+        QString path = parameters[0].toString();
+        server->sendReturnValue( requestId, play(path));
+    } else {
+        qDebug() << " Unhandled request "<< methodName;
     }
-    qDebug() << " Done badly :("; 
 }
+
+int MartletServer::uploadScript(const QString& relativePath, const QString& scriptLines)
+{
+    m_filesystem.insert(relativePath, scriptLines);
+    return 0;
+}
+
+int MartletServer::play(const QString& relativePath)
+{
+    AbstractEventFabric::instance()->playAll(m_filesystem.value(relativePath));
+    return 0;
+}
+
+
+
+
