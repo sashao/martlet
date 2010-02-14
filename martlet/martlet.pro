@@ -30,5 +30,5 @@ DESTDIR = $$GLOBTOP/bin
 INCLUDEPATH += $$MARTLETCOMMONDIR
 INCLUDEPATH += $$THIRDPARTYDIR
 #message(Martlet common dir !!!!!!!!!  $$MARTLETCOMMONDIR $$THIRDPARTYDIR $$GLOBTOP)
-LIBS += -lmartletcommon -lqxmlrpc
+LIBS += -lmartletcommon -lqxmlrpc -lloki
 LIBPATH += $$GLOBTOP/bin
