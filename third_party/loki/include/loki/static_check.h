@@ -15,7 +15,7 @@
 #ifndef LOKI_STATIC_CHECK_INC_
 #define LOKI_STATIC_CHECK_INC_
 
-// $Id: static_check.h 752 2006-10-17 19:52:18Z syntheticpp $
+// $Id: static_check.h 982 2009-01-31 07:51:27Z rich_sposato $
 
 
 namespace Loki
@@ -29,8 +29,8 @@ namespace Loki
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// macro STATIC_CHECK
-// Invocation: STATIC_CHECK(expr, id)
+// macro LOKI_STATIC_CHECK
+// Invocation: LOKI_STATIC_CHECK(expr, id)
 // where:
 // expr is a compile-time integral or pointer expression
 // id is a C++ identifier that does not need to be defined

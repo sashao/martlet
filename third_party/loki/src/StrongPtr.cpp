@@ -10,7 +10,7 @@
 //     without express or implied warranty.
 ////////////////////////////////////////////////////////////////////////////////
 
-// $Id: StrongPtr.cpp 819 2007-03-07 00:30:12Z rich_sposato $
+// $Id: StrongPtr.cpp 1052 2009-11-10 19:22:16Z rich_sposato $
 
 
 #include <loki/StrongPtr.h>
@@ -53,6 +53,24 @@ TwoRefCounts::TwoRefCounts( const void * p, bool strong )
 #endif
     void * p2 = const_cast< void * >( p );
     m_counts = new ( temp ) Loki::Private::TwoRefCountInfo( p2, strong );
+}
+
+// ----------------------------------------------------------------------------
+
+TwoRefCounts::TwoRefCounts( const TwoRefCounts & rhs, bool isNull, bool strong )
+    : m_counts( ( isNull ) ? NULL : rhs.m_counts )
+{
+    if ( isNull )
+    {
+        void * temp = SmallObject<>::operator new(
+            sizeof(Loki::Private::TwoRefCountInfo) );
+        assert( temp != 0 );
+        m_counts = new ( temp ) Loki::Private::TwoRefCountInfo( strong );
+    }
+    else
+    {
+        Increment( strong );
+    }
 }
 
 // ----------------------------------------------------------------------------
@@ -143,6 +161,35 @@ TwoRefLinks::TwoRefLinks( const TwoRefLinks & rhs, bool strong )
     assert( CountPrevCycle( this ) == CountNextCycle( &rhs ) );
     assert( AllNodesHaveSamePointer() );
 #endif
+}
+
+// ----------------------------------------------------------------------------
+
+TwoRefLinks::TwoRefLinks( const TwoRefLinks & rhs, bool isNull, bool strong )
+    : m_pointer( ( isNull ) ? 0 : rhs.m_pointer )
+    , m_prev( ( isNull ) ? 0 : const_cast< TwoRefLinks * >( &rhs ) )
+    , m_next( ( isNull ) ? 0 : rhs.m_next )
+    , m_strong( strong )
+{
+    if ( isNull )
+    {
+        m_prev = m_next = this;
+    }
+    else
+    {
+        m_prev->m_next = this;
+        m_next->m_prev = this;
+
+#ifdef DO_EXTRA_LOKI_TESTS
+        assert( m_prev->HasPrevNode( this ) );
+        assert( m_next->HasNextNode( this ) );
+        assert( rhs.m_next->HasNextNode( this ) );
+        assert( rhs.m_prev->HasPrevNode( this ) );
+        assert( CountPrevCycle( this ) == CountNextCycle( this ) );
+        assert( CountPrevCycle( this ) == CountNextCycle( &rhs ) );
+        assert( AllNodesHaveSamePointer() );
+#endif
+    }
 }
 
 // ----------------------------------------------------------------------------

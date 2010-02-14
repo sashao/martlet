@@ -329,6 +329,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\include\loki\ThreadLocal.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\loki\Threads.h"
 				>
 			</File>
@@ -389,6 +393,38 @@
 				</File>
 				<File
 					RelativePath="..\loki\include\loki\flex\vectorstringstorage.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="yasli"
+				>
+				<File
+					RelativePath="..\include\loki\yasli\platform.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\loki\yasli\random.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\loki\yasli\yasli_fill_iterator.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\loki\yasli\yasli_memory.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\loki\yasli\yasli_protocols.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\loki\yasli\yasli_traits.h"
+					>
+				</File>
+				<File
+					RelativePath="..\include\loki\yasli\yasli_vector.h"
 					>
 				</File>
 			</Filter>

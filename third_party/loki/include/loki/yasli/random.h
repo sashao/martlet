@@ -1,10 +1,12 @@
 #ifndef YASLI_RANDOM_H_
 #define YASLI_RANDOM_H_
 
-// $Id: random.h 754 2006-10-17 19:59:11Z syntheticpp $
+// $Id: random.h 1022 2009-09-26 21:03:36Z rich_sposato $
 
 
 #include <ctime>
+#include <limits.h>
+
 
 class Random 
 {

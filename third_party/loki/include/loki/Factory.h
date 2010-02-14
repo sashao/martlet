@@ -13,7 +13,7 @@
 #ifndef LOKI_FACTORYPARM_INC_
 #define LOKI_FACTORYPARM_INC_
 
-// $Id: Factory.h 788 2006-11-24 22:30:54Z clitte_bbt $
+// $Id: Factory.h 1066 2009-12-22 11:35:46Z syntheticpp $
 
 
 #include "LokiTypeInfo.h"
@@ -751,6 +751,7 @@ template <typename AP, typename Id, typename P1 >
     >
     class Factory : public FactoryErrorPolicy<IdentifierType, AbstractProduct>
     {
+    protected:
         typedef FactoryImpl< AbstractProduct, IdentifierType, CreatorParmTList > Impl;
 
         typedef typename Impl::Parm1 Parm1;
@@ -771,6 +772,7 @@ template <typename AP, typename Id, typename P1 >
 
         typedef Functor<AbstractProduct*, CreatorParmTList> ProductCreator;
 
+    private:
         typedef AssocVector<IdentifierType, ProductCreator> IdToProductMap;
 
         IdToProductMap associations_;
@@ -804,6 +806,11 @@ template <typename AP, typename Id, typename P1 >
         bool Unregister(const IdentifierType& id)
         {
             return associations_.erase(id) != 0;
+        }
+
+        bool IsRegistered(const IdentifierType& id)
+        {
+            return associations_.find(id) != associations_.end();
         }
 
         std::vector<IdentifierType> RegisteredIds()

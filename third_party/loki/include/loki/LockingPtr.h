@@ -19,7 +19,7 @@
 #ifndef LOKI_LOCKING_PTR_INC_
 #define LOKI_LOCKING_PTR_INC_
 
-// $Id: LockingPtr.h 840 2008-03-19 19:44:38Z rich_sposato $
+// $Id: LockingPtr.h 1020 2009-09-26 20:28:24Z rich_sposato $
 
 
 #include <loki/ConstPolicy.h>
@@ -60,7 +60,7 @@ namespace Loki
         /** Constructor locks mutex associated with an object.
          @param lockpair a std::pair of pointers to the object and the mutex
          */
-        LockingPtr( Pair lockpair )
+        explicit LockingPtr( Pair lockpair )
            : pObject_( const_cast< SharedObject * >( lockpair.first ) ),
             pMutex_( lockpair.second )
         {

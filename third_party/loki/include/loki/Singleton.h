@@ -15,7 +15,7 @@
 #ifndef LOKI_SINGLETON_INC_
 #define LOKI_SINGLETON_INC_
 
-// $Id: Singleton.h 834 2007-08-02 19:36:10Z syntheticpp $
+// $Id: Singleton.h 1016 2009-08-16 20:33:52Z syntheticpp $
 
 
 #include "LokiExport.h"
@@ -815,8 +815,8 @@ namespace Loki
         {
             if (destroyed_)
             {
-                destroyed_ = false;
                 LifetimePolicy<T>::OnDeadReference();
+                destroyed_ = false;
             }
             pInstance_ = CreationPolicy<T>::Create();
             LifetimePolicy<T>::ScheduleDestruction(pInstance_, 

@@ -15,7 +15,7 @@
 #ifndef LOKI_THREADS_INC_
 #define LOKI_THREADS_INC_
 
-// $Id: Threads.h 902 2008-11-10 05:47:06Z rich_sposato $
+// $Id: Threads.h 1015 2009-08-16 20:29:58Z syntheticpp $
 
 
 ///  @defgroup  ThreadingGroup Threading
@@ -92,6 +92,9 @@
 #define LOKI_THREADS_MUTEX_CTOR(x)
 
 #define LOKI_THREADS_ATOMIC_FUNCTIONS                                   \
+    private:                                                            \
+        static CRITICAL_SECTION atomic_mutex_;                          \
+    public:                                                             \
         static IntType AtomicMultiply(volatile IntType& lval, const IntType val) \
         {                                                               \
             ::EnterCriticalSection( &atomic_mutex_ );                   \
@@ -523,6 +526,19 @@ namespace Loki
     {
         struct Initializer
         {
+
+            /// This function provides a Scott-Meyers type of Singleton as the initializer
+            /// for the shared mutex.
+            static Initializer & GetIt( void )
+            {
+                static Initializer initializer_;
+                return initializer_;
+            }
+
+            inline bool IsInit( void ) { return init_; }
+            inline MutexPolicy & GetMutex( void ) { return mtx_; }
+
+        private:
             bool init_;
             MutexPolicy mtx_;
 
@@ -535,9 +551,10 @@ namespace Loki
             {
                 assert(init_);
             }
-        };
 
-        static Initializer initializer_;
+            Initializer( const Initializer & );
+            Initializer & operator = ( const Initializer & );
+        };
 
     public:
 
@@ -553,29 +570,33 @@ namespace Loki
             /// Lock class
             Lock()
             {
-                assert(initializer_.init_);
-                initializer_.mtx_.Lock();
+                Initializer & initializer = Initializer::GetIt();
+                assert( initializer.IsInit() );
+                initializer.GetMutex().Lock();
             }
 
             /// Lock class
             explicit Lock(const ClassLevelLockable&)
             {
-                assert(initializer_.init_);
-                initializer_.mtx_.Lock();
+                Initializer & initializer = Initializer::GetIt();
+                assert( initializer.IsInit() );
+                initializer.GetMutex().Lock();
             }
 
             /// Lock class
             explicit Lock(const ClassLevelLockable*)
             {
-                assert(initializer_.init_);
-                initializer_.mtx_.Lock();
+                Initializer & initializer = Initializer::GetIt();
+                assert( initializer.IsInit() );
+                initializer.GetMutex().Lock();
             }
 
             /// Unlock class
             ~Lock()
             {
-                assert(initializer_.init_);
-                initializer_.mtx_.Unlock();
+                Initializer & initializer = Initializer::GetIt();
+                assert( initializer.IsInit() );
+                initializer.GetMutex().Unlock();
             }
 
         private:
@@ -595,10 +616,6 @@ namespace Loki
     template <class Host, class MutexPolicy>
     pthread_mutex_t ClassLevelLockable<Host, MutexPolicy>::atomic_mutex_ = PTHREAD_MUTEX_INITIALIZER;
 #endif
-
-    template < class Host, class MutexPolicy >
-    typename ClassLevelLockable< Host, MutexPolicy >::Initializer
-    ClassLevelLockable< Host, MutexPolicy >::initializer_;
 
 #endif // #if defined(LOKI_WINDOWS_H) || defined(LOKI_PTHREAD_H)
 

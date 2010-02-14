@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //
 // LevelMutex facility for the Loki Library
-// Copyright (c) 2008 Richard Sposato
+// Copyright (c) 2008, 2009 Richard Sposato
 // The copyright on this file is protected under the terms of the MIT license.
 //
 // Permission to use, copy, modify, distribute and sell this software for any
@@ -18,15 +18,22 @@
 
 /// @file LevelMutex.cpp Contains functions needed by LevelMutex class.
 
+
 // ----------------------------------------------------------------------------
 
-#if (!defined(__CYGWIN__) || (defined(__CYGWIN__) && __GNUC__ > 3)) && !defined(__APPLE__)
+#include "../include/loki/LevelMutex.h"
 
-#include <loki/LevelMutex.h>
+#if defined( LOKI_THREAD_LOCAL )
 
+#if !defined( _MSC_VER )
+    #include <unistd.h> // needed for usleep function.
+#endif
 #include <algorithm>
 #include <cerrno>
-
+#if defined( DEBUG ) || defined( _DEBUG )
+    #define DEBUG_LOKI_LEVEL_MUTEX 1
+    #include <iostream>
+#endif
 
 using namespace ::std;
 
@@ -574,7 +581,6 @@ void LevelMutexInfo::DecrementCount( void ) volatile
 
 bool LevelMutexInfo::IsLockedByCurrentThread( void ) const volatile
 {
-    assert( IsValid() );
     LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     if ( !IsLocked() )
@@ -593,7 +599,6 @@ bool LevelMutexInfo::IsLockedByCurrentThread( void ) const volatile
 
 bool LevelMutexInfo::IsRecentLock( void ) const volatile
 {
-    assert( IsValid() );
     LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     if ( 0 == m_count )
@@ -615,7 +620,6 @@ bool LevelMutexInfo::IsRecentLock( void ) const volatile
 
 bool LevelMutexInfo::IsRecentLock( unsigned int count ) const volatile
 {
-    assert( IsValid() );
     LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     if ( 0 == count )
@@ -636,7 +640,6 @@ bool LevelMutexInfo::IsRecentLock( unsigned int count ) const volatile
 
 bool LevelMutexInfo::IsLockedByAnotherThread( void ) const volatile
 {
-    assert( IsValid() );
     LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     if ( !IsLocked() )
@@ -652,12 +655,11 @@ bool LevelMutexInfo::IsLockedByAnotherThread( void ) const volatile
 
 void LevelMutexInfo::PostLock( void ) volatile
 {
-    assert( IsValid() );
+    LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
     assert( 0 == m_count );
     assert( nullptr == m_previous );
     assert( this != s_currentMutex );
     assert( !IsLockedByCurrentThread() );
-    LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     m_count = 1;
     m_previous = s_currentMutex;
@@ -668,12 +670,11 @@ void LevelMutexInfo::PostLock( void ) volatile
 
 void LevelMutexInfo::PreUnlock( void ) volatile
 {
-    assert( IsValid() );
+    LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
     assert( 1 == m_count );
     assert( nullptr != s_currentMutex );
     assert( this == s_currentMutex );
     assert( IsLockedByCurrentThread() );
-    LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     s_currentMutex = m_previous;
     m_previous = nullptr;
@@ -684,7 +685,6 @@ void LevelMutexInfo::PreUnlock( void ) volatile
 
 MutexErrors::Type LevelMutexInfo::PreLockCheck( bool forTryLock ) volatile
 {
-    assert( IsValid() );
     LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     const unsigned int currentLevel = GetCurrentThreadsLevel();
@@ -719,7 +719,6 @@ MutexErrors::Type LevelMutexInfo::PreLockCheck( bool forTryLock ) volatile
 
 MutexErrors::Type LevelMutexInfo::PreUnlockCheck( void ) volatile
 {
-    assert( IsValid() );
     LOKI_MUTEX_DEBUG_CODE( Checker checker( this ); (void)checker; )
 
     if ( 0 == m_count )
@@ -760,9 +759,9 @@ MutexErrors::Type ThrowOnBadDesignMutexError::CheckError( MutexErrors::Type erro
     unsigned int level )
 {
     if ( ( error == MutexErrors::LevelTooHigh )
-        && ( error == MutexErrors::LevelTooLow ) )
+      || ( error == MutexErrors::LevelTooLow ) )
     {
-        throw MutexException( "Error occurred using mutex.", level, error );
+        throw MutexException( "Design error! Program used mutexes in wrong order.", level, error );
     }
     return error;
 }
@@ -774,7 +773,9 @@ void MutexSleepWaits::Wait( void )
 #if defined( _MSC_VER )
     ::SleepEx( sleepTime, true );
 #else
-    ::sleep( sleepTime );
+    if ( 0 == sleepTime )
+        sleepTime = 1;
+    ::usleep( sleepTime * 1000 );
 #endif
 }
 
@@ -791,6 +792,9 @@ SpinLevelMutex::SpinLevelMutex( unsigned int level ) :
     switch ( result )
     {
         case 0:
+//#if defined( DEBUG_LOKI_LEVEL_MUTEX )
+//            cout << __FUNCTION__ << '\t' << __LINE__ << endl;
+//#endif
             return;
         case EBUSY:
             throw MutexException( "pthread mutex already initialized!",
@@ -802,6 +806,18 @@ SpinLevelMutex::SpinLevelMutex( unsigned int level ) :
         case EFAULT:
             throw MutexException( "pthread mutex has an invalid address!",
                 level, MutexErrors::InvalidAddress );
+        case ENOMEM:
+            throw MutexException(
+                "System does not have enough memory to initialize a pthread mutex.",
+                level, MutexErrors::NotEnoughMemory );
+        case EPERM:
+            throw MutexException(
+                "Program does not have privilege to initialize a pthread mutex.",
+                level, MutexErrors::NotPrivileged );
+        case EAGAIN:
+            throw MutexException(
+                "Program does not have resources to initialize another pthread mutex.",
+                level, MutexErrors::NotEnoughResources );
     }
 #endif
 }
@@ -815,6 +831,9 @@ SpinLevelMutex::~SpinLevelMutex( void )
 #if defined( _MSC_VER )
         ::DeleteCriticalSection( &m_mutex );
 #else
+//#if defined( DEBUG_LOKI_LEVEL_MUTEX )
+//        cout << __FUNCTION__ << '\t' << __LINE__ << endl;
+//#endif
         ::pthread_mutex_destroy( &m_mutex );
 #endif
     }
@@ -838,17 +857,29 @@ MutexErrors::Type SpinLevelMutex::Lock( void ) volatile
     switch ( result )
     {
         case 0:
+//#if defined( DEBUG_LOKI_LEVEL_MUTEX )
+//            cout << __FUNCTION__ << '\t' << __LINE__ << endl;
+//#endif
             break;
         default:
         case EINVAL:
-            throw MutexException( "pthread mutex not initialized properly!",
-                GetLevel(), MutexErrors::NotInitialized );
+            throw MutexException( "pthread mutex locked by thread with lower priority!",
+                GetLevel(), MutexErrors::InvertedPriority );
         case EFAULT :
             throw MutexException( "pthread mutex is not valid!",
                 GetLevel(), MutexErrors::InvalidAddress );
         case EDEADLK:
             throw MutexException( "locking this pthread mutex may cause a deadlock!",
                 GetLevel(), MutexErrors::MayDeadlock );
+        case EBUSY:
+            throw MutexException( "Mutex is already locked by this thread.",
+                GetLevel(), MutexErrors::AlreadyLocked );
+        case EAGAIN:
+            throw MutexException( "Mutex already locked too many times by this thread.",
+                GetLevel(), MutexErrors::TooMuchRecursion );
+        case EPERM:
+            throw MutexException( "This thread does not own the mutex.",
+                GetLevel(), MutexErrors::NotPrivileged );
     }
 #endif
     return MutexErrors::Success;
@@ -869,6 +900,9 @@ MutexErrors::Type SpinLevelMutex::TryLock( void ) volatile
     switch ( result )
     {
         case 0:
+//#if defined( DEBUG_LOKI_LEVEL_MUTEX )
+//            cout << __FUNCTION__ << '\t' << __LINE__ << endl;
+//#endif
             return MutexErrors::Success;
         default:
         case EBUSY:
@@ -876,6 +910,9 @@ MutexErrors::Type SpinLevelMutex::TryLock( void ) volatile
         case EAGAIN:
             throw MutexException( "pthread mutex reached recursion limit!",
                 GetLevel(), MutexErrors::TooMuchRecursion );
+        case EINVAL:
+            throw MutexException( "pthread mutex locked by thread with lower priority!",
+                GetLevel(), MutexErrors::InvertedPriority );
     }
     return MutexErrors::TryFailed;
 #endif
@@ -895,34 +932,36 @@ MutexErrors::Type SpinLevelMutex::Unlock( void ) volatile
     if ( EPERM == result )
         throw MutexException( "current thread did not lock this pthread mutex!",
             GetLevel(), MutexErrors::NotLockedByThread );
+//#if defined( DEBUG_LOKI_LEVEL_MUTEX )
+//    cout << __FUNCTION__ << '\t' << __LINE__ << endl;
+//#endif
 #endif
     return MutexErrors::Success;
 }
 
 // ----------------------------------------------------------------------------
 
-#if defined( _MSC_VER )
-
 SleepLevelMutex::SleepLevelMutex( unsigned int level ) :
     SpinLevelMutex( level ),
-    m_sleepTime( 1 ),
-    m_wakable( true )
+    m_sleepTime( 1 )
+#if defined( _MSC_VER )
+    , m_wakable( true )
+#endif
 {
 }
 
 // ----------------------------------------------------------------------------
 
-#else
-
 SleepLevelMutex::SleepLevelMutex( unsigned int level, unsigned int sleepTime ) :
     SpinLevelMutex( level ),
-    m_sleepTime( sleepTime / 1000 )
+    m_sleepTime( sleepTime )
+#if defined( _MSC_VER )
+    , m_wakable( true )
+#endif
 {
     if ( 0 == m_sleepTime )
-        m_sleepTime = 1; // Can't have a resolution less than 1 second.
+        m_sleepTime = 1; // Can't have a resolution less than 1 millisecond.
 }
-
-#endif
 
 // ----------------------------------------------------------------------------
 
@@ -943,7 +982,7 @@ MutexErrors::Type SleepLevelMutex::Lock( void ) volatile
 #if defined( _MSC_VER )
         ::SleepEx( m_sleepTime, m_wakable );
 #else
-        ::sleep( m_sleepTime );
+        ::usleep( m_sleepTime * 1000 );
 #endif
     }
     return MutexErrors::Success;
@@ -1151,6 +1190,4 @@ bool MultiMutexLocker::Unlock( void )
 
 } // end namespace Loki
 
-
-#endif
-
+#endif // #if defined( LOKI_THREAD_LOCAL )

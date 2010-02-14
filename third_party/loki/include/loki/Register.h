@@ -12,11 +12,13 @@
 #ifndef LOKI_REGISTER_INC_
 #define LOKI_REGISTER_INC_
 
-// $Id: Register.h 776 2006-11-09 13:12:57Z syntheticpp $
+// $Id: Register.h 1060 2009-11-21 10:44:08Z syntheticpp $
 
 
 #include "TypeManip.h"
 #include "HierarchyGenerators.h"
+#include "ForEachType.h"
+
 
 ///  \defgroup RegisterGroup Register 
 
@@ -33,40 +35,38 @@ namespace Loki
     ///  \ingroup RegisterGroup
     ///  Must be specialized be the user
     ////////////////////////////////////////////////////////////////////////////////
-    template<class t> bool RegisterFunction();
+    template<class T> 
+    bool RegisterFunction();
 
     ////////////////////////////////////////////////////////////////////////////////
     ///  \ingroup RegisterGroup
     ///  Must be specialized be the user
     ////////////////////////////////////////////////////////////////////////////////
-    template<class t> bool UnRegisterFunction();
+    template<class T> 
+    bool UnRegisterFunction();
 
     namespace Private
     {
-        template<class T> 
         struct RegisterOnCreate
         {
-            RegisterOnCreate()  { RegisterFunction<T>(); }
+            template< int Index, typename T >
+            void operator()()
+            {
+                RegisterFunction<T>(); 
+            }
         };
 
-        template<class T> 
         struct UnRegisterOnDelete
         {
-            ~UnRegisterOnDelete() { UnRegisterFunction<T>(); }
-        };    
-
-        template<class T>
-        struct RegisterOnCreateElement
-        {
-            RegisterOnCreate<T> registerObj;
+            template< int Index, typename T >
+            void operator()()
+            {
+                UnRegisterFunction<T>();
+            }
         };
 
-        template<class T>
-        struct UnRegisterOnDeleteElement
-        {
-            UnRegisterOnDelete<T> unregisterObj;
-        };
     }
+
 
     ////////////////////////////////////////////////////////////////////////////////
     ///  \class RegisterOnCreateSet
@@ -79,9 +79,14 @@ namespace Loki
     ////////////////////////////////////////////////////////////////////////////////
 
     template<typename ElementList>
-    struct RegisterOnCreateSet 
-        : GenScatterHierarchy<ElementList, Private::RegisterOnCreateElement>
-    {};
+    struct RegisterOnCreateSet
+    {
+      RegisterOnCreateSet()
+      {
+        Private::RegisterOnCreate d;
+        ForEachType< ElementList, Private::RegisterOnCreate > dummy(d);
+      }
+    };
 
     ////////////////////////////////////////////////////////////////////////////////
     ///  \class UnRegisterOnDeleteSet
@@ -93,9 +98,14 @@ namespace Loki
     ///  see test/Register
     ////////////////////////////////////////////////////////////////////////////////
     template<typename ElementList>
-    struct UnRegisterOnDeleteSet 
-        : GenScatterHierarchy<ElementList, Private::UnRegisterOnDeleteElement>
-    {};
+    struct UnRegisterOnDeleteSet
+    {
+        ~UnRegisterOnDeleteSet()
+        {
+            Private::UnRegisterOnDelete d;
+            ForEachType< ElementList, Private::UnRegisterOnDelete > dummy(d);
+        }
+    };
 
 
     ////////////////////////////////////////////////////////////////////////////////

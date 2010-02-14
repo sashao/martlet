@@ -15,7 +15,7 @@
 #ifndef LOKI_SMARTPTR_INC_
 #define LOKI_SMARTPTR_INC_
 
-// $Id: SmartPtr.h 903 2008-11-10 05:55:12Z rich_sposato $
+// $Id: SmartPtr.h 1052 2009-11-10 19:22:16Z rich_sposato $
 
 
 ///  \defgroup  SmartPointerGroup Smart pointers
@@ -76,6 +76,8 @@ namespace Loki
         typedef T* PointerType;     /// type returned by operator->
         typedef T& ReferenceType;   /// type returned by operator*
 
+    protected:
+
         HeapStorage() : pointee_(Default())
         {}
 
@@ -88,7 +90,7 @@ namespace Loki
         HeapStorage(const HeapStorage<U>&) : pointee_(0)
         {}
 
-        HeapStorage(const StoredType& p) : pointee_(p) {}
+        explicit HeapStorage(const StoredType& p) : pointee_(p) {}
 
         PointerType operator->() const { return pointee_; }
 
@@ -107,7 +109,6 @@ namespace Loki
         template <class F>
         friend typename HeapStorage<F>::StoredType& GetImplRef(HeapStorage<F>& sp);
 
-    protected:
         // Destroys the data stored
         // (Destruction might be taken over by the OwnershipPolicy)
         void Destroy()
@@ -158,6 +159,8 @@ namespace Loki
         typedef T* PointerType;   // type returned by operator->
         typedef T& ReferenceType; // type returned by operator*
 
+    protected:
+
         DefaultSPStorage() : pointee_(Default())
         {}
 
@@ -170,7 +173,7 @@ namespace Loki
         DefaultSPStorage(const DefaultSPStorage<U>&) : pointee_(0)
         {}
 
-        DefaultSPStorage(const StoredType& p) : pointee_(p) {}
+        explicit DefaultSPStorage(const StoredType& p) : pointee_(p) {}
 
         PointerType operator->() const { return pointee_; }
 
@@ -189,12 +192,11 @@ namespace Loki
         template <class F>
         friend typename DefaultSPStorage<F>::StoredType& GetImplRef(DefaultSPStorage<F>& sp);
 
-    protected:
         // Destroys the data stored
         // (Destruction might be taken over by the OwnershipPolicy)
-		//
-		// If your compiler gives you a warning in this area while
-		// compiling the tests, it is on purpose, please ignore it.
+        //
+        // If your compiler gives you a warning in this area while
+        // compiling the tests, it is on purpose, please ignore it.
         void Destroy()
         {
             delete pointee_;
@@ -249,7 +251,7 @@ namespace Loki
     class Locker
     {
     public:
-        Locker( const T * p ) : pointee_( const_cast< T * >( p ) )
+        explicit Locker( const T * p ) : pointee_( const_cast< T * >( p ) )
         {
             if ( pointee_ != 0 )
                 pointee_->Lock();
@@ -287,15 +289,17 @@ namespace Loki
         typedef Locker< T > PointerType; /// type returned by operator->
         typedef T& ReferenceType;        /// type returned by operator*
 
+    protected:
+
         LockedStorage() : pointee_( Default() ) {}
 
         ~LockedStorage( void ) {}
 
         LockedStorage( const LockedStorage&) : pointee_( 0 ) {}
 
-        LockedStorage( const StoredType & p ) : pointee_( p ) {}
+        explicit LockedStorage( const StoredType & p ) : pointee_( p ) {}
 
-        PointerType operator->()
+        PointerType operator->() const
         {
             return Locker< T >( pointee_ );
         }
@@ -315,7 +319,6 @@ namespace Loki
         template <class F>
         friend typename LockedStorage<F>::StoredType& GetImplRef(LockedStorage<F>& sp);
 
-    protected:
         // Destroys the data stored
         // (Destruction might be taken over by the OwnershipPolicy)
         void Destroy()
@@ -360,10 +363,13 @@ namespace Loki
     class ArrayStorage
     {
     public:
+
         typedef T* StoredType;    // the type of the pointee_ object
         typedef T* InitPointerType; /// type used to declare OwnershipPolicy type.
         typedef T* PointerType;   // type returned by operator->
         typedef T& ReferenceType; // type returned by operator*
+
+    protected:
 
         ArrayStorage() : pointee_(Default())
         {}
@@ -377,7 +383,7 @@ namespace Loki
         ArrayStorage(const ArrayStorage<U>&) : pointee_(0)
         {}
 
-        ArrayStorage(const StoredType& p) : pointee_(p) {}
+        explicit ArrayStorage(const StoredType& p) : pointee_(p) {}
 
         PointerType operator->() const { return pointee_; }
 
@@ -396,7 +402,6 @@ namespace Loki
         template <class F>
         friend typename ArrayStorage<F>::StoredType& GetImplRef(ArrayStorage<F>& sp);
 
-    protected:
         // Destroys the data stored
         // (Destruction might be taken over by the OwnershipPolicy)
         void Destroy()
@@ -435,7 +440,7 @@ namespace Loki
     template <class P>
     class RefCounted
     {
-    public:
+    protected:
         RefCounted()
             : pCount_(static_cast<uintptr_t*>(
                 SmallObject<>::operator new(sizeof(uintptr_t))))
@@ -507,11 +512,13 @@ namespace Loki
         template <class P>
         class RefCountedMT : public ThreadingModel< RefCountedMT<P>, MX >
         {
+        public:
+
             typedef ThreadingModel< RefCountedMT<P>, MX > base_type;
             typedef typename base_type::IntType       CountType;
             typedef volatile CountType               *CountPtrType;
 
-        public:
+        protected:
             RefCountedMT()
             {
                 pCount_ = static_cast<CountPtrType>(
@@ -574,7 +581,7 @@ namespace Loki
     template <class P>
     class COMRefCounted
     {
-    public:
+    protected:
         COMRefCounted()
         {}
 
@@ -614,6 +621,7 @@ namespace Loki
     template <class P>
     struct DeepCopy
     {
+    protected:
         DeepCopy()
         {}
 
@@ -645,7 +653,7 @@ namespace Loki
     {
         class LOKI_EXPORT RefLinkedBase
         {
-        public:
+        protected:
             RefLinkedBase()
             { prev_ = next_ = this; }
 
@@ -673,7 +681,7 @@ namespace Loki
     template <class P>
     class RefLinked : public Private::RefLinkedBase
     {
-    public:
+    protected:
         RefLinked()
         {}
 
@@ -706,7 +714,7 @@ namespace Loki
     template <class P>
     class DestructiveCopy
     {
-    public:
+    protected:
         DestructiveCopy()
         {}
 
@@ -742,7 +750,7 @@ namespace Loki
     template <class P>
     class NoCopy
     {
-    public:
+    protected:
         NoCopy()
         {}
 
@@ -817,6 +825,8 @@ namespace Loki
     template <class P>
     struct NoCheck
     {
+    protected:
+
         NoCheck()
         {}
 
@@ -849,6 +859,8 @@ namespace Loki
     template <class P>
     struct AssertCheck
     {
+    protected:
+
         AssertCheck()
         {}
 
@@ -885,6 +897,8 @@ namespace Loki
     template <class P>
     struct AssertCheckStrict
     {
+    protected:
+
         AssertCheckStrict()
         {}
 
@@ -939,6 +953,8 @@ namespace Loki
     template <class P>
     struct RejectNullStatic
     {
+    protected:
+
         RejectNullStatic()
         {}
 
@@ -987,6 +1003,8 @@ namespace Loki
     template <class P>
     struct RejectNull
     {
+    protected:
+
         RejectNull()
         {}
 
@@ -1021,6 +1039,8 @@ namespace Loki
     template <class P>
     struct RejectNullStrict
     {
+    protected:
+
         RejectNullStrict()
         {}
 
@@ -1152,6 +1172,45 @@ namespace Loki
         typedef typename Select<false, const StoredType&, NeverMatched>::Result ExplicitArg;
 #endif
 
+        /// SmartPtr uses this helper class to specify the dynamic-caster constructor.
+        class DynamicCastHelper {};
+
+        /// Private constructor is only used for dynamic-casting.
+        template
+        <
+            typename T1,
+            template < class > class OP1,
+            class CP1,
+            template < class > class KP1,
+            template < class > class SP1,
+            template < class > class CNP1
+        >
+        SmartPtr( const SmartPtr< T1, OP1, CP1, KP1, SP1, CNP1 > & rhs, const DynamicCastHelper & helper )
+        {
+            (void)helper; // do void cast to remove compiler warning.
+            // Dynamic casting from T1 to T and saving result in `this''s pointer
+            PointerType p = dynamic_cast< PointerType >( GetImplRef( rhs ) );
+            GetImplRef( *this ) = OP::Clone( p );
+        }
+
+        /// Private constructor is only used for dynamic-casting.
+        template
+        <
+            typename T1,
+            template < class > class OP1,
+            class CP1,
+            template < class > class KP1,
+            template < class > class SP1,
+            template < class > class CNP1
+        >
+        SmartPtr( SmartPtr< T1, OP1, CP1, KP1, SP1, CNP1 > & rhs, const DynamicCastHelper & helper )
+        {
+            (void)helper; // do void cast to remove compiler warning.
+            // Dynamic casting from T1 to T and saving result in `this''s pointer
+            PointerType p = dynamic_cast< PointerType >( GetImplRef( rhs ) );
+            GetImplRef( *this ) = OP::Clone( p );
+        }
+
     public:
 
         SmartPtr()
@@ -1186,7 +1245,9 @@ namespace Loki
         >
         SmartPtr(const SmartPtr<T1, OP1, CP1, KP1, SP1, CNP1 >& rhs)
         : SP(rhs), OP(rhs), KP(rhs), CP(rhs)
-        { GetImplRef(*this) = OP::Clone(GetImplRef(rhs)); }
+        {
+            GetImplRef(*this) = OP::Clone(GetImplRef(rhs));
+        }
 
         template
         <
@@ -1263,6 +1324,40 @@ namespace Loki
             {
                 SP::Destroy();
             }
+        }
+
+        /// Dynamically-casts parameter pointer to the type specified by this SmartPtr type.
+        template
+        <
+            typename T1,
+            template < class > class OP1,
+            class CP1,
+            template < class > class KP1,
+            template < class > class SP1,
+            template < class > class CNP1
+        >
+        SmartPtr & DynamicCastFrom( const SmartPtr< T1, OP1, CP1, KP1, SP1, CNP1 > & rhs )
+        {
+            SmartPtr temp( rhs, DynamicCastHelper() );
+            temp.Swap( *this );
+            return *this;
+        }
+
+        /// Dynamically-casts parameter pointer to the type specified by this SmartPtr type.
+        template
+        <
+            typename T1,
+            template < class > class OP1,
+            class CP1,
+            template < class > class KP1,
+            template < class > class SP1,
+            template < class > class CNP1
+        >
+        SmartPtr & DynamicCastFrom( SmartPtr< T1, OP1, CP1, KP1, SP1, CNP1 > & rhs )
+        {
+            SmartPtr temp( rhs, DynamicCastHelper() );
+            temp.Swap( *this );
+            return *this;
         }
 
 #ifdef LOKI_ENABLE_FRIEND_TEMPLATE_TEMPLATE_PARAMETER_WORKAROUND
@@ -1531,7 +1626,7 @@ namespace Loki
     >
     inline bool operator==(const SmartPtr<T, OP, CP, KP, SP, CNP1 >& lhs,
         U* rhs)
-    { return GetImpl(lhs) == rhs; }
+    { return ( GetImpl( lhs ) == rhs ); }
 
 ////////////////////////////////////////////////////////////////////////////////
 ///  operator== for lhs = raw pointer, rhs = SmartPtr
@@ -1550,7 +1645,7 @@ namespace Loki
     >
     inline bool operator==(U* lhs,
         const SmartPtr<T, OP, CP, KP, SP, CNP1 >& rhs)
-    { return rhs == lhs; }
+    { return ( GetImpl( rhs ) == lhs ); }
 
 ////////////////////////////////////////////////////////////////////////////////
 ///  operator!= for lhs = SmartPtr, rhs = raw pointer
@@ -1569,7 +1664,7 @@ namespace Loki
     >
     inline bool operator!=(const SmartPtr<T, OP, CP, KP, SP, CNP >& lhs,
         U* rhs)
-    { return !(lhs == rhs); }
+    { return ( GetImpl( lhs ) != rhs ); }
 
 ////////////////////////////////////////////////////////////////////////////////
 ///  operator!= for lhs = raw pointer, rhs = SmartPtr
@@ -1588,7 +1683,7 @@ namespace Loki
     >
     inline bool operator!=(U* lhs,
         const SmartPtr<T, OP, CP, KP, SP, CNP >& rhs)
-    { return rhs != lhs; }
+    { return ( GetImpl( rhs ) != lhs ); }
 
 ////////////////////////////////////////////////////////////////////////////////
 ///  operator< for lhs = SmartPtr, rhs = raw pointer
@@ -1629,7 +1724,7 @@ namespace Loki
     inline bool operator<(U* lhs,
         const SmartPtr<T, OP, CP, KP, SP, CNP >& rhs)
     {
-        return ( GetImpl( rhs ) < lhs );
+        return ( lhs < GetImpl( rhs ) );
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1649,7 +1744,7 @@ namespace Loki
     >
     inline bool operator>(const SmartPtr<T, OP, CP, KP, SP, CNP >& lhs,
         U* rhs)
-    { return rhs < lhs; }
+    { return rhs < GetImpl( lhs ); }
 
 ////////////////////////////////////////////////////////////////////////////////
 ///  operator> for lhs = raw pointer, rhs = SmartPtr
