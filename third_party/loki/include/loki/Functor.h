@@ -15,7 +15,7 @@
 #ifndef LOKI_FUNCTOR_INC_
 #define LOKI_FUNCTOR_INC_
 
-// $Id: Functor.h 750 2006-10-17 19:50:02Z syntheticpp $
+// $Id$
 
 
 #include "Typelist.h"

@@ -15,7 +15,7 @@
 #ifndef LOKI_TYPELIST_INC_
 #define LOKI_TYPELIST_INC_
 
-// $Id: Typelist.h 749 2006-10-17 19:49:26Z syntheticpp $
+// $Id$
 
 
 #include "NullType.h"

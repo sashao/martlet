@@ -15,7 +15,7 @@
 #ifndef LOKI_MULTIMETHODS_INC_
 #define LOKI_MULTIMETHODS_INC_
 
-// $Id: MultiMethods.h 984 2009-02-02 06:23:28Z rich_sposato $
+// $Id$
 
 
 #include "Typelist.h"

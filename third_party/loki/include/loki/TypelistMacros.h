@@ -15,7 +15,7 @@
 #ifndef LOKI_TYPELISTMACROS_INC_
 #define LOKI_TYPELISTMACROS_INC_
 
-// $Id: TypelistMacros.h 749 2006-10-17 19:49:26Z syntheticpp $
+// $Id$
 
 
 //#define LOKI_DISABLE_TYPELIST_MACROS

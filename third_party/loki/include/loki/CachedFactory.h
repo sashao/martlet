@@ -20,7 +20,7 @@
 #ifndef LOKI_CACHEDFACTORY_INC_
 #define LOKI_CACHEDFACTORY_INC_
 
-// $Id: CachedFactory.h 1054 2009-11-14 07:12:39Z rich_sposato $
+// $Id$
 
 #include <time.h> ///< For clock_t definition.
 #include <functional>

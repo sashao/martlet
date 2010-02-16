@@ -15,7 +15,7 @@
 #ifndef LOKI_SINGLETON_INC_
 #define LOKI_SINGLETON_INC_
 
-// $Id: Singleton.h 1016 2009-08-16 20:33:52Z syntheticpp $
+// $Id$
 
 
 #include "LokiExport.h"

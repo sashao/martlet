@@ -13,7 +13,7 @@
 //     without express or implied warranty.
 ////////////////////////////////////////////////////////////////////////////////
 
-// $Id: SmallObj.cpp 823 2007-05-08 10:48:40Z lfittl $
+// $Id$
 
 
 #include <loki/SmallObj.h>

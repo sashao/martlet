@@ -15,7 +15,7 @@
 #ifndef LOKI_SMALLOBJ_INC_
 #define LOKI_SMALLOBJ_INC_
 
-// $Id: SmallObj.h 806 2007-02-03 00:01:52Z rich_sposato $
+// $Id$
 
 
 #include "LokiExport.h"

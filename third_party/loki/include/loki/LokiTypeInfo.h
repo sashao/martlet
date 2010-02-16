@@ -15,7 +15,7 @@
 #ifndef LOKI_LOKITYPEINFO_INC_
 #define LOKI_LOKITYPEINFO_INC_
 
-// $Id: LokiTypeInfo.h 748 2006-10-17 19:49:08Z syntheticpp $
+// $Id$
 
 
 #include <typeinfo>

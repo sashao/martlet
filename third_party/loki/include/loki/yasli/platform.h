@@ -1,7 +1,7 @@
 #ifndef YASLI_PLATFORM_H_
 #define YASLI_PLATFORM_H_
 
-// $Id: platform.h 754 2006-10-17 19:59:11Z syntheticpp $
+// $Id$
 
 
 // Most conservative

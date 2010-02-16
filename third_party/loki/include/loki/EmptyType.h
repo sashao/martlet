@@ -15,7 +15,7 @@
 #ifndef LOKI_EMPTYTYPE_INC_
 #define LOKI_EMPTYTYPE_INC_
 
-// $Id: EmptyType.h 751 2006-10-17 19:50:37Z syntheticpp $
+// $Id$
 
 
 namespace Loki

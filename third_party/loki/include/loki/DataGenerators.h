@@ -12,7 +12,7 @@
 #ifndef LOKI_DATAGENERATORS_INC_
 #define LOKI_DATAGENERATORS_INC_
 
-// $Id: DataGenerators.h 751 2006-10-17 19:50:37Z syntheticpp $
+// $Id$
 
 
 #include "Typelist.h"

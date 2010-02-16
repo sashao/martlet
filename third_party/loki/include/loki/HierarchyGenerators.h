@@ -15,7 +15,7 @@
 #ifndef LOKI_HIERARCHYGENERATORS_INC_
 #define LOKI_HIERARCHYGENERATORS_INC_
 
-// $Id: HierarchyGenerators.h 751 2006-10-17 19:50:37Z syntheticpp $
+// $Id$
 
 
 #include "Typelist.h"

@@ -12,7 +12,7 @@
 #ifndef LOKI_ORDEREDSTATIC_INC_
 #define LOKI_ORDEREDSTATIC_INC_
 
-// $Id: OrderedStatic.h 751 2006-10-17 19:50:37Z syntheticpp $
+// $Id$
 
 
 #include <vector>

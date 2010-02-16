@@ -1,4 +1,4 @@
-// $Id: readme.txt 753 2006-10-17 19:54:22Z syntheticpp $
+// $Id$
 
 The Golden Code
 KEEPEN DER DAMDDEN FUGGERMUTTENS OTTEN DIS CODDEN FIL

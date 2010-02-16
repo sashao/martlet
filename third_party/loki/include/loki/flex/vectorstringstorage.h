@@ -13,7 +13,7 @@
 #ifndef VECTOR_STRING_STORAGE_INC_
 #define VECTOR_STRING_STORAGE_INC_
 
-// $Id: vectorstringstorage.h 1008 2009-03-13 12:07:15Z jfbastien $
+// $Id$
 
 
 /* This is the template for a storage policy

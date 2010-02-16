@@ -13,7 +13,7 @@
 #ifndef SIMPLE_STRING_STORAGE_INC_
 #define SIMPLE_STRING_STORAGE_INC_
 
-// $Id: simplestringstorage.h 1008 2009-03-13 12:07:15Z jfbastien $
+// $Id$
 
 
 /* This is the template for a storage policy

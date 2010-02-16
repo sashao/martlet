@@ -1,7 +1,7 @@
 #ifndef YASLI_RANDOM_H_
 #define YASLI_RANDOM_H_
 
-// $Id: random.h 1022 2009-09-26 21:03:36Z rich_sposato $
+// $Id$
 
 
 #include <ctime>

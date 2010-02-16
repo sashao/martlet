@@ -1,7 +1,7 @@
 #ifndef YASLI_FILL_ITERATOR_H_
 #define YASLI_FILL_ITERATOR_H_
 
-// $Id: yasli_fill_iterator.h 754 2006-10-17 19:59:11Z syntheticpp $
+// $Id$
 
 
 #include <iterator>

@@ -19,7 +19,7 @@
 #ifndef LOKI_LOCKING_PTR_INC_
 #define LOKI_LOCKING_PTR_INC_
 
-// $Id: LockingPtr.h 1020 2009-09-26 20:28:24Z rich_sposato $
+// $Id$
 
 
 #include <loki/ConstPolicy.h>

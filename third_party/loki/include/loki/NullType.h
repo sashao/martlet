@@ -15,7 +15,7 @@
 #ifndef LOKI_NULLTYPE_INC_
 #define LOKI_NULLTYPE_INC_
 
-// $Id: NullType.h 751 2006-10-17 19:50:37Z syntheticpp $
+// $Id$
 
 
 namespace Loki

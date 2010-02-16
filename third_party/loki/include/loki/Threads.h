@@ -15,7 +15,7 @@
 #ifndef LOKI_THREADS_INC_
 #define LOKI_THREADS_INC_
 
-// $Id: Threads.h 1015 2009-08-16 20:29:58Z syntheticpp $
+// $Id$
 
 
 ///  @defgroup  ThreadingGroup Threading

@@ -12,7 +12,7 @@
 #ifndef LOKI_PIMPL_INC_
 #define LOKI_PIMPL_INC_
 
-// $Id: Pimpl.h 751 2006-10-17 19:50:37Z syntheticpp $
+// $Id$
 
 
 ///  \defgroup PimplGroup Pimpl 

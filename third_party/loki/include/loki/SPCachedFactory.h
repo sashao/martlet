@@ -18,7 +18,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-// $Id: SPCachedFactory.h 896 2008-08-08 22:20:05Z syntheticpp $
+// $Id$
 
 #ifndef SPCACHEDFACTORY_H_
 #define SPCACHEDFACTORY_H_

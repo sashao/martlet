@@ -12,7 +12,7 @@
 #ifndef LOKI_SEQUENCE_INC_
 #define LOKI_SEQUENCE_INC_
 
-// $Id: Sequence.h 768 2006-10-25 20:40:40Z syntheticpp $
+// $Id$
 
 
 #include "Typelist.h"

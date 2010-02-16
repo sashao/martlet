@@ -13,7 +13,7 @@
 #ifndef COW_STRING_OPT_INC_
 #define COW_STRING_OPT_INC_
 
-// $Id: cowstringopt.h 1008 2009-03-13 12:07:15Z jfbastien $
+// $Id$
 
 
 ////////////////////////////////////////////////////////////////////////////////

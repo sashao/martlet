@@ -15,7 +15,7 @@
 #ifndef LOKI_VISITOR_INC_
 #define LOKI_VISITOR_INC_
 
-// $Id: Visitor.h 751 2006-10-17 19:50:37Z syntheticpp $
+// $Id$
 
 
 ///  \defgroup VisitorGroup Visitor

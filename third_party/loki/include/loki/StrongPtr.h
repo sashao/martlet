@@ -14,7 +14,7 @@
 #ifndef LOKI_STRONG_PTR_INC_
 #define LOKI_STRONG_PTR_INC_
 
-// $Id: StrongPtr.h 1065 2009-12-14 17:01:10Z syntheticpp $
+// $Id$
 
 
 #include <loki/SmartPtr.h>

@@ -13,7 +13,7 @@
 #ifndef LOKI_CONST_POLICY_INC_
 #define LOKI_CONST_POLICY_INC_
 
-// $Id: ConstPolicy.h 769 2006-10-26 10:58:19Z syntheticpp $
+// $Id$
 
 
 namespace Loki

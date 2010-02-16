@@ -15,7 +15,7 @@
 #ifndef LOKI_TYPEMANIP_INC_
 #define LOKI_TYPEMANIP_INC_
 
-// $Id: TypeManip.h 749 2006-10-17 19:49:26Z syntheticpp $
+// $Id$
 
 
 namespace Loki

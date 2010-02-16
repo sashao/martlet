@@ -10,7 +10,7 @@
 //     warranty.
 ////////////////////////////////////////////////////////////////////////////////
 
-// $Id: SafeFormat.cpp 756 2006-10-17 20:05:42Z syntheticpp $
+// $Id$
 
 
 #include <loki/SafeFormat.h>

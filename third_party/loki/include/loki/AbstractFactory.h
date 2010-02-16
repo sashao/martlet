@@ -15,7 +15,7 @@
 #ifndef LOKI_ABSTRACTFACTORY_INC_
 #define LOKI_ABSTRACTFACTORY_INC_
 
-// $Id: AbstractFactory.h 771 2006-10-27 18:05:03Z clitte_bbt $
+// $Id$
 
 
 #include "Typelist.h"

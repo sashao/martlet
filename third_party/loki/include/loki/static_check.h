@@ -15,7 +15,7 @@
 #ifndef LOKI_STATIC_CHECK_INC_
 #define LOKI_STATIC_CHECK_INC_
 
-// $Id: static_check.h 982 2009-01-31 07:51:27Z rich_sposato $
+// $Id$
 
 
 namespace Loki

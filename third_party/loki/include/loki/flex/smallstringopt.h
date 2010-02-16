@@ -13,7 +13,7 @@
 #ifndef SMALL_STRING_OPT_INC_
 #define SMALL_STRING_OPT_INC_
 
-// $Id: smallstringopt.h 1007 2009-03-13 11:39:47Z jfbastien $
+// $Id$
 
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -15,7 +15,7 @@
 #ifndef LOKI_ASSOCVECTOR_INC_
 #define LOKI_ASSOCVECTOR_INC_
 
-// $Id: AssocVector.h 765 2006-10-18 13:55:32Z syntheticpp $
+// $Id$
 
 
 #include <algorithm>

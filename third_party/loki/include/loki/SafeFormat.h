@@ -12,7 +12,7 @@
 #ifndef LOKI_SAFEFORMAT_INC_
 #define LOKI_SAFEFORMAT_INC_
 
-// $Id: SafeFormat.h 911 2008-12-15 20:55:24Z syntheticpp $
+// $Id$
 
 
 ////////////////////////////////////////////////////////////////////////////////

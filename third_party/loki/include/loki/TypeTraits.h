@@ -15,7 +15,7 @@
 #ifndef LOKI_TYPETRAITS_INC_
 #define LOKI_TYPETRAITS_INC_
 
-// $Id: TypeTraits.h 835 2007-08-02 19:39:02Z syntheticpp $
+// $Id$
 
 
 #include "Typelist.h"

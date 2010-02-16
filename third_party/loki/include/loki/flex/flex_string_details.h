@@ -13,7 +13,7 @@
 #ifndef FLEX_STRING_DETAILS_INC_
 #define FLEX_STRING_DETAILS_INC_
 
-// $Id: flex_string_details.h 754 2006-10-17 19:59:11Z syntheticpp $
+// $Id$
 
 
 #include <memory>

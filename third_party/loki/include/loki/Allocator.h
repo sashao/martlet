@@ -14,7 +14,7 @@
 #ifndef LOKI_ALLOCATOR_HPP_INCLUDED
 #define LOKI_ALLOCATOR_HPP_INCLUDED
 
-// $Id: Allocator.h 896 2008-08-08 22:20:05Z syntheticpp $
+// $Id$
 
 // Requires project to be compiled with loki/src/SmallObj.cpp and loki/src/Singleton.cpp
 

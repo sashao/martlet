@@ -15,7 +15,7 @@
 #ifndef LOKI_SCOPEGUARD_INC_
 #define LOKI_SCOPEGUARD_INC_
 
-// $Id: ScopeGuard.h 799 2006-12-20 00:37:13Z rich_sposato $
+// $Id$
 
 
 #include <loki/RefToValue.h>

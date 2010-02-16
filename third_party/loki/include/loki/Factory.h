@@ -13,7 +13,7 @@
 #ifndef LOKI_FACTORYPARM_INC_
 #define LOKI_FACTORYPARM_INC_
 
-// $Id: Factory.h 1066 2009-12-22 11:35:46Z syntheticpp $
+// $Id$
 
 
 #include "LokiTypeInfo.h"

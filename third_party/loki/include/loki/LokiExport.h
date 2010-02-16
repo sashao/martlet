@@ -12,7 +12,7 @@
 #ifndef LOKI_LOKIEXPORT_INC_
 #define LOKI_LOKIEXPORT_INC_
 
-// $Id: LokiExport.h 748 2006-10-17 19:49:08Z syntheticpp $
+// $Id$
 
 
 #ifdef __GNUC__

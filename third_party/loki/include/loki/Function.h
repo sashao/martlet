@@ -12,7 +12,7 @@
 #ifndef LOKI_FUNCTION_INC_
 #define LOKI_FUNCTION_INC_
 
-// $Id: Function.h 841 2008-03-24 23:58:28Z rich_sposato $
+// $Id$
 
 
 #define LOKI_ENABLE_FUNCTION

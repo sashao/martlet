@@ -15,7 +15,7 @@
 #ifndef LOKI_SMARTPTR_INC_
 #define LOKI_SMARTPTR_INC_
 
-// $Id: SmartPtr.h 1052 2009-11-10 19:22:16Z rich_sposato $
+// $Id$
 
 
 ///  \defgroup  SmartPointerGroup Smart pointers

@@ -12,7 +12,7 @@
 #ifndef LOKI_REGISTER_INC_
 #define LOKI_REGISTER_INC_
 
-// $Id: Register.h 1060 2009-11-21 10:44:08Z syntheticpp $
+// $Id$
 
 
 #include "TypeManip.h"

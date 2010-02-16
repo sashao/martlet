@@ -12,8 +12,8 @@ CONFIG += debug_and_release
 DEPENDPATH += . \
               src \
               include
-INCLUDEPATH += . \
-               include
+
+INCLUDEPATH += include
 
 SOURCES += src/LevelMutex.cpp \
            src/OrderedStatic.cpp \
