@@ -1,6 +1,13 @@
 #include "MartletWindow.h"
 #include "ui_MartletWindow.h"
 #include "CSVEventFabric.h"
+#include "MartletProject.h"
+#include "AppSettingsDialog.h"
+#include "ProjectDialog.h"
+
+#include <QFileDialog>
+
+
 
 
 MartletWindow::MartletWindow(QWidget *parent) :
@@ -9,6 +16,8 @@ MartletWindow::MartletWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     AbstractEventFabric::setInstance(new CSVEventFabric(this));
+    
+    setState<InitState>();
 }
 
 MartletWindow::~MartletWindow()
@@ -52,4 +61,56 @@ void MartletWindow::on_pushButton_clicked()
 
     m_client = new MartletClient;
 
+}
+
+void MartletWindow::on_actionNew_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Select New project file"), AppSettingsDialog::currentDir() , 
+                                                    tr("Martlet Project Files (*.mtproject *.mtp)"));
+    if (!fileName.isEmpty()) {
+        // TODO save
+        if (MartletProject::getCurrent())
+        {
+            MartletProject::getCurrent()->save();
+        }
+        
+        delete MartletProject::getCurrent();
+        
+        MartletProject* pro = new MartletProject();
+        MartletProject::setCurrent(pro);
+        pro->fileName = fileName;
+        
+        ProjectDialog pdialog(this);
+        pdialog.setProject(pro);
+        pdialog.exec();
+        
+        if (pdialog.result() == QDialog::Accepted)
+        {
+            MartletProject::Suite suite1("TestSuite1", "TestSuite1.qs");
+            pro->suites<< suite1;
+            MartletProject::Suite suite2("TestSuite2", "TestSuite2.qs");
+            pro->suites<< suite2;
+            pro->save();
+            // load project
+            loadCurrentProjectIntoUI();
+            setState<ProjectOpenedState>();
+        }
+    }
+}
+
+void MartletWindow::loadCurrentProjectIntoUI()
+{
+    
+}
+
+
+void MartletWindow::on_actionSave_triggered()
+{
+    
+}
+
+void MartletWindow::on_actionOpen_triggered()
+{
+    
 }

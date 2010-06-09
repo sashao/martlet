@@ -20,7 +20,9 @@ HEADERS += AbstractCommand.h \
     EventCatcher.h \
     ObjectNameMapper.h \
     MartletClient.h \
-    MartletServer.h
+    MartletServer.h \
+    MartletProject.h
+
 SOURCES += AbstractCommand.cpp \
     AbstractEventFabric.cpp \
     AbstractObjectNameMapper.cpp \
@@ -29,7 +31,8 @@ SOURCES += AbstractCommand.cpp \
     EventCatcher.cpp \
     ObjectNameMapper.cpp \
     MartletClient.cpp \
-    MartletServer.cpp
+    MartletServer.cpp \
+    MartletProject.cpp
 
 include (../globinclude.pri)
 TRANSLATIONS = $$GLOBTRANS
