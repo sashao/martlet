@@ -9,6 +9,7 @@ namespace Ui {
     class MartletWindow;
 }
 
+class MProjectModel;
 
 class MartletWindow : public QMainWindow {
     Q_OBJECT
@@ -50,7 +51,8 @@ private:
     Ui::MartletWindow *ui;
     MartletClient* m_client;
     MartletServer* m_server;
-
+    MProjectModel* m_Model;
+    
 private slots:
     void on_actionOpen_triggered();
     void on_actionSave_triggered();

@@ -4,8 +4,12 @@
 #include "MartletProject.h"
 #include "AppSettingsDialog.h"
 #include "ProjectDialog.h"
+#include "MProjectModel.h"
 
 #include <QFileDialog>
+
+
+
 
 
 
@@ -18,6 +22,10 @@ MartletWindow::MartletWindow(QWidget *parent) :
     AbstractEventFabric::setInstance(new CSVEventFabric(this));
     
     setState<InitState>();
+    
+    m_Model = new MProjectModel(this);
+    m_Model->setProject(MartletProject::getCurrent());
+    ui->treeView->setModel(m_Model);
 }
 
 MartletWindow::~MartletWindow()
@@ -77,14 +85,14 @@ void MartletWindow::on_actionNew_triggered()
         
         delete MartletProject::getCurrent();
         
-        MartletProject* pro = new MartletProject();
+        MartletProject* pro = new MartletProject(); 
         MartletProject::setCurrent(pro);
         pro->fileName = fileName;
         
         ProjectDialog pdialog(this);
         pdialog.setProject(pro);
         pdialog.exec();
-        
+         
         if (pdialog.result() == QDialog::Accepted)
         {
             MartletProject::Suite suite1("TestSuite1", "TestSuite1.qs");
@@ -101,7 +109,7 @@ void MartletWindow::on_actionNew_triggered()
 
 void MartletWindow::loadCurrentProjectIntoUI()
 {
-    
+    m_Model->setProject(MartletProject::getCurrent());    
 }
 
 

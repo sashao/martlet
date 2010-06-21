@@ -10,10 +10,12 @@ CONFIG += debug
 SOURCES += main.cpp \
     MartletWindow.cpp \
     ProjectDialog.cpp \
-    AppSettingsDialog.cpp
+    AppSettingsDialog.cpp \
+    MProjectModel.cpp
 HEADERS += MartletWindow.h \
     ProjectDialog.h \
-    AppSettingsDialog.h
+    AppSettingsDialog.h \
+    MProjectModel.h
 FORMS += MartletWindow.ui \
     ProjectDialog.ui \
     AppSettingsDialog.ui
@@ -23,6 +25,8 @@ RESOURCES += $$GLOBRESOURCES
 DESTDIR = $$GLOBTOP/bin
 INCLUDEPATH += $$MARTLETCOMMONDIR
 INCLUDEPATH += $$THIRDPARTYDIR
+DEPENDPATH += . \
+              $$GLOBTOP/martex
 
 # message(Martlet common dir !!!!!!!!!  $$MARTLETCOMMONDIR $$THIRDPARTYDIR $$GLOBTOP)
 LIBS += -lmartletcommon \
