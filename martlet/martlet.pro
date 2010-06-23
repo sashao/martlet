@@ -29,7 +29,10 @@ DEPENDPATH += . \
               $$GLOBTOP/martex
 
 # message(Martlet common dir !!!!!!!!!  $$MARTLETCOMMONDIR $$THIRDPARTYDIR $$GLOBTOP)
+CONFIG +=link_pkgconfig
+PKGCONFIG = boost_serialization
+LIBPATH += $$GLOBTOP/bin
 LIBS += -lmartletcommon \
     -lqxmlrpc \
-    -lloki
-LIBPATH += $$GLOBTOP/bin
+    -lloki \
+    -lboost_serialization

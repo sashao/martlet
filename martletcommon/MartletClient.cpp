@@ -70,6 +70,7 @@ void MartletClient::stopRecording()
 QString MartletClient::getRecorded()
 {
     //client()->
+    return QString();
 }
 
 

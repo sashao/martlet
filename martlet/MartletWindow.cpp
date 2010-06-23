@@ -95,8 +95,8 @@ void MartletWindow::on_actionNew_triggered()
         
         MartletProject* pro = new MartletProject(); 
         MartletProject::setCurrent(pro);
-        pro->fileName = fileName;
-         
+        pro->fileName = fileName.toStdString();
+        
         ProjectDialog pdialog(this);
         pdialog.setProject(pro);
         pdialog.exec();
@@ -104,9 +104,9 @@ void MartletWindow::on_actionNew_triggered()
         if (pdialog.result() == QDialog::Accepted)
         {
             MartletProject::Suite suite1("TestSuite1", "TestSuite1.qs");
-            pro->suites<< suite1;
+            pro->suites.push_back(suite1);
             MartletProject::Suite suite2("TestSuite2", "TestSuite2.qs");
-            pro->suites<< suite2;
+            pro->suites.push_back(suite2);
             pro->save();
             // load project
             loadCurrentProjectIntoUI();
@@ -123,13 +123,26 @@ void MartletWindow::loadCurrentProjectIntoUI()
 
 void MartletWindow::on_actionSave_triggered()
 {
-    if (MartletProject::getCurrent()) {
-        MartletProject::getCurrent()->save(); 
-    } 
-    
+    // TODO
 }
 
 void MartletWindow::on_actionOpen_triggered()
+{
+}
+
+void MartletWindow::on_actionSave_2_triggered()
+{
+    if (MartletProject::getCurrent()) {
+        MartletProject::getCurrent()->save(); 
+    }     
+}
+
+void MartletWindow::on_actionSave_As_triggered()
+{
+    //TODO
+}
+
+void MartletWindow::on_actionLoad_triggered()
 {
     if (MartletProject::getCurrent())
     {
@@ -140,23 +153,21 @@ void MartletWindow::on_actionOpen_triggered()
             MartletProject::getCurrent()->save();
         }
     }
+    QString fileName = QFileDialog::getOpenFileName(this,
+                       tr("Select project file to open"), AppSettingsDialog::currentDir() ,
+                       tr("Martlet Project Files (*.mtproject *.mtp)"));
 
-    const QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Select Existing project file"), 
-                                                    AppSettingsDialog::currentDir() , 
-                                                    tr("Martlet Project Files (*.mtproject *.mtp)"));
     if (!fileName.isEmpty()) {
         m_Model->setProject(0);
         delete MartletProject::getCurrent();    
         MartletProject::setCurrent(0);
         
         MartletProject* pro = new MartletProject(); 
-        pro->loadFromFile(fileName); 
-        
-        MartletProject::setCurrent(pro);
-        
         // load project
+        pro->loadFromFile(fileName.toStdString());
+        MartletProject::setCurrent(pro);
+
         loadCurrentProjectIntoUI();
         setState<ProjectOpenedState>();
-    }
+    }    
 }

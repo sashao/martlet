@@ -20,19 +20,19 @@ public:
 protected:
     class State {
     public:
-        virtual void visit(MartletWindow* mw) = 0;
+        virtual void visit(MartletWindow* /*mw*/) = 0;
     };
 
     class InitState : public State {
     public:
-        virtual void visit(MartletWindow* mw) {
+        virtual void visit(MartletWindow* /*mw*/) {
             
         }
     };
     
     class ProjectOpenedState : public State {
     public:
-        virtual void visit(MartletWindow* mw) {
+        virtual void visit(MartletWindow* /*mw*/) {
             
         }
     };
@@ -54,6 +54,9 @@ private:
     MProjectModel* m_Model;
     
 private slots:
+    void on_actionLoad_triggered();
+    void on_actionSave_As_triggered();
+    void on_actionSave_2_triggered();
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_actionNew_triggered();

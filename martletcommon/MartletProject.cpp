@@ -2,12 +2,15 @@
 #include <QTextStream>
 #include <QDebug>
 
+#include <fstream>
+#include <boost/archive/xml_oarchive.hpp>
+#include <boost/archive/xml_iarchive.hpp>
+
 
 MartletProject* MartletProject::m_instance = 0;
 
 
-MartletProject::MartletProject():
-        m_doc("martlet")
+MartletProject::MartletProject()
 {
     m_isDirty = false;
 }
@@ -29,91 +32,55 @@ void MartletProject::setCurrent(MartletProject* pro)
 
 bool MartletProject::isValid()
 {
-    if (executable.isEmpty()) return false;
-    if (fileName.isEmpty()) return false;
-    if (type.isEmpty()) return false;
+    if (executable.empty()) return false;
+    if (fileName.empty()) return false;
+    if (type.empty()) return false;
     return true;
 }
 
-void MartletProject::loadFromFile(const  QString& str )
+void MartletProject::loadFromFile(const  std::string& str )
 {
-    Q_ASSERT(str.isEmpty());
+    Q_ASSERT(!str.empty());
     fileName = str;
-    QFile file(fileName);
-     if (!file.open(QIODevice::ReadOnly))
-         return;
-     if (!m_doc.setContent(&file)) {
-         file.close();
-         return;
-     }
-     file.close();    
-     
-     load();
+
+    std::ifstream ifs(fileName.c_str() /*, std::ios::in | std::ios::trunc*/);
+    if (ifs.is_open()) {
+        boost::archive::xml_iarchive xml(ifs);
+        xml.register_type(static_cast<MartletProject*>(0));
+//        MartletProject* pro = new MartletProject();
+        xml >> boost::serialization::make_nvp("MartletProject", *this);
+//        MartletProject::setCurrent(pro);
+    }
 }
 
-void MartletProject::saveToFile(const  QString& str)
+void MartletProject::saveToFile(const  std::string& str)
 {
-    Q_ASSERT(!str.isEmpty());
+    Q_ASSERT(!str.empty());
     fileName = str;
-    QFile f(fileName);
-//    Q_ASSERT(f.exists()); // TODO: owerwrite dialog
-    if (!f.open(QIODevice::WriteOnly)) {
-        Q_ASSERT(f.isOpen());
-        return;
-    }
 
-    QTextStream stream(&f);
-    m_doc.save(stream, 4);
-    
-    f.close();
+    std::ofstream ofs(fileName.c_str(), std::ios::out | std::ios::trunc);
+    if (ofs.is_open()) {
+        boost::archive::xml_oarchive xml(ofs);
+        xml.register_type(static_cast<MartletProject*>(0));
+        xml << boost::serialization::make_nvp("MartletProject", *this);
+    }
 }
 
 void MartletProject::save()
 {
-    saveSettings();
-    
-    Suite s;
-    foreach(s, suites) {
-        s.save(m_doc);
-    }
-    qDebug() << "Saving project to file "<< fileName<< " with contents:\n" << m_doc.toString();
+    qDebug() << "Saving project to file "<< QString::fromStdString(fileName)<< " with contents:\n";
     saveToFile(fileName);
 }
 
-void MartletProject::load()
-{
-    loadSettings();
-    
-    // load each suite
-    QDomNodeList list = m_doc.elementsByTagName("Suite");
-    for(int i = 0; list.count(); ++i) {
-        QDomNode node(list.at(i));
-        if (node.isElement()) {
-            QDomElement element(node.toElement());
-            qDebug()<< "Loading node"<< node.nodeName();
-            Suite s;
-            s.load(element);
-            suites.append(s);
-        }
-    }
-}
 
-void MartletProject::saveSettings()
+template<class archive>
+void MartletProject::serialize(archive& ar, const unsigned int /*version*/)
 {
-    QDomElement my = m_doc.createElement("settings");
-    my.setAttribute("executable", executable );
-    my.setAttribute("type", type);
-    m_doc.appendChild(my);        
-}
-
-void MartletProject::loadSettings()
-{
-    QDomElement root = m_doc.firstChildElement("");
-    type = root.attribute("type","");
-    Q_ASSERT(!type.isEmpty());
-    
-    executable = root.attribute("executable","");
-    Q_ASSERT(!executable.isEmpty());
+    using boost::serialization::make_nvp;
+    ar & make_nvp("Type", type);
+    //ar & make_nvp("Filename", filename);
+    ar & make_nvp("Executable", executable);
+    ar & make_nvp("Suites", suites);
 }
 
 
@@ -134,30 +101,20 @@ void MartletProject::loadSettings()
 
 
 
-MartletProject::Suite::Suite(const QString& nm, const QString& fl)
+MartletProject::Suite::Suite(const std::string& nm, const std::string& fl)
 {
     name = nm;
     file = fl;
 }
 
-void MartletProject::Suite::load(const  QDomElement& root)
+
+template<class archive>
+void MartletProject::Suite::serialize(archive& ar, const unsigned int /*version*/)
 {
-    name = root.attribute("name","");
-    Q_ASSERT(!name.isEmpty());
-    file = root.attribute("file","");
-    Q_ASSERT(!file.isEmpty());
+    using boost::serialization::make_nvp;
+    ar & make_nvp("Name", name);
+    ar & make_nvp("File", file);
 }
-
-void MartletProject::Suite::save(QDomDocument& doc) const
-{
-    QDomElement my = doc.createElement("Suite");
-    my.setAttribute("name", name);
-    my.setAttribute("file", file);
-    doc.appendChild(my);
-}
-
-
-
 
 
 

@@ -450,9 +450,10 @@ MouseRelease,80,82,12,.MartletWindow.centralWidget.groupBox_2.pushButton_3</stri
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionExit"/>
     <addaction name="actionOpen"/>
     <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuSript">
     <property name="title">
