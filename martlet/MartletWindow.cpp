@@ -87,7 +87,7 @@ void MartletWindow::on_actionNew_triggered()
         
         MartletProject* pro = new MartletProject(); 
         MartletProject::setCurrent(pro);
-        pro->fileName = fileName;
+        pro->fileName = fileName.toStdString();
         
         ProjectDialog pdialog(this);
         pdialog.setProject(pro);
@@ -96,9 +96,9 @@ void MartletWindow::on_actionNew_triggered()
         if (pdialog.result() == QDialog::Accepted)
         {
             MartletProject::Suite suite1("TestSuite1", "TestSuite1.qs");
-            pro->suites<< suite1;
+            pro->suites.push_back(suite1);
             MartletProject::Suite suite2("TestSuite2", "TestSuite2.qs");
-            pro->suites<< suite2;
+            pro->suites.push_back(suite2);
             pro->save();
             // load project
             loadCurrentProjectIntoUI();
@@ -120,5 +120,24 @@ void MartletWindow::on_actionSave_triggered()
 
 void MartletWindow::on_actionOpen_triggered()
 {
-    
+
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Select project file to open"), AppSettingsDialog::currentDir() ,
+                                                    tr("Martlet Project Files (*.mtproject *.mtp)"));
+    if (!fileName.isEmpty()) {
+//        // TODO save
+//        if (MartletProject::getCurrent())
+//        {
+//            MartletProject::getCurrent()->save();
+//        }
+
+        delete MartletProject::getCurrent();
+
+        MartletProject* pro = new MartletProject();
+        pro->loadFromFile(fileName.toStdString());
+        MartletProject::setCurrent(pro);
+
+        loadCurrentProjectIntoUI();
+        setState<ProjectOpenedState>();
+    }
 }

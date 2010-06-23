@@ -29,7 +29,8 @@ DEPENDPATH += . \
               $$GLOBTOP/martex
 
 # message(Martlet common dir !!!!!!!!!  $$MARTLETCOMMONDIR $$THIRDPARTYDIR $$GLOBTOP)
+LIBPATH += $$GLOBTOP/bin /usr/lib
 LIBS += -lmartletcommon \
     -lqxmlrpc \
-    -lloki
-LIBPATH += $$GLOBTOP/bin
+    -lloki \
+    -lboost_serialization
