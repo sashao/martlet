@@ -7,6 +7,7 @@
 #include "MProjectModel.h"
 
 #include <QFileDialog>
+#include <QMessageBox>
 
 
 
@@ -73,22 +74,29 @@ void MartletWindow::on_pushButton_clicked()
 
 void MartletWindow::on_actionNew_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Select New project file"), AppSettingsDialog::currentDir() , 
-                                                    tr("Martlet Project Files (*.mtproject *.mtp)"));
-    if (!fileName.isEmpty()) {
-        // TODO save
-        if (MartletProject::getCurrent())
+    if (MartletProject::getCurrent())
+    {
+        if (QMessageBox::Yes ==   QMessageBox::question(this, "Save ?", 
+                                  "Do you want to save previous project ?", 
+                                  QMessageBox::Yes, QMessageBox::No)) 
         {
             MartletProject::getCurrent()->save();
         }
-        
+    }
+
+    const QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Select New project file"), AppSettingsDialog::currentDir() , 
+                                                    tr("Martlet Project Files (*.mtproject *.mtp)"));
+    if (!fileName.isEmpty()) {
+
+        m_Model->setProject(0);
         delete MartletProject::getCurrent();
+        MartletProject::setCurrent(0);
         
         MartletProject* pro = new MartletProject(); 
         MartletProject::setCurrent(pro);
         pro->fileName = fileName;
-        
+         
         ProjectDialog pdialog(this);
         pdialog.setProject(pro);
         pdialog.exec();
@@ -115,10 +123,40 @@ void MartletWindow::loadCurrentProjectIntoUI()
 
 void MartletWindow::on_actionSave_triggered()
 {
+    if (MartletProject::getCurrent()) {
+        MartletProject::getCurrent()->save(); 
+    } 
     
 }
 
 void MartletWindow::on_actionOpen_triggered()
 {
-    
+    if (MartletProject::getCurrent())
+    {
+        if (QMessageBox::Yes ==   QMessageBox::question(this, "Save ?", 
+                                  "Do you want to save previous project ?", 
+                                  QMessageBox::Yes, QMessageBox::No)) 
+        {
+            MartletProject::getCurrent()->save();
+        }
+    }
+
+    const QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Select Existing project file"), 
+                                                    AppSettingsDialog::currentDir() , 
+                                                    tr("Martlet Project Files (*.mtproject *.mtp)"));
+    if (!fileName.isEmpty()) {
+        m_Model->setProject(0);
+        delete MartletProject::getCurrent();    
+        MartletProject::setCurrent(0);
+        
+        MartletProject* pro = new MartletProject(); 
+        pro->loadFromFile(fileName); 
+        
+        MartletProject::setCurrent(pro);
+        
+        // load project
+        loadCurrentProjectIntoUI();
+        setState<ProjectOpenedState>();
+    }
 }
