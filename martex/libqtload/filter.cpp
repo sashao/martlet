@@ -19,13 +19,12 @@ int message()
 
 filter::filter()
 {
-	QSpyWidget::instance()->setObject(0);
-//	QSpyWidget::instance()->moveToThread(QCoreApplication::instance()->thread());
-	//QSpyWidget::instance()->setParent(this);
+//	QSpyWidget::instance()->setObject(0);
+
 	this->moveToThread(QCoreApplication::instance()->thread());
 
-	connect(this, SIGNAL(objChanged(QObject *)),
-			QSpyWidget::instance(), SLOT(setObject(QObject *)), Qt::QueuedConnection);
+//	connect(this, SIGNAL(objChanged(QObject *)),
+//			QSpyWidget::instance(), SLOT(setObject(QObject *)), Qt::QueuedConnection);
 
 }
 

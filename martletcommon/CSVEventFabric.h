@@ -8,7 +8,7 @@ class CSVEventFabric : public AbstractEventFabric
 	Q_OBJECT
 
 public:
-	CSVEventFabric(QObject *parent);
+	CSVEventFabric(QObject *parent = 0);
 	~CSVEventFabric();
 
 private:

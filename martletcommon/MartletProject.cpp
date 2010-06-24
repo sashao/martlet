@@ -40,6 +40,7 @@ bool MartletProject::isValid()
 
 void MartletProject::loadFromFile(const  std::string& str )
 {
+    qDebug() << "Loading project from file "<< QString::fromStdString(str);
     Q_ASSERT(!str.empty());
     fileName = str;
 
@@ -47,14 +48,13 @@ void MartletProject::loadFromFile(const  std::string& str )
     if (ifs.is_open()) {
         boost::archive::xml_iarchive xml(ifs);
         xml.register_type(static_cast<MartletProject*>(0));
-//        MartletProject* pro = new MartletProject();
         xml >> boost::serialization::make_nvp("MartletProject", *this);
-//        MartletProject::setCurrent(pro);
     }
 }
 
 void MartletProject::saveToFile(const  std::string& str)
 {
+    qDebug() << "Saving project to file "<< QString::fromStdString(fileName);
     Q_ASSERT(!str.empty());
     fileName = str;
 
@@ -68,7 +68,6 @@ void MartletProject::saveToFile(const  std::string& str)
 
 void MartletProject::save()
 {
-    qDebug() << "Saving project to file "<< QString::fromStdString(fileName)<< " with contents:\n";
     saveToFile(fileName);
 }
 

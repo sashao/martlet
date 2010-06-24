@@ -5,6 +5,8 @@
 #include <QPushButton>
 
 #include "filter.h"
+#include "MartletServer.h"
+#include "CSVEventFabric.h"
 
 static bool installed = false;
 
@@ -121,6 +123,8 @@ bool QCoreApplication::event(QEvent *e)
 	{
 
 		QCoreApplication::instance()->installEventFilter( new filter());
+        MartletServer* myServer = new MartletServer();
+        AbstractEventFabric::setInstance(new CSVEventFabric());
 		installed = true;
 	}
 	return QObject::event(e);

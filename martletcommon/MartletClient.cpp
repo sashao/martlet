@@ -3,7 +3,8 @@
 
 #include <QMessageBox>
 
-MartletClient::MartletClient()
+MartletClient::MartletClient() :
+        textId(-1)
 {
 //    requestIdSum = -1;
 //    requestIdDiff = -1;
@@ -15,12 +16,22 @@ MartletClient::MartletClient()
     connect( client(), SIGNAL(failed( int, int, QString )),
              this, SLOT(processFault( int, int, QString )) );
     
-    client()->setHost( "localhost", 7777 );
 }
 
 MartletClient::~MartletClient()
 {
     delete m_client;
+}
+
+bool MartletClient::tryConnect()
+{
+     client()->setHost( "localhost", 7777 );
+}
+
+bool MartletClient::isConnected()
+{
+    // TODO
+    return true;
 }
 
 
@@ -31,7 +42,13 @@ xmlrpc::Client* MartletClient::client()
 
 void MartletClient::processReturnValue( int requestId, QVariant value )
 {
-    //client();
+    qDebug()<< "Got responce from the server  " <<  value;
+    qDebug()<< "textId == "<< textId << " | requestId == " << requestId;
+    if(requestId == textId){
+        emit recordedTextArrived(value.toString());
+        textId = -1;
+    } else {
+    }
 }
 
 void MartletClient::processFault( int requestId, int errorCode, QString errorString )
@@ -57,20 +74,29 @@ void MartletClient::play(const QString& relativePath)
 }
 
      
-void MartletClient::startRecording()
+void MartletClient::startRecording(QString fname)
 {
-    client()->request("recording::start");
+    client()->request("recording::start", fname);
 }
 
-void MartletClient::stopRecording()
+void MartletClient::stopRecording(QString fname)
 {
-    client()->request("recording::stop");
+    client()->request("recording::stop", fname);
 }
 
-QString MartletClient::getRecorded()
+void MartletClient::askForRecordedText(QString fname)
 {
-    //client()->
-    return QString();
+    textId = client()->request("recording::get", fname);
+}
+
+void MartletClient::startSpy()
+{
+    client()->request("spy::start");
+}
+
+void MartletClient::stopSpy()
+{
+    client()->request("spy::stop");    
 }
 
 

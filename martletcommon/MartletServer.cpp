@@ -9,8 +9,12 @@ MartletServer::MartletServer():
     server = new xmlrpc::Server(this);
 
     //register sum and difference methods, with return type int and two int parameters
-    server->registerMethod( "recording::start", QVariant::Int );
-    server->registerMethod( "recording::stop" , QVariant::Int);
+    server->registerMethod( "spy::start", QVariant::Int );
+    server->registerMethod( "spy::stop" , QVariant::Int);
+
+    server->registerMethod( "recording::start", QVariant::Int, QVariant::String );
+    server->registerMethod( "recording::stop" , QVariant::Int, QVariant::String);
+    server->registerMethod( "recording::get"  , QVariant::String, QVariant::String);
     
     server->registerMethod( "playback::upload" , QVariant::Int, QVariant::String, QVariant::String);
     server->registerMethod( "playback::play"   , QVariant::Int, QVariant::String);
@@ -38,11 +42,22 @@ void MartletServer::processRequest( int requestId, QString methodName, QList<xml
     qDebug() << methodName <<  "   params == " << parameters;// << x << y; 
 
     if ( methodName == QString("recording::start") ) {
-        qDebug() << methodName <<  "   params: " << parameters;// << x << y; 
-        m_catcher.startRecording();
+        record(parameters[0].toString());
         server->sendReturnValue( requestId, 0 );
     } else if ( methodName == "recording::stop" ) {
-        m_catcher.stopRecording();
+        stopRecording(parameters[0].toString());
+        server->sendReturnValue( requestId, 0 ); 
+    } else if ( methodName == "recording::get" ) {
+        qDebug("about to get text");
+        const QString result  = getRecordedText(parameters[0].toString());
+        qDebug() << "SZ "<< result.size();
+        //qDebug() << "\n\n\n\\n\n\n  We recorded :" <<  result << "\n\n\n\n\n\n";
+        server->sendReturnValue( requestId, result); 
+    } else if ( methodName == "spy::start" ) {
+        // TODO
+        server->sendReturnValue( requestId, 0 ); 
+    } else if ( methodName == "spy::stop" ) {
+        // TODO
         server->sendReturnValue( requestId, 0 ); 
     } else if ( methodName == "playback::upload" ) {
         server->sendReturnValue( requestId, uploadScript(parameters[0].toString(), parameters[1].toString()));
@@ -66,6 +81,22 @@ int MartletServer::play(const QString& relativePath)
     return 0;
 }
 
+int MartletServer::record(const QString& suiteName)
+{
+    m_catcher.startRecording();
+    return 0;
+}
+
+int MartletServer::stopRecording(const QString& suiteName)
+{
+    m_catcher.stopRecording();
+    return 0;
+}
+
+QString MartletServer::getRecordedText(const QString suiteName)
+{
+    return AbstractEventFabric::instance()->getOutput();
+}
 
 
 

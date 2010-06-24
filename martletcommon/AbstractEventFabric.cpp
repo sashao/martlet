@@ -13,6 +13,7 @@ AbstractEventFabric::AbstractEventFabric(QObject *parent)
 	: QObject(parent),
     m_pNameMapper( new ObjectNameMapper(this))
 {
+    m_output = "";
 }
 
 AbstractEventFabric::~AbstractEventFabric()
@@ -117,5 +118,11 @@ CommandData AbstractEventFabric::deserializeEvent(const QString& commandStr)
 void AbstractEventFabric::registerCommand(AbstractCommand* command)
 {
 	m_commandMap.insert(command->type(), command);
+}
+
+QString AbstractEventFabric::getOutput() const
+{
+    qDebug("AbstractEventFabric::getOutput(%d) ", m_output.size());
+    return m_output;
 }
 

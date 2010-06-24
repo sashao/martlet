@@ -16,36 +16,13 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QTreeView" name="treeView"/>
-    </item>
-    <item>
-     <widget class="QGroupBox" name="groupBox">
-      <property name="title">
-       <string>Server (Runner)</string>
+     <widget class="QTreeView" name="treeView">
+      <property name="maximumSize">
+       <size>
+        <width>350</width>
+        <height>16777215</height>
+       </size>
       </property>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>Start</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_2">
-           <property name="text">
-            <string>Stop</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="serverTextEdit"/>
-       </item>
-      </layout>
      </widget>
     </item>
     <item>
@@ -72,365 +49,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit">
-         <property name="plainText">
-          <string>MouseMove,126,99,10,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,19,98,10,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,20,96,11,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,95,11,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,93,13,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,91,14,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,88,16,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,86,17,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,11,83,18,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,9,79,19,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,77,21,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,11,74,23,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,71,25,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,68,27,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,79,60,.MartletWindow.centralWidget.groupBox_2
-MouseMove,10,76,63,.MartletWindow.centralWidget.groupBox_2
-MouseMove,10,61,0,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,58,2,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,12,56,4,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,11,54,6,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,9,52,9,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,8,51,11,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,49,13,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,47,16,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,46,18,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,44,20,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,43,22,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,41,24,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,11,39,27,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,51,95,.MartletWindow.centralWidget.groupBox_2
-MouseMove,10,36,0,.MartletWindow.centralWidget.groupBox_2.plainTextEdit
-MouseMove,10,33,0,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,32,4,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,32,7,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,31,12,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,31,15,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,30,20,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,29,23,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,28,27,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,7,28,30,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,27,35,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,27,39,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,26,42,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,25,45,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,25,48,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,23,52,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,21,55,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,20,58,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,17,61,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,15,64,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,13,65,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,10,68,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,8,70,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,5,72,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,3,73,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,1,77,.MartletWindow.centralWidget.groupBox_2.plainTextEdit
-MouseMove,9,10,177,.MartletWindow.centralWidget.groupBox_2
-MouseMove,10,5,177,.MartletWindow.centralWidget.groupBox_2
-MouseMove,14,1,178,.MartletWindow.centralWidget.groupBox_2
-MouseMove,12,343,189,.MartletWindow.centralWidget
-MouseMove,6,328,178,.MartletWindow.centralWidget.groupBox
-MouseMove,14,324,178,.MartletWindow.centralWidget.groupBox
-MouseMove,8,317,178,.MartletWindow.centralWidget.groupBox
-MouseMove,9,295,111,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,286,111,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,278,110,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,267,108,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,258,107,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,13,250,103,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,241,98,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,232,95,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,224,92,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,215,88,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,207,86,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,200,80,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,192,74,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,185,68,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,15,179,62,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,175,56,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,171,50,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,166,44,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,161,38,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,156,31,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,151,24,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,146,18,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,145,13,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,143,7,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,141,2,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,141,0,.MartletWindow.centralWidget.groupBox.serverTextEdit
-MouseMove,10,153,60,.MartletWindow.centralWidget.groupBox
-MouseMove,10,140,26,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,140,22,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,140,19,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,140,15,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,140,13,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,141,9,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,142,7,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,143,4,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,10,144,2,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,15,145,0,.MartletWindow.centralWidget.groupBox.pushButton
-MouseMove,8,160,28,.MartletWindow.centralWidget.groupBox
-MouseMove,12,162,26,.MartletWindow.centralWidget.groupBox
-MouseMove,8,165,24,.MartletWindow.centralWidget.groupBox
-MouseMove,8,167,22,.MartletWindow.centralWidget.groupBox
-MouseMove,9,170,20,.MartletWindow.centralWidget.groupBox
-MouseMove,10,172,19,.MartletWindow.centralWidget.groupBox
-MouseMove,10,175,17,.MartletWindow.centralWidget.groupBox
-MouseMove,10,178,16,.MartletWindow.centralWidget.groupBox
-MouseMove,10,183,15,.MartletWindow.centralWidget.groupBox
-MouseMove,10,186,15,.MartletWindow.centralWidget.groupBox
-MouseMove,10,193,14,.MartletWindow.centralWidget.groupBox
-MouseMove,10,201,14,.MartletWindow.centralWidget.groupBox
-MouseMove,10,212,14,.MartletWindow.centralWidget.groupBox
-MouseMove,11,223,14,.MartletWindow.centralWidget.groupBox
-MouseMove,9,233,15,.MartletWindow.centralWidget.groupBox
-MouseMove,10,242,17,.MartletWindow.centralWidget.groupBox
-MouseMove,10,251,19,.MartletWindow.centralWidget.groupBox
-MouseMove,17,261,20,.MartletWindow.centralWidget.groupBox
-MouseMove,4,271,23,.MartletWindow.centralWidget.groupBox
-MouseMove,12,281,27,.MartletWindow.centralWidget.groupBox
-MouseMove,8,121,0,.MartletWindow.centralWidget.groupBox.pushButton_2
-MouseMove,9,128,4,.MartletWindow.centralWidget.groupBox.pushButton_2
-MouseMove,10,134,9,.MartletWindow.centralWidget.groupBox.pushButton_2
-MouseMove,10,138,13,.MartletWindow.centralWidget.groupBox.pushButton_2
-MouseMove,10,140,18,.MartletWindow.centralWidget.groupBox.pushButton_2
-MouseMove,10,141,24,.MartletWindow.centralWidget.groupBox.pushButton_2
-MouseMove,10,143,27,.MartletWindow.centralWidget.groupBox.pushButton_2
-MouseMove,10,298,0,.MartletWindow.centralWidget.groupBox.serverTextEdit
-MouseMove,10,297,2,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,297,6,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,297,10,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,297,15,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,296,19,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,294,22,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,12,292,27,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,291,31,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,288,36,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,16,287,40,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,285,46,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,282,53,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,7,279,61,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,276,69,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,272,79,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,268,88,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,265,99,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,261,108,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,258,117,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,256,127,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,255,138,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,253,146,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,253,155,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,12,253,161,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,253,167,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,253,175,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,253,183,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,255,190,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,257,198,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,12,261,205,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,263,214,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,12,267,223,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,271,232,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,274,241,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,279,250,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,284,258,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,290,266,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,298,275,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,320,351,.MartletWindow.centralWidget.groupBox
-MouseMove,10,328,360,.MartletWindow.centralWidget.groupBox
-MouseMove,10,1,368,.MartletWindow.centralWidget.groupBox_2
-MouseMove,9,9,374,.MartletWindow.centralWidget.groupBox_2
-MouseMove,11,4,281,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,14,287,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,25,295,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,36,302,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,48,307,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,58,312,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,68,317,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,76,317,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,86,318,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,96,318,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,8,106,317,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,116,314,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,125,308,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,132,301,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,142,294,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,18,148,287,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,4,156,279,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,14,163,272,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,5,168,266,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,17,173,258,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,4,178,252,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,16,183,244,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,4,188,237,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,14,191,229,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,195,221,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,25,198,214,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,4,205,197,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,22,209,188,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,7,214,172,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,14,216,163,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,5,218,158,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,220,150,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,220,145,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,221,139,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,221,132,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,223,127,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,223,120,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,223,113,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,223,106,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,221,98,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,219,91,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,216,84,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,212,76,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,207,69,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,15,201,62,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,196,56,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,191,51,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,8,186,46,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,181,41,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,14,175,37,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,8,170,34,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,164,31,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,157,29,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,149,29,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,8,142,28,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,132,28,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,125,28,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,113,28,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,104,28,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,93,30,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,82,32,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,12,70,35,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,60,36,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,49,41,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,40,45,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,11,29,49,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,19,54,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,9,7,58,.MartletWindow.centralWidget.groupBox_2.plainTextEdit.qt_scrollarea_viewport
-MouseMove,10,10,164,.MartletWindow.centralWidget.groupBox_2
-MouseMove,11,345,179,.MartletWindow.centralWidget
-MouseMove,9,320,175,.MartletWindow.centralWidget.groupBox
-MouseMove,10,293,115,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,275,121,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,260,128,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,244,135,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,229,142,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,214,149,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,199,156,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,185,161,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,172,166,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,160,171,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,149,173,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,139,173,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,130,175,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,13,123,175,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,117,175,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,111,175,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,107,174,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,105,172,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,103,170,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,101,168,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,99,165,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,98,163,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,96,159,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,95,157,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,93,153,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,93,151,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,92,147,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,91,145,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,91,141,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,91,139,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,91,135,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,14,91,132,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,91,129,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,92,126,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,13,94,124,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,95,120,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,97,117,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,99,112,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,101,109,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,14,103,104,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,105,101,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,109,97,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,112,94,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,115,90,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,118,87,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,121,83,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,127,78,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,132,73,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,137,69,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,143,66,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,147,64,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,150,62,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,152,61,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,154,60,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,13,158,60,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,160,58,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,14,163,58,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,165,57,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,168,56,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,171,56,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,174,55,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,178,55,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,183,54,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,187,54,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,193,54,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,197,53,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,203,52,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,209,50,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,218,49,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,225,47,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,11,231,47,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,238,46,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,245,44,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,12,253,43,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,8,262,40,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,13,271,37,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,278,34,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,287,30,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,9,295,27,.MartletWindow.centralWidget.groupBox.serverTextEdit.qt_scrollarea_viewport
-MouseMove,10,317,91,.MartletWindow.centralWidget.groupBox
-MouseMove,11,325,87,.MartletWindow.centralWidget.groupBox
-MouseMove,9,343,95,.MartletWindow.centralWidget
-MouseMove,10,5,81,.MartletWindow.centralWidget.groupBox_2
-MouseMove,11,0,12,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,7,10,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,14,7,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,20,4,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,10,25,1,.MartletWindow.centralWidget.groupBox_2.pushButton_4
-MouseMove,11,42,64,.MartletWindow.centralWidget.groupBox_2
-MouseMove,9,44,63,.MartletWindow.centralWidget.groupBox_2
-MouseMove,11,47,62,.MartletWindow.centralWidget.groupBox_2
-MouseMove,9,51,61,.MartletWindow.centralWidget.groupBox_2
-MouseMove,10,52,60,.MartletWindow.centralWidget.groupBox_2
-MouseMove,11,54,60,.MartletWindow.centralWidget.groupBox_2
-MouseMove,12,55,59,.MartletWindow.centralWidget.groupBox_2
-MouseMove,9,44,27,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,8,47,26,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,49,26,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,52,24,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,53,23,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,11,56,22,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,57,21,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,60,20,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,62,19,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,65,18,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,67,17,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,70,16,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,74,15,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,76,14,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,11,79,13,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,10,80,13,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseMove,9,82,12,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MousePress,262,82,12,.MartletWindow.centralWidget.groupBox_2.pushButton_3
-MouseRelease,80,82,12,.MartletWindow.centralWidget.groupBox_2.pushButton_3</string>
-         </property>
-        </widget>
+        <widget class="QPlainTextEdit" name="plainTextEdit"/>
        </item>
       </layout>
      </widget>
@@ -459,6 +78,12 @@ MouseRelease,80,82,12,.MartletWindow.centralWidget.groupBox_2.pushButton_3</stri
     <property name="title">
      <string>Script</string>
     </property>
+    <addaction name="actionStart_program"/>
+    <addaction name="separator"/>
+    <addaction name="actionRecord"/>
+    <addaction name="actionStop_recording"/>
+    <addaction name="separator"/>
+    <addaction name="actionPlay"/>
    </widget>
    <widget class="QMenu" name="menuProject">
     <property name="title">
@@ -529,6 +154,26 @@ MouseRelease,80,82,12,.MartletWindow.centralWidget.groupBox_2.pushButton_3</stri
   <action name="actionDelete_existing_suite">
    <property name="text">
     <string>Delete existing suite ...</string>
+   </property>
+  </action>
+  <action name="actionStart_program">
+   <property name="text">
+    <string>Start program</string>
+   </property>
+  </action>
+  <action name="actionRecord">
+   <property name="text">
+    <string>Record</string>
+   </property>
+  </action>
+  <action name="actionPlay">
+   <property name="text">
+    <string>Play</string>
+   </property>
+  </action>
+  <action name="actionStop_recording">
+   <property name="text">
+    <string>Stop recording</string>
    </property>
   </action>
  </widget>

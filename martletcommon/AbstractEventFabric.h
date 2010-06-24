@@ -27,7 +27,7 @@ public:
 
 	virtual void registerCommand(AbstractCommand* command);
 
-    inline QString getOutput() const;
+    QString getOutput() const;
 
     virtual void playSingleLineEvent(const QString& commandStr);
     virtual void playAll(const QString& commandStrings);
@@ -43,10 +43,6 @@ private:
     AbstractObjectNameMapper* m_pNameMapper;
 };
 
-QString AbstractEventFabric::getOutput() const
-{
-    return m_output;
-}
 
 
 #endif // ABSTRACTEVENTFABRIC_H

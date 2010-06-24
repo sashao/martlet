@@ -21,13 +21,16 @@ MartletWindow::MartletWindow(QWidget *parent) :
     ui(new Ui::MartletWindow)
 {
     ui->setupUi(this);
-    AbstractEventFabric::setInstance(new CSVEventFabric(this));
     
     setState<InitState>();
     
     m_Model = new MProjectModel(this);
     m_Model->setProject(MartletProject::getCurrent());
     ui->treeView->setModel(m_Model);
+
+    m_client = new MartletClient;
+    m_client->tryConnect();
+    connect(m_client, SIGNAL(recordedTextArrived(QString)), this, SLOT(onRecordedTextUpdate(QString)));
 }
 
 MartletWindow::~MartletWindow()
@@ -50,27 +53,10 @@ void MartletWindow::changeEvent(QEvent *e)
 void MartletWindow::on_pushButton_3_toggled(bool checked)
 {
     if (checked) {
-        m_client->startRecording();
+        m_client->startRecording("f.qs");
     } else {
-        m_client->stopRecording();
+        m_client->stopRecording("f.qs");
     }
-}
-
-void MartletWindow::on_pushButton_4_clicked()
-{
-    // play
-    m_client->uploadScript("main.csv", ui->plainTextEdit->toPlainText());
-    m_client->play("main.csv");
-}
-
-void MartletWindow::on_pushButton_clicked()
-{
-    // start server
-    
-    m_server = new MartletServer;
-
-    m_client = new MartletClient;
-
 }
 
 void MartletWindow::on_actionNew_triggered()
@@ -173,13 +159,19 @@ void MartletWindow::on_actionLoad_triggered()
 
 void MartletWindow::on_actionNew_Suite_triggered()
 {
-    QString name = QInputDialog::getText(this, "SuiteName", "Enter new suite name:", QLineEdit::Normal, "xSuite");
-    if (!name.isEmpty()) {
-        MartletProject::Suite suite;
-        suite.name = name.toStdString();
-        MartletProject::getCurrent()->suites.push_back(suite);
-        MartletProject::getCurrent()->notifyAboutChanges(MartletProject::getCurrent()->suites.size());
-    }
+    bool ok = false;
+    QString name = QInputDialog::getText(this, "SuiteName", "Enter new suite name:", QLineEdit::Normal, "xSuite", &ok);
+    if (!name.isEmpty() && ok) {
+
+        QString fname = QInputDialog::getText(this, "SuiteFileName", "Enter new suite file name:", QLineEdit::Normal, name+".qs", &ok);
+        if (!fname.isEmpty() && ok) {
+            MartletProject::Suite suite;
+            suite.name = name.toStdString();
+            suite.file = fname.toStdString();
+            MartletProject::getCurrent()->suites.push_back(suite);
+            MartletProject::getCurrent()->notifyAboutChanges(MartletProject::getCurrent()->suites.size());
+        }
+        }
 }
 
 void MartletWindow::on_actionDelete_existing_suite_triggered()
@@ -193,8 +185,9 @@ void MartletWindow::on_actionDelete_existing_suite_triggered()
         sl.append( QString::fromStdString((*iter).name) );
     }
 
-    QString name = QInputDialog::getItem(this, "Delete suite", "Choose one", sl);
-    if (!name.isEmpty()) {
+    bool ok = false;
+    QString name = QInputDialog::getItem(this, "Delete suite", "Choose one", sl, -1, false, &ok);
+    if (!name.isEmpty() && ok) {
         std::vector<MartletProject::Suite>::iterator iter = suites.begin();
         for (;iter != suites.end(); ++iter) {
             if (QString::fromStdString((*iter).name)  == name) {
@@ -205,4 +198,42 @@ void MartletWindow::on_actionDelete_existing_suite_triggered()
         MartletProject::getCurrent()->notifyAboutChanges(MartletProject::getCurrent()->suites.size());
     }
 
+}
+
+void MartletWindow::on_actionStart_program_triggered()
+{
+    m_client->tryConnect();
+}
+
+void MartletWindow::on_actionRecord_triggered()
+{
+    m_client->startRecording("f.qs");
+}
+
+void MartletWindow::on_actionStop_recording_triggered()
+{
+    m_client->stopRecording("f.qs");
+    m_client->askForRecordedText("f.qs");
+}
+
+void MartletWindow::on_actionPlay_triggered()
+{
+    m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
+    m_client->play("H.qs");
+}
+
+void MartletWindow::on_pushButton_3_clicked() // record
+{
+//    on_actionRecord_triggered();
+}
+
+void MartletWindow::on_pushButton_4_clicked() // play
+{
+    on_actionPlay_triggered();
+}
+
+void MartletWindow::onRecordedTextUpdate(QString txt)
+{
+    qDebug() << "Text arrived to main window" << txt;
+    ui->plainTextEdit->setPlainText( txt );
 }

@@ -26,7 +26,8 @@ DESTDIR = $$GLOBTOP/bin
 INCLUDEPATH += $$MARTLETCOMMONDIR
 INCLUDEPATH += $$THIRDPARTYDIR
 DEPENDPATH += . \
-              $$GLOBTOP/martex
+              $$GLOBTOP/martex \
+              $$GLOBTOP/martletcommon
 
 # message(Martlet common dir !!!!!!!!!  $$MARTLETCOMMONDIR $$THIRDPARTYDIR $$GLOBTOP)
 CONFIG +=link_pkgconfig

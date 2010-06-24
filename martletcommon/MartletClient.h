@@ -20,19 +20,27 @@ public:
     
     MartletClient();
     ~MartletClient();
+    
+    bool tryConnect();
+    bool isConnected();
 
 public:
      void startApp(const QString& path, const QString& parameters);
      void uploadScript(const QString& relativePath, const QString& scriptLines);
      void play(const QString& relativePath);
      
-     void startRecording();
-     void stopRecording();
+     void startRecording(QString fname);
+     void stopRecording(QString fname);
      // TODO: temporary thing. Remove this.
-     QString getRecorded();
+     void askForRecordedText(QString fname);
+     
+     // SPY
+     void startSpy();
+     void stopSpy();
     
 signals:
     void aplicationStarted(int portID);
+    void recordedTextArrived(QString text);
 
 protected:
     xmlrpc::Client* client();
@@ -44,7 +52,9 @@ private:
     /// Communicates with remote app
     xmlrpc::Client *m_client;
     /// Comunicates with daemon, starts app
-    xmlrpc::Client *m_appClient;    
+    xmlrpc::Client *m_appClient;   
+    
+    int textId;
 
 };
 

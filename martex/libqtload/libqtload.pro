@@ -12,7 +12,7 @@ win32:LIBS += User32.lib
 qtAddLibrary(QtDesigner)
 qtAddLibrary(QtDesignerComponents)
 
-QT += xml
+QT += xml network
 
 # Input
 SOURCES += lib.cpp \
@@ -26,7 +26,17 @@ FORMS += qspywidget.ui
 
 include (../../globinclude.pri)
 
+INCLUDEPATH += $$MARTLETCOMMONDIR
+INCLUDEPATH += $$THIRDPARTYDIR
+
 TRANSLATIONS = $$GLOBTRANS
 RESOURCES   += $$GLOBRESOURCES
 DESTDIR = $$GLOBTOP/bin
 
+CONFIG +=link_pkgconfig
+PKGCONFIG = boost_serialization
+LIBPATH += $$GLOBTOP/bin
+LIBS += -lmartletcommon \
+    -lqxmlrpc \
+    -lloki \
+    -lboost_serialization
