@@ -67,6 +67,11 @@ public:
     template<class archive>
     void serialize(archive& ar, const unsigned int /*version*/);
 
+    /// Break Object Oriented Pagadigm
+    void notifyAboutChanges(int suiteIdx);
+signals:
+    void projectChanged(int suiteIdx);
+
 protected:    
     bool m_isDirty;
     

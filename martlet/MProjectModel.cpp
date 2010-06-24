@@ -14,27 +14,40 @@ void MProjectModel::setProject(MartletProject* pro)
 {
     beginResetModel();
     m_Project = pro;
+    if (m_Project) {
+        disconnect(m_Project, SIGNAL(projectChanged(int)), this, 0);
+        connect(m_Project, SIGNAL(projectChanged(int)), this, SLOT(handleProjectChanges(int)));
+    }
     endResetModel();
 }
 
+void MProjectModel::handleProjectChanges(int suite)
+{
+    if(suite != -1) {
+        beginResetModel();
+        endResetModel();
+    } else {
+        emit dataChanged( MProjectModel::index(0, 0, QModelIndex()),
+                          MProjectModel::index(rowCount(QModelIndex()), 1, QModelIndex()) );
+    }
+}
 
-
-int	MProjectModel::columnCount ( const QModelIndex & parent = QModelIndex() ) const
+int	MProjectModel::columnCount ( const QModelIndex & parent ) const
 {
 //    if (m_Project == 0) return 0;
     return 2;
 }
 
-int	MProjectModel::rowCount ( const QModelIndex & parent = QModelIndex() ) const
+int	MProjectModel::rowCount ( const QModelIndex & parent ) const
 {
     if (m_Project == 0) return 0;    
     int rows = SUITEFIRST+m_Project->suites.size();
     if (parent.isValid() && parent.internalId() != -1) rows = 2; // SUITE
-    qDebug("Model has %d rows", rows);
+//    qDebug("Model has %d rows", rows);
     return rows;
 } 
 
-bool	MProjectModel::setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole )
+bool MProjectModel::setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole )
 {
     if (m_Project == 0) return false; 
     
@@ -42,12 +55,12 @@ bool	MProjectModel::setData ( const QModelIndex & index, const QVariant & value,
     return false;
 }
 
-QVariant	MProjectModel::data ( const QModelIndex & index, int role = Qt::DisplayRole ) const
+QVariant MProjectModel::data ( const QModelIndex & index, int role) const
 {
     if (m_Project == 0) return QVariant();
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        qDebug("2 Requested data for row %d, col %d role = %d ID = %d", index.row(), index.column(), int(role), index.internalId());
+//        qDebug("2 Requested data for row %d, col %d role = %d ID = %d", index.row(), index.column(), int(role), index.internalId());
         QVariant result;
         if (index.internalId() >= 1000) {   // SUITE sub properties
             const int suiteID = index.internalId()-1000;            
@@ -123,7 +136,7 @@ QVariant	MProjectModel::data ( const QModelIndex & index, int role = Qt::Display
     return QVariant();
 }
 
-QModelIndex	MProjectModel::index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const
+QModelIndex	MProjectModel::index ( int row, int column, const QModelIndex & parent) const
 {
     if (m_Project == 0) return QModelIndex();
     
@@ -135,12 +148,12 @@ QModelIndex	MProjectModel::index ( int row, int column, const QModelIndex & pare
 //        qDebug("SUITE CHILDS !!!!!!!!!!!!!!!!!!!!!");
         suiteIndex = 1000+(parent.internalId());
     }
-    qDebug("!!!!!!!!!!!!!!!!!!!! index row %d col %d   ID = %d", row, column, suiteIndex);
+//    qDebug("!!!!!!!!!!!!!!!!!!!! index row %d col %d   ID = %d", row, column, suiteIndex);
     return createIndex(row, column, suiteIndex);
 }
 
 
-bool	MProjectModel::hasChildren ( const QModelIndex & parent = QModelIndex() ) const
+bool	MProjectModel::hasChildren ( const QModelIndex & parent) const
 {
     if (m_Project == 0) return false;
 //    qDebug("hasChildren row %d col %d", parent.row(), parent.column());

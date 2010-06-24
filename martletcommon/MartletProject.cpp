@@ -83,6 +83,10 @@ void MartletProject::serialize(archive& ar, const unsigned int /*version*/)
     ar & make_nvp("Suites", suites);
 }
 
+void MartletProject::notifyAboutChanges(int suiteIdx)
+{
+    emit projectChanged(suiteIdx);
+}
 
 
 

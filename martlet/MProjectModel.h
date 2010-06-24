@@ -33,7 +33,8 @@ public:
 
 signals:
 
-public slots:
+protected slots:
+    void handleProjectChanges(int suite);
     
 private:
     MartletProject* m_Project;

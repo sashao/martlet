@@ -54,6 +54,8 @@ private:
     MProjectModel* m_Model;
     
 private slots:
+    void on_actionDelete_existing_suite_triggered();
+    void on_actionNew_Suite_triggered();
     void on_actionLoad_triggered();
     void on_actionSave_As_triggered();
     void on_actionSave_2_triggered();

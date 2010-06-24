@@ -8,6 +8,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QInputDialog>
 
 
 
@@ -105,8 +106,6 @@ void MartletWindow::on_actionNew_triggered()
         {
             MartletProject::Suite suite1("TestSuite1", "TestSuite1.qs");
             pro->suites.push_back(suite1);
-            MartletProject::Suite suite2("TestSuite2", "TestSuite2.qs");
-            pro->suites.push_back(suite2);
             pro->save();
             // load project
             loadCurrentProjectIntoUI();
@@ -170,4 +169,40 @@ void MartletWindow::on_actionLoad_triggered()
         loadCurrentProjectIntoUI();
         setState<ProjectOpenedState>();
     }    
+}
+
+void MartletWindow::on_actionNew_Suite_triggered()
+{
+    QString name = QInputDialog::getText(this, "SuiteName", "Enter new suite name:", QLineEdit::Normal, "xSuite");
+    if (!name.isEmpty()) {
+        MartletProject::Suite suite;
+        suite.name = name.toStdString();
+        MartletProject::getCurrent()->suites.push_back(suite);
+        MartletProject::getCurrent()->notifyAboutChanges(MartletProject::getCurrent()->suites.size());
+    }
+}
+
+void MartletWindow::on_actionDelete_existing_suite_triggered()
+{
+    QStringList sl;
+
+    std::vector<MartletProject::Suite>& suites = MartletProject::getCurrent()->suites;
+
+    std::vector<MartletProject::Suite>::iterator iter = suites.begin();
+    for (;iter !=  suites.end(); ++iter) {
+        sl.append( QString::fromStdString((*iter).name) );
+    }
+
+    QString name = QInputDialog::getItem(this, "Delete suite", "Choose one", sl);
+    if (!name.isEmpty()) {
+        std::vector<MartletProject::Suite>::iterator iter = suites.begin();
+        for (;iter != suites.end(); ++iter) {
+            if (QString::fromStdString((*iter).name)  == name) {
+                suites.erase(iter);
+                break;
+            }
+        }
+        MartletProject::getCurrent()->notifyAboutChanges(MartletProject::getCurrent()->suites.size());
+    }
+
 }
