@@ -25,7 +25,6 @@ public:
     bool isConnected();
 
 public:
-     void startApp(const QString& path, const QString& parameters);
      void uploadScript(const QString& relativePath, const QString& scriptLines);
      void play(const QString& relativePath);
      
@@ -44,6 +43,7 @@ signals:
 
 protected:
     xmlrpc::Client* client();
+
 private slots:
     void processReturnValue( int requestId, QVariant value );
     void processFault( int requestId, int errorCode, QString errorString );

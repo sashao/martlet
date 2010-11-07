@@ -52,10 +52,12 @@ private:
     MartletClient* m_client;
     MartletServer* m_server;
     MProjectModel* m_Model;
+    QProcess m_childAppProcess;
+
+    void startApp();
     
 private slots:
     void onRecordedTextUpdate(QString txt);
-    void on_pushButton_3_clicked();
     void on_actionStop_recording_triggered();
     void on_actionPlay_triggered();
     void on_actionRecord_triggered();
@@ -70,6 +72,8 @@ private slots:
     void on_actionNew_triggered();
     void on_pushButton_4_clicked();
     void on_pushButton_3_toggled(bool checked);
+
+    void tryConnectAndStart();
 };
 
 #endif // MARTLETWINDOW_H

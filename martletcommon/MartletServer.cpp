@@ -95,6 +95,7 @@ int MartletServer::stopRecording(const QString& suiteName)
 
 QString MartletServer::getRecordedText(const QString suiteName)
 {
+    // TODO
     return AbstractEventFabric::instance()->getOutput();
 }
 

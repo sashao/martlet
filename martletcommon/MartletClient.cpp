@@ -6,9 +6,6 @@
 MartletClient::MartletClient() :
         textId(-1)
 {
-//    requestIdSum = -1;
-//    requestIdDiff = -1;
-
     m_client = new xmlrpc::Client(this);
     
     connect( client(), SIGNAL(done( int, QVariant )),
@@ -26,6 +23,7 @@ MartletClient::~MartletClient()
 bool MartletClient::tryConnect()
 {
      client()->setHost( "localhost", 7777 );
+     return isConnected();
 }
 
 bool MartletClient::isConnected()
@@ -53,14 +51,11 @@ void MartletClient::processReturnValue( int requestId, QVariant value )
 
 void MartletClient::processFault( int requestId, int errorCode, QString errorString )
 {
+    Q_UNUSED(requestId);
     QMessageBox::warning(0, tr("Request failed"),
          QString("XML-RPC request  failed.\n\nFault code: %1\n'%2'\n") \
          .arg(errorCode).arg(errorString),
          QMessageBox::Ok );
-}
-
-void MartletClient::startApp(const QString& path, const QString& parameters)
-{
 }
 
 void MartletClient::uploadScript(const QString& relativePath, const QString& scriptLines)
@@ -86,7 +81,9 @@ void MartletClient::stopRecording(QString fname)
 
 void MartletClient::askForRecordedText(QString fname)
 {
+    Q_ASSERT(textId == -1);
     textId = client()->request("recording::get", fname);
+    Q_ASSERT(textId != -1);
 }
 
 void MartletClient::startSpy()

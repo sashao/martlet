@@ -29,7 +29,6 @@ MartletWindow::MartletWindow(QWidget *parent) :
     ui->treeView->setModel(m_Model);
 
     m_client = new MartletClient;
-    m_client->tryConnect();
     connect(m_client, SIGNAL(recordedTextArrived(QString)), this, SLOT(onRecordedTextUpdate(QString)));
 }
 
@@ -53,9 +52,9 @@ void MartletWindow::changeEvent(QEvent *e)
 void MartletWindow::on_pushButton_3_toggled(bool checked)
 {
     if (checked) {
-        m_client->startRecording("f.qs");
+        on_actionRecord_triggered();
     } else {
-        m_client->stopRecording("f.qs");
+        on_actionStop_recording_triggered();
     }
 }
 
@@ -207,24 +206,41 @@ void MartletWindow::on_actionStart_program_triggered()
 
 void MartletWindow::on_actionRecord_triggered()
 {
-    m_client->startRecording("f.qs");
+    Q_ASSERT(MartletProject::getCurrent() != NULL);
+    startApp();
 }
+
+void MartletWindow::startApp()
+{
+    Q_ASSERT(MartletProject::getCurrent() != NULL);
+    const QString app = QString("./martex.sh ") + QString::fromStdString(MartletProject::getCurrent()->executable);
+    Q_ASSERT( !app.isEmpty() );
+    qDebug("Starting App.");
+    m_childAppProcess.start(app);
+    QTimer::singleShot(4000, this, SLOT(tryConnectAndStart()));
+}
+
+void MartletWindow::tryConnectAndStart()
+{
+    if (!m_client->tryConnect()) {
+        QTimer::singleShot(40000, this, SLOT(tryConnectAndStart()));
+    } else {
+        m_client->startRecording("f.qs");
+    }
+}
+
 
 void MartletWindow::on_actionStop_recording_triggered()
 {
     m_client->stopRecording("f.qs");
     m_client->askForRecordedText("f.qs");
+    ui->plainTextEdit->setPlainText("\nWaitinng for text from client ....");
 }
 
 void MartletWindow::on_actionPlay_triggered()
 {
     m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
     m_client->play("H.qs");
-}
-
-void MartletWindow::on_pushButton_3_clicked() // record
-{
-//    on_actionRecord_triggered();
 }
 
 void MartletWindow::on_pushButton_4_clicked() // play
