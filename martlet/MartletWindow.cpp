@@ -252,4 +252,10 @@ void MartletWindow::onRecordedTextUpdate(QString txt)
 {
     qDebug() << "Text arrived to main window" << txt;
     ui->plainTextEdit->setPlainText( txt );
+
+    const QString fname = QString::fromStdString( MartletProject::getCurrent()->currentSuite().file );
+    QFile file(fname);
+    file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
+    file.write(txt.toLocal8Bit());
+    file.close();
 }

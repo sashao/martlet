@@ -32,7 +32,8 @@ public:
     
     static MartletProject* getCurrent();
     static void setCurrent(MartletProject* pro);
-    
+    Suite& currentSuite();
+
     bool isValid();
     void loadFromFile(const  std::string& str );
     void saveToFile(const  std::string& str);

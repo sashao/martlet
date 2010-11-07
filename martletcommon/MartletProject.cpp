@@ -30,6 +30,11 @@ void MartletProject::setCurrent(MartletProject* pro)
     m_instance = pro;
 }
 
+MartletProject::Suite& MartletProject::currentSuite()
+{
+    return suites[0];
+}
+
 bool MartletProject::isValid()
 {
     if (executable.empty()) return false;
