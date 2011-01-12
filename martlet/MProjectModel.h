@@ -10,12 +10,24 @@ class MProjectModel : public QAbstractItemModel
 {
 Q_OBJECT
 public:
+    // TODO: remove this enum
     enum {
         FILENAME = 0,
         TYPE,
         EXE,
         SUITEFIRST
     };
+
+    static const int TREE_DEEP_STEP = 100;
+
+    enum {
+        PROJECT_NAME = 0,
+        SET,
+        SUITE,
+        TESTCASE,
+        TESTFILE
+
+    } ProjectTreeOrder;
 
     MProjectModel(QObject *parent = 0);
     

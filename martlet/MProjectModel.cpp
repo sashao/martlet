@@ -35,7 +35,7 @@ void MProjectModel::handleProjectChanges(int suite)
 int	MProjectModel::columnCount ( const QModelIndex & parent ) const
 {
 //    if (m_Project == 0) return 0;
-    return 2;
+    return 1;
 }
 
 int	MProjectModel::rowCount ( const QModelIndex & parent ) const
@@ -56,6 +56,27 @@ bool MProjectModel::setData ( const QModelIndex & index, const QVariant & value,
 }
 
 QVariant MProjectModel::data ( const QModelIndex & index, int role) const
+{
+    if (m_Project == 0)
+        return QVariant();
+
+    QVariant result;
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+        if (index.row() == 0) {
+            result.setValue<QString>(QString::fromStdString(m_Project->fileName));
+        } else if (index.internalId() >= TREE_DEEP_STEP * SET && index.internalId() < TREE_DEEP_STEP * SUITE) {
+            const int setID = index.internalId();
+            // TODO: return set name
+            result.setValue<QString>(QString::fromStdString(m_Project->suites.at(setID).name));
+        } else if (index.internalId() >= SUITE * SET && index.internalId() < TREE_DEEP_STEP * TESTCASE) {
+            const int suiteID = index.internalId();
+            result.setValue<QString>(QString::fromStdString(m_Project->suites.at(suiteID).name));
+        }// ... continue
+    }
+    return result;
+}
+
+/*QVariant MProjectModel::data ( const QModelIndex & index, int role) const
 {
     if (m_Project == 0) return QVariant();
 
@@ -134,12 +155,32 @@ QVariant MProjectModel::data ( const QModelIndex & index, int role) const
     }
 //    qDebug("1 Requested data for row %d, col %d role = %d", index.row(), index.column(), int(role));
     return QVariant();
-}
+}*/
 
 QModelIndex	MProjectModel::index ( int row, int column, const QModelIndex & parent) const
 {
-    if (m_Project == 0) return QModelIndex();
-    
+    if (m_Project == 0) {
+        return QModelIndex();
+    }
+
+    if (row == TREE_DEEP_STEP * PROJECT_NAME && !parent.isValid()) { // project
+        return createIndex(row, column, 0);
+    } else if (parent.isValid()) {
+        if (parent.internalId() < TREE_DEEP_STEP * SET) {
+            // TODO:
+        } else if (parent.internalId() >= TREE_DEEP_STEP * SET && parent.internalId() < TREE_DEEP_STEP * SUITE) { // set
+            return createIndex(row, column, (quint32)(TREE_DEEP_STEP * SUITE + parent.internalId()));
+        } else if (parent.internalId() >= TREE_DEEP_STEP * SUITE && parent.internalId() < TREE_DEEP_STEP * TESTCASE) { // suite
+            return createIndex(row, column, (quint32)(TREE_DEEP_STEP * TESTCASE + parent.internalId()));
+        } else if (parent.internalId() >= TREE_DEEP_STEP * TESTCASE && parent.internalId() < TREE_DEEP_STEP * TESTFILE) { // test case
+            return createIndex(row, column, (quint32)(TREE_DEEP_STEP * TESTFILE + parent.internalId()));
+        } else {
+            assert(false);
+        }
+    }
+    return QModelIndex();
+
+    /*if (m_Project == 0) return QModelIndex();
     int suiteIndex = -1;
     if (row>=SUITEFIRST && !parent.isValid())  {
 //        qDebug("SUITE VERY TREE NODE !!!!!!!!!!!");
@@ -149,28 +190,49 @@ QModelIndex	MProjectModel::index ( int row, int column, const QModelIndex & pare
         suiteIndex = 1000+(parent.internalId());
     }
 //    qDebug("!!!!!!!!!!!!!!!!!!!! index row %d col %d   ID = %d", row, column, suiteIndex);
-    return createIndex(row, column, suiteIndex);
+    return createIndex(row, column, suiteIndex);*/
 }
 
 
 bool	MProjectModel::hasChildren ( const QModelIndex & parent) const
 {
-    if (m_Project == 0) return false;
+    /*if (m_Project == 0) return false;
 //    qDebug("hasChildren row %d col %d", parent.row(), parent.column());
     if (parent.internalId() >= 1000) return false; // suite children
     if (parent.internalId() != -1 ) return true; // SUITE level 1
-    if (!parent.isValid()) return true;
+    if (!parent.isValid()) return true;*/
+
+    if (m_Project == 0)
+        return false;
+
+    if (!parent.isValid() || parent.internalId() < TREE_DEEP_STEP * TESTFILE) {
+        return true;
+    }
     return false;
 }
 
 QModelIndex	MProjectModel::parent ( const QModelIndex & index ) const
 {
-//    qDebug("parent row %d col %d ID = %d", index.row(), index.column(), index.internalId());
+    if (m_Project == 0) {
+        return QModelIndex();
+    }
+
+    if (index.internalId() > TREE_DEEP_STEP * SET && index.internalId() < TREE_DEEP_STEP * SUITE) {
+        // only one project
+        return createIndex(0, index.column(), 0);
+    } else if (index.internalId() >= TREE_DEEP_STEP * SUITE && index.internalId() < TREE_DEEP_STEP * TESTCASE) {
+        const int setID = index.internalId() / (TREE_DEEP_STEP * SET);
+        return createIndex(setID % TREE_DEEP_STEP + 1, index.column(), setID);
+    }// ...continue
+
+    return QModelIndex();
+
+    /*qDebug("parent row %d col %d ID = %d", index.row(), index.column(), index.internalId());
     if (m_Project == 0) return QModelIndex();    
     if (index.internalId() >= 1000) {
         const int suiteID = index.internalId()-1000;
 //        qDebug("!!!!!!!!!!!!!! %d \n\n", suiteID);
         return createIndex(SUITEFIRST+suiteID, index.column() ,suiteID);
     }
-    return QModelIndex();
+    return QModelIndex();*/
 }
