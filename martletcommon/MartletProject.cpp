@@ -30,7 +30,7 @@ void MartletProject::setCurrent(MartletProject* pro)
     m_instance = pro;
 }
 
-MartletProject::Suite& MartletProject::currentSuite()
+Suite& MartletProject::currentSuite()
 {
     return suites[0];
 }
@@ -109,7 +109,7 @@ void MartletProject::notifyAboutChanges(int suiteIdx)
 
 
 
-MartletProject::Suite::Suite(const std::string& nm, const std::string& fl)
+Suite::Suite(const std::string& nm, const std::string& fl)
 {
     name = nm;
     file = fl;
@@ -117,7 +117,7 @@ MartletProject::Suite::Suite(const std::string& nm, const std::string& fl)
 
 
 template<class archive>
-void MartletProject::Suite::serialize(archive& ar, const unsigned int /*version*/)
+void Suite::serialize(archive& ar, const unsigned int /*version*/)
 {
     using boost::serialization::make_nvp;
     ar & make_nvp("Name", name);

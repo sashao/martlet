@@ -2,6 +2,7 @@
 #define MPROJECTMODEL_H
 
 #include <QAbstractItemModel>
+#include "MartletProject.h"
 
 
 class MartletProject;
@@ -10,6 +11,7 @@ class MProjectModel : public QAbstractItemModel
 {
 Q_OBJECT
 public:
+
     // TODO: remove this enum
     enum {
         FILENAME = 0,
@@ -18,14 +20,13 @@ public:
         SUITEFIRST
     };
 
-    static const int TREE_DEEP_STEP = 100;
+    static const long double TREE_DEEP_STEP = 100;
 
     enum {
         PROJECT_NAME = 0,
-        SET,
         SUITE,
         TESTCASE,
-        TESTFILE
+        TESTELEMENT
 
     } ProjectTreeOrder;
 
@@ -50,6 +51,9 @@ protected slots:
     
 private:
     MartletProject* m_Project;
+    QList <TestSection *> m_itemsCache;
+
+    void updateItemsCache();
 
 };
 

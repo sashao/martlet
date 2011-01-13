@@ -2,6 +2,8 @@
 #include "MartletProject.h"
         
 #include <QVariant>
+
+using namespace std;
         
 MProjectModel::MProjectModel(QObject *parent) :
     QAbstractItemModel(parent),
@@ -64,11 +66,7 @@ QVariant MProjectModel::data ( const QModelIndex & index, int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if (index.row() == 0) {
             result.setValue<QString>(QString::fromStdString(m_Project->fileName));
-        } else if (index.internalId() >= TREE_DEEP_STEP * SET && index.internalId() < TREE_DEEP_STEP * SUITE) {
-            const int setID = index.internalId();
-            // TODO: return set name
-            result.setValue<QString>(QString::fromStdString(m_Project->suites.at(setID).name));
-        } else if (index.internalId() >= SUITE * SET && index.internalId() < TREE_DEEP_STEP * TESTCASE) {
+        } else if (index.internalId() >= SUITE * SUITE && index.internalId() < TREE_DEEP_STEP * TESTCASE) {
             const int suiteID = index.internalId();
             result.setValue<QString>(QString::fromStdString(m_Project->suites.at(suiteID).name));
         }// ... continue
@@ -157,7 +155,7 @@ QVariant MProjectModel::data ( const QModelIndex & index, int role) const
     return QVariant();
 }*/
 
-QModelIndex	MProjectModel::index ( int row, int column, const QModelIndex & parent) const
+QModelIndex MProjectModel::index(int row, int column, const QModelIndex & parent) const
 {
     if (m_Project == 0) {
         return QModelIndex();
@@ -166,14 +164,10 @@ QModelIndex	MProjectModel::index ( int row, int column, const QModelIndex & pare
     if (row == TREE_DEEP_STEP * PROJECT_NAME && !parent.isValid()) { // project
         return createIndex(row, column, 0);
     } else if (parent.isValid()) {
-        if (parent.internalId() < TREE_DEEP_STEP * SET) {
-            // TODO:
-        } else if (parent.internalId() >= TREE_DEEP_STEP * SET && parent.internalId() < TREE_DEEP_STEP * SUITE) { // set
-            return createIndex(row, column, (quint32)(TREE_DEEP_STEP * SUITE + parent.internalId()));
-        } else if (parent.internalId() >= TREE_DEEP_STEP * SUITE && parent.internalId() < TREE_DEEP_STEP * TESTCASE) { // suite
-            return createIndex(row, column, (quint32)(TREE_DEEP_STEP * TESTCASE + parent.internalId()));
-        } else if (parent.internalId() >= TREE_DEEP_STEP * TESTCASE && parent.internalId() < TREE_DEEP_STEP * TESTFILE) { // test case
-            return createIndex(row, column, (quint32)(TREE_DEEP_STEP * TESTFILE + parent.internalId()));
+        if (parent.internalId() >= pow(TREE_DEEP_STEP, SUITE) && parent.internalId() < pow(TREE_DEEP_STEP, TESTCASE)) { // suite
+            return createIndex(row, column, (quint32)(pow(TREE_DEEP_STEP, TESTCASE)  + parent.internalId()));
+        } else if (parent.internalId() >= pow(TREE_DEEP_STEP, TESTCASE) && parent.internalId() < pow(TREE_DEEP_STEP, TESTELEMENT)) { // test case
+            return createIndex(row, column, (quint32)(TREE_DEEP_STEP * TESTELEMENT + parent.internalId()));
         } else {
             assert(false);
         }
@@ -205,7 +199,7 @@ bool	MProjectModel::hasChildren ( const QModelIndex & parent) const
     if (m_Project == 0)
         return false;
 
-    if (!parent.isValid() || parent.internalId() < TREE_DEEP_STEP * TESTFILE) {
+    if (!parent.isValid() || parent.internalId() < TREE_DEEP_STEP * TESTELEMENT) {
         return true;
     }
     return false;
@@ -217,12 +211,9 @@ QModelIndex	MProjectModel::parent ( const QModelIndex & index ) const
         return QModelIndex();
     }
 
-    if (index.internalId() > TREE_DEEP_STEP * SET && index.internalId() < TREE_DEEP_STEP * SUITE) {
-        // only one project
-        return createIndex(0, index.column(), 0);
-    } else if (index.internalId() >= TREE_DEEP_STEP * SUITE && index.internalId() < TREE_DEEP_STEP * TESTCASE) {
-        const int setID = index.internalId() / (TREE_DEEP_STEP * SET);
-        return createIndex(setID % TREE_DEEP_STEP + 1, index.column(), setID);
+    if (index.internalId() >= TREE_DEEP_STEP * SUITE && index.internalId() < TREE_DEEP_STEP * TESTCASE) {
+        const int suiteID = index.internalId() / (TREE_DEEP_STEP * SUITE);
+        return createIndex(suiteID % (int)TREE_DEEP_STEP + 1, index.column(), suiteID);
     }// ...continue
 
     return QModelIndex();
@@ -235,4 +226,20 @@ QModelIndex	MProjectModel::parent ( const QModelIndex & index ) const
         return createIndex(SUITEFIRST+suiteID, index.column() ,suiteID);
     }
     return QModelIndex();*/
+}
+
+void MProjectModel::updateItemsCache()
+{
+    m_itemsCache.append(m_Project);
+    int suiteCount = m_Project->suites.size();
+    for (int i = 0; i < suiteCount; ++i) {
+        Suite *suite = &m_Project->suites[i];
+        m_itemsCache.append(suite);
+        int testCaseCount = suite->m_pTestCases.size();
+        for (int j = 0; j < testCaseCount; ++j) {
+            TestCase *testCase = suite->m_pTestCases[0];
+            m_itemsCache.append(testCase);
+            // TODO: loop test case elements (in filesystem)
+        }
+    }
 }

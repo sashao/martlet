@@ -8,24 +8,35 @@
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/vector.hpp>
 
-class MartletProject  : public QObject
+class TestSection
+{
+
+};
+
+class TestCase : public TestSection
+{
+};
+
+class Suite : public TestSection
+{
+public:
+    Suite(const std::string& nm = std::string(), const std::string& fl = std::string());
+    /// suite name
+    std::string name;
+    /// file to load
+    std::string file;
+
+    std::vector <TestCase *> m_pTestCases;
+
+    friend class boost::serialization::access;
+    template<class archive>
+    void serialize(archive& ar, const unsigned int /*version*/);
+};
+
+class MartletProject  : public QObject, public TestSection
 {
     Q_OBJECT
 public:
-
-    class Suite
-    {
-    public:
-        Suite(const std::string& nm = std::string(), const std::string& fl = std::string());
-        /// suite name
-        std::string name;
-        /// file to load
-        std::string file;
-
-        friend class boost::serialization::access;
-        template<class archive>
-        void serialize(archive& ar, const unsigned int /*version*/);
-    };
 
     MartletProject();
     virtual ~MartletProject();
