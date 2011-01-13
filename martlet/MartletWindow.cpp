@@ -82,6 +82,7 @@ void MartletWindow::on_actionNew_triggered()
         MartletProject* pro = new MartletProject(); 
         MartletProject::setCurrent(pro);
         pro->fileName = fileName.toStdString();
+        pro->setName(fileName.toStdString());
         
         ProjectDialog pdialog(this);
         pdialog.setProject(pro);
@@ -89,7 +90,7 @@ void MartletWindow::on_actionNew_triggered()
          
         if (pdialog.result() == QDialog::Accepted)
         {
-            Suite suite1("TestSuite1", "TestSuite1.qs");
+            Suite suite1(pro, "TestSuite1", "TestSuite1.qs");
             pro->suites.push_back(suite1);
             pro->save();
             // load project

@@ -8,19 +8,40 @@
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/vector.hpp>
 
-class TestSection
+class TestItem
 {
-
-};
-
-class TestCase : public TestSection
-{
-};
-
-class Suite : public TestSection
-{
+protected:
+    TestItem *m_pParent;
+    std::string m_name;
 public:
-    Suite(const std::string& nm = std::string(), const std::string& fl = std::string());
+    TestItem *parent() const
+    {
+        return m_pParent;
+    }
+    bool hasParent() const
+    {
+        return m_pParent != 0;
+    }
+    std::string name() const
+    {
+        return m_name;
+    }
+    void setName(const std::string &name)
+    {
+        m_name = name;
+    }
+};
+
+class TestCase : public TestItem
+{
+};
+
+class Suite : public TestItem
+{
+    explicit Suite(TestItem *parent);
+public:
+
+    Suite(TestItem *parent = 0, const std::string& nm = std::string(), const std::string& fl = std::string());
     /// suite name
     std::string name;
     /// file to load
@@ -33,7 +54,7 @@ public:
     void serialize(archive& ar, const unsigned int /*version*/);
 };
 
-class MartletProject  : public QObject, public TestSection
+class MartletProject  : public QObject, public TestItem
 {
     Q_OBJECT
 public:
@@ -55,6 +76,11 @@ public:
     inline bool isDirty() const {
         /// TODO: compare with dom document.
         return m_isDirty;
+    }
+
+    TestItem *parent()
+    {
+        return 0;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////

@@ -11,8 +11,9 @@ MartletProject* MartletProject::m_instance = 0;
 
 
 MartletProject::MartletProject()
+    : m_isDirty(false)
 {
-    m_isDirty = false;
+    m_pParent = 0;
 }
 
 MartletProject::~MartletProject()
@@ -109,8 +110,10 @@ void MartletProject::notifyAboutChanges(int suiteIdx)
 
 
 
-Suite::Suite(const std::string& nm, const std::string& fl)
+Suite::Suite(TestItem *parent, const std::string& nm, const std::string& fl)
 {
+    m_pParent = parent;
+    m_name = nm;
     name = nm;
     file = fl;
 }
