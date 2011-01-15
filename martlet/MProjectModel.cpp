@@ -168,7 +168,10 @@ QVariant MProjectModel::data ( const QModelIndex & index, int role) const
 
 QModelIndex MProjectModel::index(int row, int column, const QModelIndex & parent) const
 {
-    return createIndex(row, column, 0);
+    if (m_Project != 0 && testItemByRow(row) != 0) {
+        return createIndex(row, column, 0);
+    }
+    return QModelIndex();
     /*if (m_Project == 0) {
         return QModelIndex();
     }
@@ -184,7 +187,6 @@ QModelIndex MProjectModel::index(int row, int column, const QModelIndex & parent
             assert(false);
         }
     }*/
-    return QModelIndex();
 
     /*if (m_Project == 0) return QModelIndex();
     int suiteIndex = -1;
@@ -224,11 +226,11 @@ bool	MProjectModel::hasChildren ( const QModelIndex & parent) const
     return false;
 }
 
-QModelIndex	MProjectModel::parent ( const QModelIndex & index ) const
+QModelIndex	MProjectModel::parent ( const QModelIndex & child ) const
 {
-    int parentIdx = testItemParentIndex(index.row());
+    int parentIdx = testItemParentIndex(child.row());
     if (parentIdx != -1) {
-        return createIndex(parentIdx, index.column());
+        return createIndex(parentIdx, child.column());
     }
     return QModelIndex();
     /*if (m_Project == 0) {
@@ -277,7 +279,7 @@ TestItem *MProjectModel::testItemByRow(int rowIdx) const
         updateItemsCache();
     }
     if (rowIdx < m_itemsCache.size()) {
-        m_itemsCache[rowIdx];
+        return m_itemsCache[rowIdx];
     } else {
         return 0;
     }
