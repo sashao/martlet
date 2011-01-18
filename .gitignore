@@ -28,5 +28,6 @@ qrc_*
 *.a
 *~
 *_
-
+/third_party
+/loki-lib
 

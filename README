@@ -48,4 +48,3 @@ If someone happens to have a problem with pushing updates, at this command:
 EX:	$ git config branch.master.merge refs/heads/master
 
 
-
