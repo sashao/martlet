@@ -20,25 +20,25 @@ void MProjectModel::setProject(MartletProject* pro)
         disconnect(m_Project, SIGNAL(projectChanged(int)), this, 0);
         connect(m_Project, SIGNAL(projectChanged(int)), this, SLOT(handleProjectChanges(int)));
         updateItemsCache();
-        emit dataChanged(MProjectModel::index(0, 0, QModelIndex()), MProjectModel::index(rowCount(QModelIndex()), 1, QModelIndex()));
+        emit dataChanged(MProjectModel::index(0, 0, QModelIndex()), MProjectModel::index(rowCount(QModelIndex())-1, 0, QModelIndex()));
     }
     endResetModel();
 }
 
 void MProjectModel::handleProjectChanges(int suite)
 {
+    updateItemsCache();
     if(suite != -1) {
         beginResetModel();
         endResetModel();
     } else {
         emit dataChanged( MProjectModel::index(0, 0, QModelIndex()),
-                          MProjectModel::index(rowCount(QModelIndex()), 1, QModelIndex()) );
+                          MProjectModel::index(rowCount(QModelIndex())-1, 0, QModelIndex()) );
     }
 }
 
 int	MProjectModel::columnCount ( const QModelIndex & parent ) const
 {
-//    if (m_Project == 0) return 0;
     return 1;
 }
 
@@ -50,7 +50,7 @@ int	MProjectModel::rowCount ( const QModelIndex & parent ) const
 //    qDebug("Model has %d rows", rows);
     return rows;*/
 
-    return m_itemsCache.size();
+    return m_itemsCache.count();
 } 
 
 bool MProjectModel::setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole )
@@ -207,17 +207,17 @@ bool	MProjectModel::hasChildren ( const QModelIndex & parent) const
     /*if (m_Project == 0) return false;
 //    qDebug("hasChildren row %d col %d", parent.row(), parent.column());
     if (parent.internalId() >= 1000) return false; // suite children
-    if (parent.internalId() != -1 ) return true; // SUITE level 1
-    if (!parent.isValid()) return true;*/
+    if (parent.internalId() != -1 ) return true; // SUITE level 1*/
+//    if (!parent.isValid()) return true;
 
-    /*if (m_Project == 0)
+    if (m_Project == 0)
         return false;
 
-    if (!parent.isValid() || parent.internalId() < TREE_DEEP_STEP * TESTELEMENT) {
+    if (!parent.isValid() /*|| parent.internalId() < TREE_DEEP_STEP * TESTELEMENT*/) {
         return true;
     }
-    return false;*/
 
+    qDebug("hasChildren ( r %d c %d )",parent.row(), parent.column() );
     int parentRowIdx = parent.row();
     TestItem *testItem = testItemByRow(parentRowIdx);
     if (testItem && parentRowIdx < m_itemsCache.size() - 1) {
@@ -256,8 +256,9 @@ QModelIndex	MProjectModel::parent ( const QModelIndex & child ) const
 
 void MProjectModel::updateItemsCache() const
 {
+    m_itemsCache.clear();
     m_itemsCache.append(m_Project);
-    int suiteCount = m_Project->suites.size();
+    const int suiteCount = m_Project->suites.size();
     for (int i = 0; i < suiteCount; ++i) {
         Suite *suite = &m_Project->suites[i];
         m_itemsCache.append(suite);
@@ -268,6 +269,7 @@ void MProjectModel::updateItemsCache() const
             // TODO: loop test case elements (in filesystem)
         }
     }
+    qDebug("MProjectModel::updateItemsCache() count = %d", m_itemsCache.size());
 }
 
 TestItem *MProjectModel::testItemByRow(int rowIdx) const
@@ -275,9 +277,8 @@ TestItem *MProjectModel::testItemByRow(int rowIdx) const
     if (rowIdx < 0) {
         return 0;
     }
-    if (rowIdx >= m_itemsCache.size()) {
-        updateItemsCache();
-    }
+    Q_ASSERT(rowIdx < m_itemsCache.count());
+
     if (rowIdx < m_itemsCache.size()) {
         return m_itemsCache[rowIdx];
     } else {
