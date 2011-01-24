@@ -213,6 +213,7 @@ bool	MProjectModel::hasChildren ( const QModelIndex & parent) const
     if (m_Project == 0)
         return false;
 
+    // why????
     if (!parent.isValid() /*|| parent.internalId() < TREE_DEEP_STEP * TESTELEMENT*/) {
         return true;
     }
@@ -221,7 +222,10 @@ bool	MProjectModel::hasChildren ( const QModelIndex & parent) const
     int parentRowIdx = parent.row();
     TestItem *testItem = testItemByRow(parentRowIdx);
     if (testItem && parentRowIdx < m_itemsCache.size() - 1) {
-        return testItemByRow(parentRowIdx + 1)->parent() == testItem;
+        TestItem *childTestItem = testItemByRow(parentRowIdx + 1);
+        if (childTestItem) {
+            return childTestItem->parent() == testItem;
+        }
     }
     return false;
 }
