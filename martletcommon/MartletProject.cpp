@@ -13,7 +13,7 @@ MartletProject* MartletProject::m_instance = 0;
 MartletProject::MartletProject()
     : m_isDirty(false)
 {
-    m_pParent = 0;
+    setName("Project");
 }
 
 MartletProject::~MartletProject()
@@ -31,7 +31,7 @@ void MartletProject::setCurrent(MartletProject* pro)
     m_instance = pro;
 }
 
-Suite& MartletProject::currentSuite()
+Suite* MartletProject::currentSuite()
 {
     return suites[0];
 }
@@ -96,6 +96,38 @@ void MartletProject::notifyAboutChanges(int suiteIdx)
 
 
 
+TestItem::TestItem()
+{
+    setName("Unnamed TestItem");
+}
+
+
+
+
+
+
+
+TestCase::TestCase(TestItem *parent, const QString& name)
+{
+    setName(name.toStdString());
+    setParent(parent);
+}
+
+TestCase::TestCase(){
+}
+
+template<class archive>
+void TestCase::serialize(archive& ar, const unsigned int /*version*/)
+{
+    using boost::serialization::make_nvp;
+    ar & make_nvp("Name", m_name);
+//    ar & make_nvp("File", file);
+//    ar & make_nvp("TestCases", m_pTestCases);
+}
+
+
+
+
 
 
 
@@ -110,21 +142,30 @@ void MartletProject::notifyAboutChanges(int suiteIdx)
 
 
 
-Suite::Suite(TestItem *parent, const std::string& nm, const std::string& fl)
+Suite::Suite(TestItem *parent, const std::string& nm)
 {
-    m_pParent = parent;
-    m_name = nm;
-    name = nm;
-    file = fl;
+    setParent(parent);
+    setName(nm);
+    // TODO: temporary add face test case
+    m_pTestCases.push_back(new TestCase(this, "Tk1"));
+    m_pTestCases.push_back(new TestCase(this, "Tk2"));
+    m_pTestCases.push_back(new TestCase(this, "Tk3"));
 }
 
+Suite::~Suite()
+{
+//    for(unsigned int i = 0;i< m_pTestCases.size(); ++i){
+//        delete m_pTestCases[i];
+//    }
+}
 
 template<class archive>
 void Suite::serialize(archive& ar, const unsigned int /*version*/)
 {
     using boost::serialization::make_nvp;
-    ar & make_nvp("Name", name);
-    ar & make_nvp("File", file);
+    ar & make_nvp("Name", m_name);
+//    ar & make_nvp("File", file);
+    ar & make_nvp("TestCases", m_pTestCases);
 }
 
 

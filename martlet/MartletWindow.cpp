@@ -90,7 +90,7 @@ void MartletWindow::on_actionNew_triggered()
          
         if (pdialog.result() == QDialog::Accepted)
         {
-            Suite suite1(pro, "TestSuite1", "TestSuite1.qs");
+            Suite* suite1 = new Suite(pro, "TestSuite1");
             pro->suites.push_back(suite1);
             pro->save();
             // load project
@@ -163,14 +163,12 @@ void MartletWindow::on_actionNew_Suite_triggered()
     QString name = QInputDialog::getText(this, "SuiteName", "Enter new suite name:", QLineEdit::Normal, "xSuite", &ok);
     if (!name.isEmpty() && ok) {
 
-        QString fname = QInputDialog::getText(this, "SuiteFileName", "Enter new suite file name:", QLineEdit::Normal, name+".qs", &ok);
-        if (!fname.isEmpty() && ok) {
-            Suite suite;
-            suite.name = name.toStdString();
-            suite.file = fname.toStdString();
+//        QString fname = QInputDialog::getText(this, "SuiteFileName", "Enter new suite file name:", QLineEdit::Normal, name+".qs", &ok);
+//        if (!fname.isEmpty() && ok) {
+            Suite* suite = new Suite(MartletProject::getCurrent(), name.toStdString());
             MartletProject::getCurrent()->suites.push_back(suite);
             MartletProject::getCurrent()->notifyAboutChanges(MartletProject::getCurrent()->suites.size());
-        }
+//        }
         }
 }
 
@@ -178,19 +176,20 @@ void MartletWindow::on_actionDelete_existing_suite_triggered()
 {
     QStringList sl;
 
-    std::vector<Suite>& suites = MartletProject::getCurrent()->suites;
+    std::vector<Suite *>& suites = MartletProject::getCurrent()->suites;
 
-    std::vector<Suite>::iterator iter = suites.begin();
+    std::vector<Suite *>::iterator iter = suites.begin();
     for (;iter !=  suites.end(); ++iter) {
-        sl.append( QString::fromStdString((*iter).name) );
+        sl.append( QString::fromStdString((*iter)->name()) );
     }
 
     bool ok = false;
     QString name = QInputDialog::getItem(this, "Delete suite", "Choose one", sl, -1, false, &ok);
     if (!name.isEmpty() && ok) {
-        std::vector<Suite>::iterator iter = suites.begin();
+        std::vector<Suite *>::iterator iter = suites.begin();
         for (;iter != suites.end(); ++iter) {
-            if (QString::fromStdString((*iter).name)  == name) {
+            if (QString::fromStdString((*iter)->name())  == name) {
+                delete (* iter);
                 suites.erase(iter);
                 break;
             }
@@ -254,7 +253,7 @@ void MartletWindow::onRecordedTextUpdate(QString txt)
     qDebug() << "Text arrived to main window" << txt;
     ui->plainTextEdit->setPlainText( txt );
 
-    const QString fname = QString::fromStdString( MartletProject::getCurrent()->currentSuite().file );
+    const QString fname = QString::fromStdString( MartletProject::getCurrent()->currentSuite()->name() );
     QFile file(fname);
     file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
     file.write(txt.toLocal8Bit());

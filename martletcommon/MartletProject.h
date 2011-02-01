@@ -8,20 +8,43 @@
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/vector.hpp>
 
-class TestItem
+class TestItem: public QObject
 {
+    Q_OBJECT
+private:
+//        TestItem *m_pParent;
+//        std::vector <TestItem *> children;
 protected:
-    TestItem *m_pParent;
+    TestItem();
+
     std::string m_name;
 public:
-    TestItem *parent() const
+    TestItem *parentItem() const
     {
-        return m_pParent;
+        return qobject_cast<TestItem *> (parent());
     }
     bool hasParent() const
     {
-        return m_pParent != 0;
+        return parentItem() != 0;
     }
+
+    bool hasChildren() const
+    {
+        return !childrenItems().isEmpty();
+    }
+    QList<TestItem *> childrenItems() const
+    {
+        QList<TestItem *> l;
+        const QObjectList & objs = children();
+        QObject* o = 0;
+        foreach (o, objs) {
+            TestItem * ti = qobject_cast<TestItem *>(o);
+            if (ti) l.push_back(ti);
+        }
+
+        return l;
+    }
+
     std::string name() const
     {
         return m_name;
@@ -34,18 +57,34 @@ public:
 
 class TestCase : public TestItem
 {
+        Q_OBJECT
+    public:
+        TestCase(TestItem *parent, const QString& name);
+
+//        /// suite name
+//        std::string name;
+//        /// file to load
+//        std::string file;
+
+    protected:
+        TestCase();
+        friend class boost::serialization::access;
+        template<class archive>
+        void serialize(archive& ar, const unsigned int /*version*/);
+
 };
 
 class Suite : public TestItem
 {
+    Q_OBJECT
     explicit Suite(TestItem *parent);
 public:
 
-    Suite(TestItem *parent = 0, const std::string& nm = std::string(), const std::string& fl = std::string());
-    /// suite name
-    std::string name;
-    /// file to load
-    std::string file;
+    Suite(TestItem *parent=0, const std::string& nm = std::string());
+    ~Suite();
+
+//    /// suite name
+//    std::string name;
 
     std::vector <TestCase *> m_pTestCases;
 
@@ -54,7 +93,7 @@ public:
     void serialize(archive& ar, const unsigned int /*version*/);
 };
 
-class MartletProject  : public QObject, public TestItem
+class MartletProject : public TestItem
 {
     Q_OBJECT
 public:
@@ -64,7 +103,7 @@ public:
     
     static MartletProject* getCurrent();
     static void setCurrent(MartletProject* pro);
-    Suite& currentSuite();
+    Suite* currentSuite();
 
     bool isValid();
     void loadFromFile(const  std::string& str );
@@ -90,7 +129,7 @@ public:
     /// absolute path to tested executable with parameters.
     std::string executable;
     /// Non empty list of available suites;
-    std::vector<Suite> suites;
+    std::vector<Suite *> suites;
     /**
      * Type string for decoding e.g. "mt-qscript"
      * Must be unique.

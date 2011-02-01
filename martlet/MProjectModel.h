@@ -51,11 +51,6 @@ protected slots:
     
 private:
     MartletProject* m_Project;
-    mutable QList <TestItem *> m_itemsCache;
-
-    void updateItemsCache() const;
-    TestItem *testItemByRow(int rowIdx) const;
-    int testItemParentIndex(int childRowIdx) const;
 
 };
 
