@@ -81,8 +81,9 @@ void MartletWindow::on_actionNew_triggered()
         
         MartletProject* pro = new MartletProject(); 
         MartletProject::setCurrent(pro);
-        pro->fileName = fileName.toStdString();
-        pro->setName(fileName.toStdString());
+        pro->fileName.setName(fileName.toStdString());
+        QFileInfo i (fileName);
+        pro->setName( i.baseName().toStdString());
         
         ProjectDialog pdialog(this);
         pdialog.setProject(pro);

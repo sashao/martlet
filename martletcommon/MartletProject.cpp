@@ -12,6 +12,8 @@ MartletProject* MartletProject::m_instance = 0;
 
 MartletProject::MartletProject()
     : m_isDirty(false)
+    , fileName(this)
+
 {
     setName("Project");
 }
@@ -39,7 +41,7 @@ Suite* MartletProject::currentSuite()
 bool MartletProject::isValid()
 {
     if (executable.empty()) return false;
-    if (fileName.empty()) return false;
+    if (fileName.name().empty()) return false;
     if (type.empty()) return false;
     return true;
 }
@@ -48,9 +50,9 @@ void MartletProject::loadFromFile(const  std::string& str )
 {
     qDebug() << "Loading project from file "<< QString::fromStdString(str);
     Q_ASSERT(!str.empty());
-    fileName = str;
+    fileName.setName(str);
 
-    std::ifstream ifs(fileName.c_str() /*, std::ios::in | std::ios::trunc*/);
+    std::ifstream ifs(fileName.name().c_str() /*, std::ios::in | std::ios::trunc*/);
     if (ifs.is_open()) {
         boost::archive::xml_iarchive xml(ifs);
         xml.register_type(static_cast<MartletProject*>(0));
@@ -60,11 +62,11 @@ void MartletProject::loadFromFile(const  std::string& str )
 
 void MartletProject::saveToFile(const  std::string& str)
 {
-    qDebug() << "Saving project to file "<< QString::fromStdString(fileName);
+    qDebug() << "Saving project to file "<< QString::fromStdString(fileName.name());
     Q_ASSERT(!str.empty());
-    fileName = str;
+    fileName.setName( str );
 
-    std::ofstream ofs(fileName.c_str(), std::ios::out | std::ios::trunc);
+    std::ofstream ofs(fileName.name().c_str(), std::ios::out | std::ios::trunc);
     if (ofs.is_open()) {
         boost::archive::xml_oarchive xml(ofs);
         xml.register_type(static_cast<MartletProject*>(0));
@@ -74,7 +76,7 @@ void MartletProject::saveToFile(const  std::string& str)
 
 void MartletProject::save()
 {
-    saveToFile(fileName);
+    saveToFile(fileName.name());
 }
 
 
@@ -82,6 +84,7 @@ template<class archive>
 void MartletProject::serialize(archive& ar, const unsigned int /*version*/)
 {
     using boost::serialization::make_nvp;
+    ar & make_nvp("Name", m_name);
     ar & make_nvp("Type", type);
     //ar & make_nvp("Filename", filename);
     ar & make_nvp("Executable", executable);
@@ -96,7 +99,8 @@ void MartletProject::notifyAboutChanges(int suiteIdx)
 
 
 
-TestItem::TestItem()
+TestItem::TestItem(TestItem * parent)
+    : QObject(parent)
 {
     setName("Unnamed TestItem");
 }

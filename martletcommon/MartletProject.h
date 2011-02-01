@@ -12,13 +12,11 @@ class TestItem: public QObject
 {
     Q_OBJECT
 private:
-//        TestItem *m_pParent;
-//        std::vector <TestItem *> children;
 protected:
-    TestItem();
-
     std::string m_name;
 public:
+    TestItem(TestItem * parent = 0);
+
     TestItem *parentItem() const
     {
         return qobject_cast<TestItem *> (parent());
@@ -45,11 +43,11 @@ public:
         return l;
     }
 
-    std::string name() const
+    virtual std::string name() const
     {
         return m_name;
     }
-    void setName(const std::string &name)
+    virtual void setName(const std::string &name)
     {
         m_name = name;
     }
@@ -136,7 +134,7 @@ public:
      */
     std::string type;
 
-    std::string fileName;
+    TestItem fileName;
 
 
     // SERIALIZATION
