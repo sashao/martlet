@@ -55,11 +55,18 @@ int	MProjectModel::rowCount ( const QModelIndex & parent ) const
     }
 } 
 
-bool MProjectModel::setData ( const QModelIndex & /*index*/, const QVariant & /*value*/, int role = Qt::EditRole )
+bool MProjectModel::setData ( const QModelIndex & index, const QVariant & value, int role = Qt::EditRole )
 {
-    Q_UNUSED(role);
     if (m_Project == 0) return false; 
-    
+
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+        TestItem *testItem = static_cast<TestItem *> (index.internalPointer());
+        if (testItem) {
+            testItem->setName(value.toString().toStdString());
+            emit dataChanged(index, index);
+        }
+    }
+
     //TODO
     return false;
 }
@@ -77,97 +84,13 @@ QVariant MProjectModel::data ( const QModelIndex & index, int role) const
         }
     }
 
-    /*if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        if (index.row() == 0) {
-            result.setValue<QString>(QString::fromStdString(m_Project->fileName));
-        } else if (index.internalId() >= SUITE * SUITE && index.internalId() < TREE_DEEP_STEP * TESTCASE) {
-            const int suiteID = index.internalId();
-            result.setValue<QString>(QString::fromStdString(m_Project->suites.at(suiteID).name));
-        }// ... continue
-    }*/
     return result;
 }
 
-/*QVariant MProjectModel::data ( const QModelIndex & index, int role) const
+Qt::ItemFlags MProjectModel::flags ( const QModelIndex & /*index*/ ) const
 {
-    if (m_Project == 0) return QVariant();
-
-    if (role == Qt::DisplayRole || role == Qt::EditRole) {
-//        qDebug("2 Requested data for row %d, col %d role = %d ID = %d", index.row(), index.column(), int(role), index.internalId());
-        QVariant result;
-        if (index.internalId() >= 1000) {   // SUITE sub properties
-            const int suiteID = index.internalId()-1000;            
-            if (index.column() == 1) {
-                switch(index.row()) {
-                case 0:
-                    result.setValue<QString>(QString::fromStdString(m_Project->suites.at(suiteID).name));
-                    break;
-                case 1:
-                    result.setValue<QString>(QString::fromStdString(m_Project->suites.at(suiteID).file));
-                    break;
-                }
-            }
-            else
-            {
-                switch(index.row()) {
-                case 0:
-                    result.setValue<QString>("name");
-                    break;
-                case 1:
-                    result.setValue<QString>("file");
-                    break;
-                }
-            }
-        } 
-        else 
-        {
-            if ( index.row() >= SUITEFIRST && index.internalId() >= 0) {
-                if (index.column() == 1) {
-                    result.setValue<QString>(QString::fromStdString(m_Project->suites.at(index.row()-SUITEFIRST).name) );
-                } else {
-                    result.setValue<QString>("Suite:");
-                }
-            } else 
-            {
-                if (index.column() == 1) {
-                    switch(index.row()) {
-                    case FILENAME:
-                        result.setValue<QString>(QString::fromStdString(m_Project->fileName));
-                        break;
-                    case TYPE:
-                        result.setValue<QString>(QString::fromStdString(m_Project->type));
-                        break;
-                    case EXE:
-                        result.setValue<QString>(QString::fromStdString(m_Project->executable));
-                        break;
-                    default:
-                        qWarning("Unhandled row index");
-                        break;
-                    }
-                } else {
-                    switch(index.row()) {
-                    case FILENAME:
-                        result.setValue<QString>("Filname:");
-                        break;
-                    case TYPE:
-                        result.setValue<QString>("Type:");
-                        break;
-                    case EXE:
-                        result.setValue<QString>("Exe name:");
-                        break;
-                    default:
-                        qWarning("Unhandled row index");
-                        break;
-                    }
-
-                }
-            }
-        }
-        return result;
-    }
-//    qDebug("1 Requested data for row %d, col %d role = %d", index.row(), index.column(), int(role));
-    return QVariant();
-}*/
+    return Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+}
 
 QModelIndex MProjectModel::index(int row, int column, const QModelIndex & parent) const
 {

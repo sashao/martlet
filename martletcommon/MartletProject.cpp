@@ -64,7 +64,7 @@ void MartletProject::loadFromFile(const  std::string& str )
         (*i)->setParent(this);
         qDebug("Add suite %s", qPrintable(QString::fromStdString((*i)->name())));
 //        std::vector <TestCase *> m_pTestCases
-        for (std::vector<TestCase *>::iterator it = (*i)->m_pTestCases.begin() ; it != (*i)->m_pTestCases.end(); ++it) {
+        for (std::vector<TestCase *>::iterator it = (*i)->testCases.begin() ; it != (*i)->testCases.end(); ++it) {
             (*it)->setParent(*i);
             qDebug("Add test case %s", qPrintable(QString::fromStdString((*it)->name())));
         }
