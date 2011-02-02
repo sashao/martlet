@@ -76,10 +76,15 @@ void MartletProject::loadFromFile(const  std::string& str )
     for (std::vector<Suite *>::iterator i = suites.begin(); i != suites.end(); ++i) {
         (*i)->setParent(this);
         qDebug("Add suite %s", qPrintable(QString::fromStdString((*i)->name())));
-//        std::vector <TestCase *> m_pTestCases
+
         for (std::vector<TestCase *>::iterator it = (*i)->testCases.begin() ; it != (*i)->testCases.end(); ++it) {
             (*it)->setParent(*i);
             qDebug("Add test case %s", qPrintable(QString::fromStdString((*it)->name())));
+
+            for (std::vector<TestFile *>::iterator ft = (*it)->files.begin() ; ft != (*it)->files.end(); ++ft) {
+                (*ft)->setParent(*it);
+                qDebug("Add test file %s", qPrintable(QString::fromStdString((*ft)->name())));
+            }
         }
     }
     m_isDirty = false;

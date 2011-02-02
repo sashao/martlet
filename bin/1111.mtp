@@ -23,21 +23,24 @@
 				<item class_id_reference="4" object_id="_3">
 					<Name>wwwww</Name>
 					<Files>
-						<count>1</count>
+						<count>2</count>
 						<item_version>0</item_version>
 						<item class_id="6" tracking_level="1" version="0" object_id="_4">
 							<Name>FileMe.qs</Name>
+						</item>
+						<item class_id_reference="6" object_id="_5">
+							<Name>File1111.qcc</Name>
 						</item>
 					</Files>
 				</item>
 			</TestCases>
 		</item>
-		<item class_id_reference="2" object_id="_5">
+		<item class_id_reference="2" object_id="_6">
 			<Name>Suite mymymymy</Name>
 			<TestCases>
 				<count>1</count>
 				<item_version>0</item_version>
-				<item class_id_reference="4" object_id="_6">
+				<item class_id_reference="4" object_id="_7">
 					<Name>Sq</Name>
 					<Files>
 						<count>0</count>
