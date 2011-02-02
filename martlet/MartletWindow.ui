@@ -120,10 +120,20 @@
       <string>testcase</string>
      </property>
      <addaction name="actionTK_Delete"/>
+     <addaction name="actionTK_Add_File"/>
+    </widget>
+    <widget class="QMenu" name="menuTest_file">
+     <property name="title">
+      <string>test file</string>
+     </property>
+     <addaction name="actionRecord_from_scratch"/>
+     <addaction name="actionFile_Delete_From_Suite"/>
+     <addaction name="actionFile_Delete_Phisically"/>
     </widget>
     <addaction name="menuProject_2"/>
     <addaction name="menuSuite"/>
     <addaction name="menuTestcase"/>
+    <addaction name="menuTest_file"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSript"/>
@@ -222,6 +232,26 @@
   <action name="actionTK_Delete">
    <property name="text">
     <string>TK Delete</string>
+   </property>
+  </action>
+  <action name="actionTK_Add_File">
+   <property name="text">
+    <string>TK Add File</string>
+   </property>
+  </action>
+  <action name="actionRecord_from_scratch">
+   <property name="text">
+    <string>Record from scratch</string>
+   </property>
+  </action>
+  <action name="actionFile_Delete_From_Suite">
+   <property name="text">
+    <string>File Delete From Suite</string>
+   </property>
+  </action>
+  <action name="actionFile_Delete_Phisically">
+   <property name="text">
+    <string>File Delete Phisically</string>
    </property>
   </action>
  </widget>

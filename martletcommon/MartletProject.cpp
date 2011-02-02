@@ -1,5 +1,6 @@
 #include "MartletProject.h"
 #include <QTextStream>
+#include <QMessageBox>
 #include <QDebug>
 
 #include <fstream>
@@ -40,9 +41,9 @@ Suite* MartletProject::currentSuite()
 
 bool MartletProject::isValid()
 {
-    if (executable.empty()) return false;
+    if (executable.name().empty()) return false;
     if (fileName.name().empty()) return false;
-    if (type.empty()) return false;
+    if (type.name().empty()) return false;
     return true;
 }
 
@@ -52,13 +53,25 @@ void MartletProject::loadFromFile(const  std::string& str )
     Q_ASSERT(!str.empty());
     fileName.setName(str);
 
-    std::ifstream ifs(fileName.name().c_str() /*, std::ios::in | std::ios::trunc*/);
-    if (ifs.is_open()) {
-        boost::archive::xml_iarchive xml(ifs);
-        xml.register_type(static_cast<MartletProject*>(0));
-        xml >> boost::serialization::make_nvp("MartletProject", *this);
+    try
+    {
+        std::ifstream ifs(fileName.name().c_str() /*, std::ios::in | std::ios::trunc*/);
+        if (ifs.is_open()) {
+            boost::archive::xml_iarchive xml(ifs);
+            xml.register_type(static_cast<MartletProject*>(0));
+            xml >> boost::serialization::make_nvp("MartletProject", *this);
+        }
+    }
+    catch (boost::archive::archive_exception e)
+    {
+        QMessageBox::critical(0, "Error loading project",
+                              QString("An error occured during loading project %1 \n\n%2\n").arg(QString::fromStdString(str)).arg(e.what()));
+        qDebug(e.what());
+        return;
     }
 
+    type.setParent(this);
+    executable.setParent(this);
     qDebug("Loaded %d suites", suites.size() );
     for (std::vector<Suite *>::iterator i = suites.begin(); i != suites.end(); ++i) {
         (*i)->setParent(this);
@@ -69,6 +82,7 @@ void MartletProject::loadFromFile(const  std::string& str )
             qDebug("Add test case %s", qPrintable(QString::fromStdString((*it)->name())));
         }
     }
+    m_isDirty = false;
 }
 
 void MartletProject::saveToFile(const  std::string& str)
@@ -83,6 +97,7 @@ void MartletProject::saveToFile(const  std::string& str)
         xml.register_type(static_cast<MartletProject*>(0));
         xml << boost::serialization::make_nvp("MartletProject", *this);
     }
+    m_isDirty = false;
 }
 
 void MartletProject::save()
@@ -96,9 +111,9 @@ void MartletProject::serialize(archive& ar, const unsigned int /*version*/)
 {
     using boost::serialization::make_nvp;
     ar & make_nvp("Name", m_name);
-    ar & make_nvp("Type", type);
+    ar & make_nvp("Type", type.m_name);
     //ar & make_nvp("Filename", filename);
-    ar & make_nvp("Executable", executable);
+    ar & make_nvp("Executable", executable.m_name);
     ar & make_nvp("Suites", suites);
 }
 
@@ -122,6 +137,35 @@ TestItem::TestItem(TestItem * parent)
 
 
 
+TestFile::TestFile(TestItem *parent, const QString& name)
+{
+    setName(name.toStdString());
+    setParent(parent);
+}
+
+TestFile::TestFile(){
+}
+
+template<class archive>
+void TestFile::serialize(archive& ar, const unsigned int /*version*/)
+{
+    using boost::serialization::make_nvp;
+    ar & make_nvp("Name", m_name);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 TestCase::TestCase(TestItem *parent, const QString& name)
 {
     setName(name.toStdString());
@@ -136,7 +180,7 @@ void TestCase::serialize(archive& ar, const unsigned int /*version*/)
 {
     using boost::serialization::make_nvp;
     ar & make_nvp("Name", m_name);
-//    ar & make_nvp("File", file);
+    ar & make_nvp("Files", files);
 //    ar & make_nvp("TestCases", m_pTestCases);
 }
 

@@ -28,6 +28,7 @@ MartletWindow::MartletWindow(QWidget *parent) :
     m_Model->setProject(MartletProject::getCurrent());
     ui->treeView->setModel(m_Model);
     ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->menuBar->removeAction(ui->menuContextMenu->menuAction());
 
     m_client = new MartletClient;
     connect(m_client, SIGNAL(recordedTextArrived(QString)), this, SLOT(onRecordedTextUpdate(QString)));
@@ -67,15 +68,17 @@ void MartletWindow::on_treeView_customContextMenuRequested ( const QPoint & pos 
 
     if (i.isValid()) {
 
+        if ( getCurrentItem<TestFile>() ) {
+            al = ui->menuTest_file->actions();
+        } else
         if ( getCurrentItem<TestCase>() ) {
-            al.append(ui->actionTK_Delete);
+            al = ui->menuTestcase->actions();
         } else
         if ( getCurrentItem<Suite>() ) {
-            al.append(ui->actionSuite_Delete);
-            al.append(ui->actionSuite_Add_Test_Case);
+            al = ui->menuSuite->actions();
         } else
         if ( getCurrentItem<MartletProject>() ) {
-            al.append(ui->actionProject_Add_suite);
+            al = ui->menuProject_2->actions();
         }
 
         if (!al.isEmpty()) {
@@ -139,6 +142,7 @@ void MartletWindow::on_actionNew_triggered()
 void MartletWindow::loadCurrentProjectIntoUI()
 {
     m_Model->setProject(MartletProject::getCurrent());    
+    ui->treeView->expandAll();
 }
 
 
@@ -183,14 +187,15 @@ void MartletWindow::on_actionLoad_triggered()
         delete MartletProject::getCurrent();    
         MartletProject::setCurrent(0);
         
-        MartletProject* pro = new MartletProject(); 
+        MartletProject* pro = new MartletProject();
         // load project
         pro->loadFromFile(fileName.toStdString());
+
         MartletProject::setCurrent(pro);
 
         loadCurrentProjectIntoUI();
         setState<ProjectOpenedState>();
-    }    
+    }
 }
 
 void MartletWindow::on_actionNew_Suite_triggered()
@@ -203,7 +208,7 @@ void MartletWindow::on_actionNew_Suite_triggered()
 //        if (!fname.isEmpty() && ok) {
             Suite* suite = new Suite(MartletProject::getCurrent(), name.toStdString());
             MartletProject::getCurrent()->suites.push_back(suite);
-            MartletProject::getCurrent()->notifyAboutChanges(MartletProject::getCurrent()->suites.size());
+            loadCurrentProjectIntoUI();
 //        }
         }
 }
@@ -249,7 +254,7 @@ void MartletWindow::on_actionRecord_triggered()
 void MartletWindow::startApp()
 {
     Q_ASSERT(MartletProject::getCurrent() != NULL);
-    const QString app = QString("./martex.sh ") + QString::fromStdString(MartletProject::getCurrent()->executable);
+    const QString app = QString("./martex.sh ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
     Q_ASSERT( !app.isEmpty() );
     qDebug("Starting App.");
     m_childAppProcess.start(app);
@@ -304,7 +309,7 @@ void MartletWindow::on_actionProject_Add_suite_triggered()
         if (!n.isEmpty())  {
             Suite *s = new Suite(p, n.toStdString());
             p->suites.push_back(s);
-            MartletProject::getCurrent()->notifyAboutChanges(0);
+            loadCurrentProjectIntoUI();
         }
     }
 }
@@ -318,7 +323,7 @@ void MartletWindow::on_actionSuite_Delete_triggered()
         if (i != MartletProject::getCurrent()->suites.end()) {
             MartletProject::getCurrent()->suites.erase(i, i+1);
             delete s;
-            MartletProject::getCurrent()->notifyAboutChanges(0);
+            loadCurrentProjectIntoUI();
         }
     }
 }
@@ -330,7 +335,7 @@ void MartletWindow::on_actionSuite_Add_Test_Case_triggered()
         const QString n = QInputDialog::getText(this, "Enter test case name", "Test Case name");
         if (!n.isEmpty())  {
             s->testCases.push_back(new TestCase(s, n));
-            MartletProject::getCurrent()->notifyAboutChanges(0);
+            loadCurrentProjectIntoUI();
         }
     }
 }
@@ -346,8 +351,36 @@ void MartletWindow::on_actionTK_Delete_triggered()
             if (i != suite->testCases.end()) {
                 suite->testCases.erase(i, i+1);
                 delete tc;
-                MartletProject::getCurrent()->notifyAboutChanges(0);
+                loadCurrentProjectIntoUI();
             }
         }
     }
+}
+
+void MartletWindow::on_actionTK_Add_File_triggered()
+{
+    TestCase * tk = getCurrentItem<TestCase>();
+    if (tk) {
+        const QString n = QInputDialog::getText(this, "Enter test file name", "Test File name");
+        if (!n.isEmpty())  {
+            tk->files.push_back(new TestFile(tk, n));
+            loadCurrentProjectIntoUI();
+        }
+    }
+
+}
+
+void MartletWindow::on_actionRecord_from_scratch_triggered()
+{
+
+}
+
+void MartletWindow::on_actionFile_Delete_From_Suite_triggered()
+{
+
+}
+
+void MartletWindow::on_actionFile_Delete_Phisically_triggered()
+{
+
 }

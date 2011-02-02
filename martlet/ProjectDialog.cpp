@@ -20,17 +20,17 @@ void ProjectDialog::setProject(MartletProject* pro)
     Q_ASSERT(pro != 0);
     m_pro = pro;
     ui->filenameEdit->setText( QString::fromStdString(pro->fileName.name()));
-    ui->executableName->setText(QString::fromStdString(pro->executable));
-    ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findText(QString::fromStdString(pro->type)));
+    ui->executableName->setText(QString::fromStdString(pro->executable.name()));
+    ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findText(QString::fromStdString(pro->type.name())));
 }
 
-void ProjectDialog::populateToproject()
+void ProjectDialog::populateToProject()
 {
     Q_ASSERT(m_pro != 0);
     qDebug("ProjectDialog: Populating updated information to project.");
     m_pro->fileName .setName(ui->filenameEdit->text().toStdString());
-    m_pro->executable = ui->executableName->text().toStdString();
-    m_pro->type = ui->typeComboBox->currentText().toStdString();
+    m_pro->executable.setName( ui->executableName->text().toStdString());
+    m_pro->type.setName( ui->typeComboBox->currentText().toStdString());
 }
 
 
@@ -58,5 +58,5 @@ void ProjectDialog::on_execButton_clicked()
 
 void ProjectDialog::on_buttonBox_accepted()
 {
-    populateToproject(); 
+    populateToProject();
 }

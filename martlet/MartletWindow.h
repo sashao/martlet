@@ -82,6 +82,10 @@ private slots:
     void on_actionSuite_Delete_triggered();
     void on_actionSuite_Add_Test_Case_triggered();
     void on_actionTK_Delete_triggered();
+    void on_actionTK_Add_File_triggered();
+    void on_actionRecord_from_scratch_triggered();
+    void on_actionFile_Delete_From_Suite_triggered();
+    void on_actionFile_Delete_Phisically_triggered();
 };
 
 #endif // MARTLETWINDOW_H

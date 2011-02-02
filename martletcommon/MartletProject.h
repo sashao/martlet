@@ -51,7 +51,25 @@ public:
     {
         m_name = name;
     }
+    friend class MartletProject;
 };
+
+
+class TestFile : public TestItem
+{
+        Q_OBJECT
+    public:
+        TestFile(TestItem *parent, const QString& name);
+
+    protected:
+        TestFile();
+        friend class boost::serialization::access;
+        template<class archive>
+        void serialize(archive& ar, const unsigned int /*version*/);
+
+};
+
+
 
 class TestCase : public TestItem
 {
@@ -59,10 +77,7 @@ class TestCase : public TestItem
     public:
         TestCase(TestItem *parent, const QString& name);
 
-//        /// suite name
-//        std::string name;
-//        /// file to load
-//        std::string file;
+        std::vector<TestFile *> files;
 
     protected:
         TestCase();
@@ -125,14 +140,14 @@ public:
     /////////////////////////////////////////////////////////////////////////////////////
     
     /// absolute path to tested executable with parameters.
-    std::string executable;
+    TestItem executable;
     /// Non empty list of available suites;
     std::vector<Suite *> suites;
     /**
      * Type string for decoding e.g. "mt-qscript"
      * Must be unique.
      */
-    std::string type;
+    TestItem type;
 
     TestItem fileName;
 

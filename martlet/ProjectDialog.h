@@ -18,7 +18,7 @@ public:
     void setProject(MartletProject* pro);
     
 protected:
-    void populateToproject();
+    void populateToProject();
             
     void changeEvent(QEvent *e);
 
