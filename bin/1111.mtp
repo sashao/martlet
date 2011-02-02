@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE boost_serialization>
+<boost_serialization signature="serialization::archive" version="7">
+<MartletProject class_id="0" tracking_level="1" version="0" object_id="_0">
+	<Name>1111_project</Name>
+	<Type>mt-qscript</Type>
+	<Executable>./QtImageCut</Executable>
+	<Suites class_id="1" tracking_level="0" version="0">
+		<count>2</count>
+		<item_version>0</item_version>
+		<item class_id="2" tracking_level="1" version="0" object_id="_1">
+			<Name>hello W Suite</Name>
+			<TestCases class_id="3" tracking_level="0" version="0">
+				<count>2</count>
+				<item_version>0</item_version>
+				<item class_id="4" tracking_level="1" version="0" object_id="_2">
+					<Name>qqqqq</Name>
+					<Files class_id="5" tracking_level="0" version="0">
+						<count>0</count>
+						<item_version>0</item_version>
+					</Files>
+				</item>
+				<item class_id_reference="4" object_id="_3">
+					<Name>wwwww</Name>
+					<Files>
+						<count>1</count>
+						<item_version>0</item_version>
+						<item class_id="6" tracking_level="1" version="0" object_id="_4">
+							<Name>FileMe.qs</Name>
+						</item>
+					</Files>
+				</item>
+			</TestCases>
+		</item>
+		<item class_id_reference="2" object_id="_5">
+			<Name>Suite mymymymy</Name>
+			<TestCases>
+				<count>1</count>
+				<item_version>0</item_version>
+				<item class_id_reference="4" object_id="_6">
+					<Name>Sq</Name>
+					<Files>
+						<count>0</count>
+						<item_version>0</item_version>
+					</Files>
+				</item>
+			</TestCases>
+		</item>
+	</Suites>
+</MartletProject>
+</boost_serialization>
+
