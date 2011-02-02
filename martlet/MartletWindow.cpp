@@ -87,6 +87,36 @@ void MartletWindow::on_treeView_customContextMenuRequested ( const QPoint & pos 
     }
 }
 
+
+void MartletWindow::on_treeView_clicked(QModelIndex index)
+{
+    const QModelIndex i = ui->treeView->currentIndex();
+
+    if (i.isValid()) {
+
+        if ( TestFile * tf = getCurrentItem<TestFile>() ) {
+
+            const QString fname = QDir::currentPath()+QDir::separator()+ QString::fromStdString( tf->name() );
+            qDebug("Loading file %s", qPrintable(fname));
+            QFile file(fname);
+            file.open(QFile::ReadOnly|QFile::Text|QFile::Truncate);
+            QString txt = file.readAll();
+            file.close();
+            // load file
+            ui->plainTextEdit->setPlainText( txt );
+
+        } else
+        if ( getCurrentItem<TestCase>() ) {
+        } else
+        if ( getCurrentItem<Suite>() ) {
+        } else
+        if ( getCurrentItem<MartletProject>() ) {
+        }
+
+    }
+
+}
+
 void MartletWindow::on_pushButton_3_toggled(bool checked)
 {
     if (checked) {
@@ -384,3 +414,4 @@ void MartletWindow::on_actionFile_Delete_Phisically_triggered()
 {
 
 }
+

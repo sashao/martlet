@@ -86,6 +86,7 @@ private slots:
     void on_actionRecord_from_scratch_triggered();
     void on_actionFile_Delete_From_Suite_triggered();
     void on_actionFile_Delete_Phisically_triggered();
+    void on_treeView_clicked(QModelIndex index);
 };
 
 #endif // MARTLETWINDOW_H
