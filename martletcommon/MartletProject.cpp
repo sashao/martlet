@@ -35,7 +35,7 @@ void MartletProject::setCurrent(MartletProject* pro)
 
 Suite* MartletProject::currentSuite()
 {
-    return suites[0];
+    return suites.front();
 }
 
 bool MartletProject::isValid()
@@ -57,6 +57,17 @@ void MartletProject::loadFromFile(const  std::string& str )
         boost::archive::xml_iarchive xml(ifs);
         xml.register_type(static_cast<MartletProject*>(0));
         xml >> boost::serialization::make_nvp("MartletProject", *this);
+    }
+
+    qDebug("Loaded %d suites", suites.size() );
+    for (std::vector<Suite *>::iterator i = suites.begin(); i != suites.end(); ++i) {
+        (*i)->setParent(this);
+        qDebug("Add suite %s", qPrintable(QString::fromStdString((*i)->name())));
+//        std::vector <TestCase *> m_pTestCases
+        for (std::vector<TestCase *>::iterator it = (*i)->m_pTestCases.begin() ; it != (*i)->m_pTestCases.end(); ++it) {
+            (*it)->setParent(*i);
+            qDebug("Add test case %s", qPrintable(QString::fromStdString((*it)->name())));
+        }
     }
 }
 
@@ -150,10 +161,6 @@ Suite::Suite(TestItem *parent, const std::string& nm)
 {
     setParent(parent);
     setName(nm);
-    // TODO: temporary add face test case
-    m_pTestCases.push_back(new TestCase(this, "Tk1"));
-    m_pTestCases.push_back(new TestCase(this, "Tk2"));
-    m_pTestCases.push_back(new TestCase(this, "Tk3"));
 }
 
 Suite::~Suite()
@@ -169,7 +176,7 @@ void Suite::serialize(archive& ar, const unsigned int /*version*/)
     using boost::serialization::make_nvp;
     ar & make_nvp("Name", m_name);
 //    ar & make_nvp("File", file);
-    ar & make_nvp("TestCases", m_pTestCases);
+    ar & make_nvp("TestCases", testCases);
 }
 
 

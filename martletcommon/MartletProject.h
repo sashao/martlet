@@ -75,7 +75,6 @@ class TestCase : public TestItem
 class Suite : public TestItem
 {
     Q_OBJECT
-    explicit Suite(TestItem *parent);
 public:
 
     Suite(TestItem *parent=0, const std::string& nm = std::string());
@@ -84,8 +83,9 @@ public:
 //    /// suite name
 //    std::string name;
 
-    std::vector <TestCase *> m_pTestCases;
+    std::vector <TestCase *> testCases;
 
+private:
     friend class boost::serialization::access;
     template<class archive>
     void serialize(archive& ar, const unsigned int /*version*/);
@@ -142,7 +142,7 @@ public:
     template<class archive>
     void serialize(archive& ar, const unsigned int /*version*/);
 
-    /// Break Object Oriented Pagadigm
+    /// Break Encapsulation Pagadigm
     void notifyAboutChanges(int suiteIdx);
 signals:
     void projectChanged(int suiteIdx);

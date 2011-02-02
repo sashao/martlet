@@ -42,7 +42,10 @@ protected:
         ST state;
         state.visit(this);
     }
-    
+
+    template <class C>
+    C* getCurrentItem();
+
     void loadCurrentProjectIntoUI();
     
     void changeEvent(QEvent *e);
@@ -72,8 +75,13 @@ private slots:
     void on_actionNew_triggered();
     void on_pushButton_4_clicked();
     void on_pushButton_3_toggled(bool checked);
+    void on_treeView_customContextMenuRequested ( const QPoint & pos );
 
     void tryConnectAndStart();
+    void on_actionProject_Add_suite_triggered();
+    void on_actionSuite_Delete_triggered();
+    void on_actionSuite_Add_Test_Case_triggered();
+    void on_actionTK_Delete_triggered();
 };
 
 #endif // MARTLETWINDOW_H

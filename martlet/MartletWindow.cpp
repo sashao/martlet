@@ -27,6 +27,7 @@ MartletWindow::MartletWindow(QWidget *parent) :
     m_Model = new MProjectModel(this);
     m_Model->setProject(MartletProject::getCurrent());
     ui->treeView->setModel(m_Model);
+    ui->treeView->setContextMenuPolicy(Qt::CustomContextMenu);
 
     m_client = new MartletClient;
     connect(m_client, SIGNAL(recordedTextArrived(QString)), this, SLOT(onRecordedTextUpdate(QString)));
@@ -46,6 +47,40 @@ void MartletWindow::changeEvent(QEvent *e)
         break;
     default:
         break;
+    }
+}
+
+template <class C>
+C* MartletWindow::getCurrentItem()
+{
+
+    const QModelIndex i = ui->treeView->currentIndex();
+    return qobject_cast<C *>(static_cast<TestItem *>(i.internalPointer()));
+}
+
+
+void MartletWindow::on_treeView_customContextMenuRequested ( const QPoint & pos )
+{
+    QList <QAction *> al;
+
+    const QModelIndex i = ui->treeView->indexAt(pos);
+
+    if (i.isValid()) {
+
+        if ( getCurrentItem<TestCase>() ) {
+            al.append(ui->actionTK_Delete);
+        } else
+        if ( getCurrentItem<Suite>() ) {
+            al.append(ui->actionSuite_Delete);
+            al.append(ui->actionSuite_Add_Test_Case);
+        } else
+        if ( getCurrentItem<MartletProject>() ) {
+            al.append(ui->actionProject_Add_suite);
+        }
+
+        if (!al.isEmpty()) {
+            QMenu::exec(al, ui->treeView->viewport()->mapToGlobal(pos));
+        }
     }
 }
 
@@ -259,4 +294,60 @@ void MartletWindow::onRecordedTextUpdate(QString txt)
     file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
     file.write(txt.toLocal8Bit());
     file.close();
+}
+
+void MartletWindow::on_actionProject_Add_suite_triggered()
+{
+    MartletProject * p = getCurrentItem<MartletProject>();
+    if (p) {
+        const QString n = QInputDialog::getText(this, "Enter suite name", "Suite name");
+        if (!n.isEmpty())  {
+            Suite *s = new Suite(p, n.toStdString());
+            p->suites.push_back(s);
+            MartletProject::getCurrent()->notifyAboutChanges(0);
+        }
+    }
+}
+
+void MartletWindow::on_actionSuite_Delete_triggered()
+{
+    Suite * s = getCurrentItem<Suite>();
+    if (s) {
+        std::vector<Suite *>::iterator i =
+                std::find(MartletProject::getCurrent()->suites.begin(), MartletProject::getCurrent()->suites.end(), s);
+        if (i != MartletProject::getCurrent()->suites.end()) {
+            MartletProject::getCurrent()->suites.erase(i, i+1);
+            delete s;
+            MartletProject::getCurrent()->notifyAboutChanges(0);
+        }
+    }
+}
+
+void MartletWindow::on_actionSuite_Add_Test_Case_triggered()
+{
+    Suite * s = getCurrentItem<Suite>();
+    if (s) {
+        const QString n = QInputDialog::getText(this, "Enter test case name", "Test Case name");
+        if (!n.isEmpty())  {
+            s->testCases.push_back(new TestCase(s, n));
+            MartletProject::getCurrent()->notifyAboutChanges(0);
+        }
+    }
+}
+
+void MartletWindow::on_actionTK_Delete_triggered()
+{
+    TestCase * tc = getCurrentItem<TestCase>();
+    if (tc) {
+        Suite * suite = qobject_cast<Suite *>(tc->parentItem());
+        if (suite) {
+            std::vector<TestCase *>::iterator i =
+                    std::find( suite->testCases.begin(), suite->testCases.end(), tc);
+            if (i != suite->testCases.end()) {
+                suite->testCases.erase(i, i+1);
+                delete tc;
+                MartletProject::getCurrent()->notifyAboutChanges(0);
+            }
+        }
+    }
 }

@@ -62,7 +62,7 @@
      <x>0</x>
      <y>0</y>
      <width>819</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -98,9 +98,37 @@
     <addaction name="actionNew_Suite"/>
     <addaction name="actionDelete_existing_suite"/>
    </widget>
+   <widget class="QMenu" name="menuContextMenu">
+    <property name="title">
+     <string>ContextMenu</string>
+    </property>
+    <widget class="QMenu" name="menuProject_2">
+     <property name="title">
+      <string>project</string>
+     </property>
+     <addaction name="actionProject_Add_suite"/>
+    </widget>
+    <widget class="QMenu" name="menuSuite">
+     <property name="title">
+      <string>suite</string>
+     </property>
+     <addaction name="actionSuite_Delete"/>
+     <addaction name="actionSuite_Add_Test_Case"/>
+    </widget>
+    <widget class="QMenu" name="menuTestcase">
+     <property name="title">
+      <string>testcase</string>
+     </property>
+     <addaction name="actionTK_Delete"/>
+    </widget>
+    <addaction name="menuProject_2"/>
+    <addaction name="menuSuite"/>
+    <addaction name="menuTestcase"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuSript"/>
    <addaction name="menuProject"/>
+   <addaction name="menuContextMenu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -174,6 +202,26 @@
   <action name="actionStop_recording">
    <property name="text">
     <string>Stop recording</string>
+   </property>
+  </action>
+  <action name="actionProject_Add_suite">
+   <property name="text">
+    <string>project add suite</string>
+   </property>
+  </action>
+  <action name="actionSuite_Delete">
+   <property name="text">
+    <string>Suite Delete</string>
+   </property>
+  </action>
+  <action name="actionSuite_Add_Test_Case">
+   <property name="text">
+    <string>Suite Add Test Case</string>
+   </property>
+  </action>
+  <action name="actionTK_Delete">
+   <property name="text">
+    <string>TK Delete</string>
    </property>
   </action>
  </widget>
