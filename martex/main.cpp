@@ -37,10 +37,13 @@ int main(int argc, char *argv[])
         }
 
 #else
-		    int ret;
-            char *nargv[] = { (char *)0 };
-            char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libQtLoad.so", (char *)0 };
-            ret = execve (argv[1], nargv, env);
+                    QInjector inj;
+                    inj.start(argv[1]);
+//		    int ret;
+//            char *nargv[] = { (char *)0 };
+//            char *env[] = { "HOME=/home/oomel", "LOGNAME=oomel", "DISPLAY=:0.0", "LD_PRELOAD=./libQtLoad.so", (char *)0 };
+//            ret = execve (argv[1], nargv, env);
+
 
 #endif
 			return a.exec();

@@ -90,9 +90,7 @@ void MartletWindow::on_treeView_customContextMenuRequested ( const QPoint & pos 
 
 void MartletWindow::on_treeView_clicked(QModelIndex index)
 {
-    const QModelIndex i = ui->treeView->currentIndex();
-
-    if (i.isValid()) {
+    if (index.isValid()) {
 
         if ( TestFile * tf = getCurrentItem<TestFile>() ) {
 
@@ -284,7 +282,7 @@ void MartletWindow::on_actionRecord_triggered()
 void MartletWindow::startApp()
 {
     Q_ASSERT(MartletProject::getCurrent() != NULL);
-    const QString app = QString("./martex.sh ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
+    const QString app = QString("./martex ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
     Q_ASSERT( !app.isEmpty() );
     qDebug("Starting App.");
     m_childAppProcess.start(app);
@@ -329,6 +327,8 @@ void MartletWindow::onRecordedTextUpdate(QString txt)
     file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
     file.write(txt.toLocal8Bit());
     file.close();
+
+    m_childAppProcess.kill();
 }
 
 void MartletWindow::on_actionProject_Add_suite_triggered()

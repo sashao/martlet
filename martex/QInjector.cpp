@@ -14,6 +14,7 @@ QInjector::QInjector(void): QObject(0)
 
 QInjector::~QInjector(void)
 {
+    if (proc) proc->kill();
 	delete proc;
 }
 
@@ -38,8 +39,10 @@ bool QInjector::libraryFileExists()
 
 void QInjector::start(QString name)
 {
+
     if (!proc)
     {
+        qDebug(Q_FUNC_INFO);
         proc = new QProcess(this);
         proc->setObjectName("proc");
         QMetaObject::connectSlotsByName ( this );
@@ -47,6 +50,8 @@ void QInjector::start(QString name)
         // Does nothing on Windows
         env << QString("LD_PRELOAD=%1").arg(libraryPath());
         proc->setEnvironment(env);
+        qDebug() << env;
+        qDebug("Starting !!!! ");
         proc->start(name);  
     }
 }

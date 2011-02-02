@@ -4,7 +4,7 @@
 <MartletProject class_id="0" tracking_level="1" version="0" object_id="_0">
 	<Name>1111_project</Name>
 	<Type>mt-qscript</Type>
-	<Executable>./QtImageCut</Executable>
+	<Executable>./qspy</Executable>
 	<Suites class_id="1" tracking_level="0" version="0">
 		<count>2</count>
 		<item_version>0</item_version>
@@ -26,7 +26,7 @@
 						<count>2</count>
 						<item_version>0</item_version>
 						<item class_id="6" tracking_level="1" version="0" object_id="_4">
-							<Name>FileMe.qs</Name>
+							<Name>TestSuite1.qs</Name>
 						</item>
 						<item class_id_reference="6" object_id="_5">
 							<Name>File1111.qcc</Name>
