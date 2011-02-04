@@ -22,6 +22,7 @@ public:
     ~MartletClient();
     
     bool tryConnect();
+    void disconnect();
     bool isConnected();
 
 public:

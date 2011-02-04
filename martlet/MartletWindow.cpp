@@ -317,12 +317,18 @@ void MartletWindow::on_actionPlay_triggered()
     startApp();
     m_childAppProcess.waitForStarted();
 
+    m_client->disconnect();
     qDebug("Connection before Playing script ... ");
-    while (!m_client->tryConnect()) {
-        qDebug("Play script ... ");
-        m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
-        m_client->play("H.qs");
-    }
+    do {
+        for (int i = 0; i < 6; ++i) { // TODO: small delay needed
+            QApplication::processEvents();
+        }
+        m_client->tryConnect();
+    } while (!m_client->isConnected());
+
+    qDebug("Play script ... ");
+    m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
+    m_client->play("H.qs");
     qDebug("Remote Playback started");
 }
 

@@ -21,3 +21,5 @@ include (../globinclude.pri)
 TRANSLATIONS = $$GLOBTRANS
 RESOURCES   += $$GLOBRESOURCES
 DESTDIR = $$GLOBTOP/bin
+
+PRE_TARGETDEPS += $$GLOBTOP/bin/libmartletcommon.a

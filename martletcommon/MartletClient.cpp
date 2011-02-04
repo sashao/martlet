@@ -26,12 +26,11 @@ bool MartletClient::tryConnect()
 {
     qDebug(Q_FUNC_INFO);
     if (!m_connected) { // client connects only once, hell with it - it is HTTP
+        //m_connected = false;
         client()->setHost( "localhost", 7777 );
     }
+    client()->request("ping");
 
-    for (int i = 0; i < 60; ++i) { // TODO: small delay needed
-        QApplication::processEvents();
-    }
     qDebug("MartletClient::tryConnect() Ceck if connected .. ");
     return isConnected();
 }
@@ -41,6 +40,10 @@ bool MartletClient::isConnected()
     return m_connected;
 }
 
+void MartletClient::disconnect()
+{
+    m_connected = false;
+}
 
 xmlrpc::Client* MartletClient::client()
 {

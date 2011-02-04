@@ -9,6 +9,8 @@ MartletServer::MartletServer():
     server = new xmlrpc::Server(this);
 
     //register sum and difference methods, with return type int and two int parameters
+    server->registerMethod( "ping", QVariant::Int );
+
     server->registerMethod( "spy::start", QVariant::Int );
     server->registerMethod( "spy::stop" , QVariant::Int);
 
@@ -53,9 +55,11 @@ void MartletServer::processRequest( int requestId, QString methodName, QList<xml
         qDebug() << "SZ "<< result.size();
         //qDebug() << "\n\n\n\\n\n\n  We recorded :" <<  result << "\n\n\n\n\n\n";
         server->sendReturnValue( requestId, result); 
+    } else if ( methodName == "ping" ) {
+        server->sendReturnValue( requestId, "pong" );
     } else if ( methodName == "spy::start" ) {
         // TODO
-        server->sendReturnValue( requestId, 0 ); 
+        server->sendReturnValue( requestId, 0 );
     } else if ( methodName == "spy::stop" ) {
         // TODO
         server->sendReturnValue( requestId, 0 ); 
