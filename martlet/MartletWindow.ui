@@ -129,6 +129,7 @@
      <addaction name="actionRecord_from_scratch"/>
      <addaction name="actionFile_Delete_From_Suite"/>
      <addaction name="actionFile_Delete_Phisically"/>
+     <addaction name="actionSave_File"/>
     </widget>
     <addaction name="menuProject_2"/>
     <addaction name="menuSuite"/>
@@ -252,6 +253,11 @@
   <action name="actionFile_Delete_Phisically">
    <property name="text">
     <string>File Delete Phisically</string>
+   </property>
+  </action>
+  <action name="actionSave_File">
+   <property name="text">
+    <string>Save File</string>
    </property>
   </action>
  </widget>

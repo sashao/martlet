@@ -281,12 +281,18 @@ void MartletWindow::on_actionRecord_triggered()
 
 void MartletWindow::startApp()
 {
-    Q_ASSERT(MartletProject::getCurrent() != NULL);
-    const QString app = QString("./martex ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
-    Q_ASSERT( !app.isEmpty() );
-    qDebug("Starting App.");
-    m_childAppProcess.start(app);
-    QTimer::singleShot(4000, this, SLOT(tryConnectAndStart()));
+    if( m_childAppProcess.state() != QProcess::Running) {
+        Q_ASSERT(MartletProject::getCurrent() != NULL);
+        const QString app = QString("./martex ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
+        Q_ASSERT( !app.isEmpty() );
+        qDebug("Starting App.");
+        m_childAppProcess.start(app);
+        QTimer::singleShot(4000, this, SLOT(tryConnectAndStart()));
+    } else {
+        m_childAppProcess.close();
+        m_childAppProcess.waitForFinished(1000);
+        startApp();
+    }
 }
 
 void MartletWindow::tryConnectAndStart()
@@ -308,8 +314,16 @@ void MartletWindow::on_actionStop_recording_triggered()
 
 void MartletWindow::on_actionPlay_triggered()
 {
-    m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
-    m_client->play("H.qs");
+    startApp();
+    m_childAppProcess.waitForStarted();
+
+    qDebug("Connection before Playing script ... ");
+    while (!m_client->tryConnect()) {
+        qDebug("Play script ... ");
+        m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
+        m_client->play("H.qs");
+    }
+    qDebug("Remote Playback started");
 }
 
 void MartletWindow::on_pushButton_4_clicked() // play
@@ -328,7 +342,7 @@ void MartletWindow::onRecordedTextUpdate(QString txt)
     file.write(txt.toLocal8Bit());
     file.close();
 
-    m_childAppProcess.kill();
+    m_childAppProcess.close();
 }
 
 void MartletWindow::on_actionProject_Add_suite_triggered()
@@ -415,3 +429,18 @@ void MartletWindow::on_actionFile_Delete_Phisically_triggered()
 
 }
 
+
+void MartletWindow::on_actionSave_File_triggered()
+{
+    TestFile * tf = getCurrentItem<TestFile>();
+    if (tf) {
+        const QString txt = ui->plainTextEdit->toPlainText();
+        if (!txt.isEmpty())  {
+            const QString fname = QDir::currentPath()+QDir::separator()+ QString::fromStdString( tf->name() );
+            QFile file(fname);
+            file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
+            file.write(txt.toLocal8Bit());
+            file.close();
+        }
+    }
+}

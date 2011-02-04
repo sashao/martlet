@@ -50,11 +50,12 @@ private slots:
 
 private:
     /// Communicates with remote app
-    xmlrpc::Client *m_client;
+    QScopedPointer<xmlrpc::Client> m_client;
     /// Comunicates with daemon, starts app
-    xmlrpc::Client *m_appClient;   
+    QScopedPointer<xmlrpc::Client> m_appClient;
     
     int textId;
+    bool m_connected;
 
 };
 

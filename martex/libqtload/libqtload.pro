@@ -35,7 +35,7 @@ DESTDIR = $$GLOBTOP/bin
 
 CONFIG +=link_pkgconfig
 PKGCONFIG = boost_serialization
-LIBPATH += $$GLOBTOP/bin
+QMAKE_LIBDIR += $$GLOBTOP/bin
 LIBS += -lmartletcommon \
     -lqxmlrpc \
     -lloki \

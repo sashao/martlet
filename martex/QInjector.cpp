@@ -14,7 +14,7 @@ QInjector::QInjector(void): QObject(0)
 
 QInjector::~QInjector(void)
 {
-    if (proc) proc->kill();
+    if (proc) proc->close();
 	delete proc;
 }
 

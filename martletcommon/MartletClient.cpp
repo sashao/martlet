@@ -2,11 +2,13 @@
 #include "xmlrpc/client.h"
 
 #include <QMessageBox>
+#include <QApplication>
 
-MartletClient::MartletClient() :
-        textId(-1)
+MartletClient::MartletClient()
+  : textId(-1)
+  , m_connected(false)
 {
-    m_client = new xmlrpc::Client(this);
+    m_client.reset( new xmlrpc::Client(this) );
     
     connect( client(), SIGNAL(done( int, QVariant )),
              this, SLOT(processReturnValue( int, QVariant )) );
@@ -17,29 +19,37 @@ MartletClient::MartletClient() :
 
 MartletClient::~MartletClient()
 {
-    delete m_client;
+
 }
 
 bool MartletClient::tryConnect()
 {
-     client()->setHost( "localhost", 7777 );
-     return isConnected();
+    qDebug(Q_FUNC_INFO);
+    if (!m_connected) { // client connects only once, hell with it - it is HTTP
+        client()->setHost( "localhost", 7777 );
+    }
+
+    for (int i = 0; i < 60; ++i) { // TODO: small delay needed
+        QApplication::processEvents();
+    }
+    qDebug("MartletClient::tryConnect() Ceck if connected .. ");
+    return isConnected();
 }
 
 bool MartletClient::isConnected()
 {
-    // TODO
-    return true;
+    return m_connected;
 }
 
 
 xmlrpc::Client* MartletClient::client()
 {
-    return m_client;
+    return m_client.data();
 }
 
 void MartletClient::processReturnValue( int requestId, QVariant value )
 {
+    m_connected = true;
     qDebug()<< "Got responce from the server  " <<  value;
     qDebug()<< "textId == "<< textId << " | requestId == " << requestId;
     if(requestId == textId){
@@ -51,6 +61,9 @@ void MartletClient::processReturnValue( int requestId, QVariant value )
 
 void MartletClient::processFault( int requestId, int errorCode, QString errorString )
 {
+    if (!m_connected) { // handle only after connected errors.
+        return;
+    }
     Q_UNUSED(requestId);
     QMessageBox::warning(0, tr("Request failed"),
          QString("XML-RPC request  failed.\n\nFault code: %1\n'%2'\n") \
