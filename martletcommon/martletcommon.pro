@@ -21,7 +21,8 @@ HEADERS += AbstractCommand.h \
     ObjectNameMapper.h \
     MartletClient.h \
     MartletServer.h \
-    MartletProject.h
+    MartletProject.h \
+    RequestToRemote.h
 
 SOURCES += AbstractCommand.cpp \
     AbstractEventFabric.cpp \

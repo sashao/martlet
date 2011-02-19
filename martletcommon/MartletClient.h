@@ -4,9 +4,7 @@
 #include <QObject>
 #include <QVariant>
 
-namespace xmlrpc {
-    class Client;
-}
+class QRemoter;
         
 class MartletClient : public QObject
 {
@@ -22,8 +20,8 @@ public:
     ~MartletClient();
     
     bool tryConnect();
-    void disconnect();
     bool isConnected();
+    QRemoter* client();
 
 public:
      void uploadScript(const QString& relativePath, const QString& scriptLines);
@@ -42,22 +40,17 @@ signals:
     void aplicationStarted(int portID);
     void recordedTextArrived(QString text);
 
-protected:
-    xmlrpc::Client* client();
-
 private slots:
-    void processReturnValue( int requestId, QVariant value );
-    void processFault( int requestId, int errorCode, QString errorString );
+//    void processReturnValue( int requestId, QVariant value );
+//    void processFault( int requestId, int errorCode, QString errorString );
 
 private:
     /// Communicates with remote app
-    QScopedPointer<xmlrpc::Client> m_client;
+    QScopedPointer<QRemoter> m_client;
     /// Comunicates with daemon, starts app
-    QScopedPointer<xmlrpc::Client> m_appClient;
+    QScopedPointer<QRemoter> m_appClient;
     
     int textId;
-    bool m_connected;
-
 };
 
 #endif // MARTLETCLIENT_H

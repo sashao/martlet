@@ -37,7 +37,7 @@ CONFIG +=link_pkgconfig
 PKGCONFIG = boost_serialization
 QMAKE_LIBDIR += $$GLOBTOP/bin
 LIBS += -lmartletcommon \
-    -lqxmlrpc \
+    -lqnetworkrpc \
     -lloki \
     -lboost_serialization
 

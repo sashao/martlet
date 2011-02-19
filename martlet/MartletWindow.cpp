@@ -9,7 +9,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QInputDialog>
-
+#include <QTimer>
 
 
 
@@ -270,7 +270,7 @@ void MartletWindow::on_actionDelete_existing_suite_triggered()
 
 void MartletWindow::on_actionStart_program_triggered()
 {
-    m_client->tryConnect();
+//    m_client->tryConnect();
 }
 
 void MartletWindow::on_actionRecord_triggered()
@@ -285,10 +285,12 @@ void MartletWindow::startApp()
         Q_ASSERT(MartletProject::getCurrent() != NULL);
         const QString app = QString("./martex ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
         Q_ASSERT( !app.isEmpty() );
+//        qDebug("Starting listener client.");
+//        tryConnectAndStart();
         qDebug("Starting App.");
         m_childAppProcess.start(app);
-        QTimer::singleShot(4000, this, SLOT(tryConnectAndStart()));
-    } else {
+//        m_childAppProcess.waitForStarted();
+    } else { // restart
         m_childAppProcess.close();
         m_childAppProcess.waitForFinished(1000);
         startApp();
@@ -297,11 +299,26 @@ void MartletWindow::startApp()
 
 void MartletWindow::tryConnectAndStart()
 {
-    if (!m_client->tryConnect()) {
-        QTimer::singleShot(40000, this, SLOT(tryConnectAndStart()));
-    } else {
-        m_client->startRecording("f.qs");
-    }
+    connect(m_client->client(), SIGNAL(connected()),
+            this, SLOT(onTestedAppConnected()));
+    m_client->tryConnect();
+}
+
+void MartletWindow::onMartexConnected()
+{
+
+}
+
+void MartletWindow::onTestedAppConnected()
+{
+    // todo
+//    m_client->startRecording("f.qs");
+
+    qDebug("Play script ... ");
+    m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
+    m_client->play("H.qs");
+    qDebug("Remote Playback started");
+
 }
 
 
@@ -314,22 +331,21 @@ void MartletWindow::on_actionStop_recording_triggered()
 
 void MartletWindow::on_actionPlay_triggered()
 {
-    startApp();
-    m_childAppProcess.waitForStarted();
-
-    m_client->disconnect();
     qDebug("Connection before Playing script ... ");
-    do {
-        for (int i = 0; i < 6; ++i) { // TODO: small delay needed
-            QApplication::processEvents();
-        }
-        m_client->tryConnect();
-    } while (!m_client->isConnected());
+    connect(m_client->client(), SIGNAL(connected()),
+            this, SLOT(onTestedAppConnected()));
+    m_client->tryConnect();
 
-    qDebug("Play script ... ");
-    m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
-    m_client->play("H.qs");
-    qDebug("Remote Playback started");
+    startApp();
+//    m_childAppProcess.waitForStarted();
+
+//    m_client->disconnect();
+//    do {
+//        for (int i = 0; i < 6; ++i) { // TODO: small delay needed
+//            QApplication::processEvents();
+//        }
+//    } while (!m_client->isConnected());
+
 }
 
 void MartletWindow::on_pushButton_4_clicked() // play

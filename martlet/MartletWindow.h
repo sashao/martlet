@@ -2,6 +2,8 @@
 #define MARTLETWINDOW_H
 
 #include <QMainWindow>
+#include <QProcess>
+#include <QModelIndex>
 #include "MartletClient.h"
 #include "MartletServer.h"
 
@@ -53,7 +55,7 @@ protected:
 private:
     Ui::MartletWindow *ui;
     MartletClient* m_client;
-    MartletServer* m_server;
+//    MartletServer* m_server;
     MProjectModel* m_Model;
     QProcess m_childAppProcess;
 
@@ -78,6 +80,9 @@ private slots:
     void on_treeView_customContextMenuRequested ( const QPoint & pos );
 
     void tryConnectAndStart();
+    void onMartexConnected();
+    void onTestedAppConnected();
+
     void on_actionProject_Add_suite_triggered();
     void on_actionSuite_Delete_triggered();
     void on_actionSuite_Add_Test_Case_triggered();

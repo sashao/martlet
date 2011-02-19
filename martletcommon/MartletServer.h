@@ -3,12 +3,10 @@
 
 #include <QObject>
 #include <QMap>
-#include "xmlrpc/variant.h"
+#include <QVariant>
 #include "EventCatcher.h"
+#include "qnetworkrpc/src/QRemoter.h"
 
-namespace xmlrpc {
-    class Server;
-}
 /**
   * Execute comands on testable app.
   */
@@ -19,7 +17,7 @@ public:
     MartletServer();
 
 private slots:
-    void processRequest( int requestId, QString methodName, QList<xmlrpc::Variant> parameters );
+//    void processRequest( int requestId, QString methodName, QList<xmlrpc::Variant> parameters );
     int uploadScript(const QString& relativePath, const QString& scriptLines);
     int play(const QString& relativePath);
 
@@ -29,7 +27,7 @@ private slots:
     QString getRecordedText(const QString suiteName);
 
 private:
-    xmlrpc::Server *server;
+    QScopedPointer<QRemoter> m_server;
     EventCatcher m_catcher;
     QMap<QString, QString> m_filesystem;
 };
