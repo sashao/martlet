@@ -11,6 +11,7 @@ MProjectModel::MProjectModel(QObject *parent) :
 {
 }
 
+#define qDebug(...)
 
 void MProjectModel::setProject(MartletProject* pro)
 {
