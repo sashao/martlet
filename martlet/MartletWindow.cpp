@@ -31,11 +31,12 @@ MartletWindow::MartletWindow(QWidget *parent) :
     ui->menuBar->removeAction(ui->menuContextMenu->menuAction());
 
     m_client = new MartletClient;
-    connect(m_client, SIGNAL(recordedTextArrived(QString)), this, SLOT(onRecordedTextUpdate(QString)));
+    connect(m_client, SIGNAL(recordedTextArrived(QVariant)), this, SLOT(onRecordedTextUpdate(QVariant)));
 }
 
 MartletWindow::~MartletWindow()
 {
+    m_childAppProcess.close();
     delete ui;
 }
 
@@ -291,6 +292,7 @@ void MartletWindow::startApp()
         m_childAppProcess.start(app);
 //        m_childAppProcess.waitForStarted();
     } else { // restart
+        qDebug("Stopping App.");
         m_childAppProcess.close();
         m_childAppProcess.waitForFinished(1000);
         startApp();
@@ -301,7 +303,7 @@ void MartletWindow::tryConnectAndStart()
 {
     connect(m_client->client(), SIGNAL(connected()),
             this, SLOT(onTestedAppConnected()));
-    m_client->tryConnect();
+    m_client->startListening();
 }
 
 void MartletWindow::onMartexConnected()
@@ -334,7 +336,7 @@ void MartletWindow::on_actionPlay_triggered()
     qDebug("Connection before Playing script ... ");
     connect(m_client->client(), SIGNAL(connected()),
             this, SLOT(onTestedAppConnected()));
-    m_client->tryConnect();
+    m_client->startListening();
 
     startApp();
 //    m_childAppProcess.waitForStarted();
@@ -353,16 +355,16 @@ void MartletWindow::on_pushButton_4_clicked() // play
     on_actionPlay_triggered();
 }
 
-void MartletWindow::onRecordedTextUpdate(QString txt)
+void MartletWindow::onRecordedTextUpdate(const QVariant& txt)
 {
     qDebug() << "Text arrived to main window" << txt;
-    ui->plainTextEdit->setPlainText( txt );
+    ui->plainTextEdit->setPlainText( txt.toString() );
 
-    const QString fname = QString::fromStdString( MartletProject::getCurrent()->currentSuite()->name() );
-    QFile file(fname);
-    file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
-    file.write(txt.toLocal8Bit());
-    file.close();
+//    const QString fname = QString::fromStdString( MartletProject::getCurrent()->currentSuite()->name() );
+//    QFile file(fname);
+//    file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
+//    file.write(txt.toLocal8Bit());
+//    file.close();
 
     m_childAppProcess.close();
 }

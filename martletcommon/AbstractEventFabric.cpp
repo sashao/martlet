@@ -6,6 +6,9 @@
 #include <QApplication>
 #include <QWidget>
 #include <QMouseEvent>
+#include <QTimer>
+#include <QEventLoop>
+
 
 AbstractEventFabric* AbstractEventFabric::m_instance = 0;
 
@@ -60,17 +63,20 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
 
     QObject* widget = m_pNameMapper->getObjectFromName(data.objNameString);
     if (data.isValid() && (widget != 0)) {
-        QTime timer;
-        timer.start();
-        const unsigned int pause = 8;
-        if ( pause < data.pause_msecs ) {
-            int delta =  data.pause_msecs /*- timer.elapsed()*/;
-            while ( delta > 0 ) {
-                usleep(qMin((int)pause, delta));
-                QApplication::processEvents();
-                delta = data.pause_msecs - timer.elapsed();
-            }
-        }
+//        QTime timer;
+//        timer.start();
+//        const unsigned int pause = 8;
+//        if ( pause < data.pause_msecs ) {
+//            int delta =  data.pause_msecs /*- timer.elapsed()*/;
+//            while ( delta > 0 ) {
+//                usleep(qMin((int)pause, delta));
+//                QApplication::processEvents();
+//                delta = data.pause_msecs - timer.elapsed();
+//            }
+//        }
+        static QEventLoop eventLoop;
+        QTimer::singleShot(data.pause_msecs, &eventLoop, SLOT(quit()));
+        eventLoop.exec();
         
         const QWidget* w = qobject_cast<QWidget *>(widget);
         const QMouseEvent* me = static_cast<QMouseEvent* >(data.event);

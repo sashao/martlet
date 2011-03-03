@@ -6,6 +6,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QFile>
+#include <QMessageBox>
 
 QInjector::QInjector(void): QObject(0)
 {
@@ -52,7 +53,9 @@ void QInjector::start(QString name)
         proc->setEnvironment(env);
         qDebug() << env;
         qDebug("Starting !!!! ");
-        proc->start(name);  
+        proc->start(name);
+//        QMessageBox::information(0, "PID", QString::number(proc->pid()));
+        proc->waitForFinished();
     }
 }
 

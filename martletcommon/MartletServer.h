@@ -17,14 +17,20 @@ public:
     MartletServer();
 
 private slots:
-//    void processRequest( int requestId, QString methodName, QList<xmlrpc::Variant> parameters );
-    int uploadScript(const QString& relativePath, const QString& scriptLines);
-    int play(const QString& relativePath);
+    void connected();
+    void disconnected();
+
+    void uploadScript(const QVariant& relativePath, const QVariant& scriptLines);
+    void play(const QVariant& relativePath);
+    void stopPlayback();
+
+    void startSpy();
+    void stopSpy();
 
     //     RECORDING RELATED
-    int record(const QString& suiteName);
-    int stopRecording(const QString& suiteName);
-    QString getRecordedText(const QString suiteName);
+    void record(const QVariant& suiteName);
+    void stopRecording(const QVariant& suiteName);
+    void getRecordedText(const QVariant suiteName);
 
 private:
     QScopedPointer<QRemoter> m_server;

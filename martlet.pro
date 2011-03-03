@@ -2,9 +2,10 @@ TEMPLATE = subdirs
 
 CONFIG += ordered
 
-SUBDIRS  = martletcommon \
+SUBDIRS  = \
            third_party/qnetworkrpc/src \
            third_party/loki \
+           martletcommon \
            martex/libqtload \
            martex \
            martlet \

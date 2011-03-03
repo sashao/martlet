@@ -19,7 +19,7 @@ public:
     MartletClient();
     ~MartletClient();
     
-    bool tryConnect();
+    bool startListening();
     bool isConnected();
     QRemoter* client();
 
@@ -38,7 +38,7 @@ public:
     
 signals:
     void aplicationStarted(int portID);
-    void recordedTextArrived(QString text);
+    void recordedTextArrived(const QVariant& text);
 
 private slots:
 //    void processReturnValue( int requestId, QVariant value );

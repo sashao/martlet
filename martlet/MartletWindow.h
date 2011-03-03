@@ -62,7 +62,7 @@ private:
     void startApp();
     
 private slots:
-    void onRecordedTextUpdate(QString txt);
+    void onRecordedTextUpdate(const QVariant& txt);
     void on_actionStop_recording_triggered();
     void on_actionPlay_triggered();
     void on_actionRecord_triggered();
