@@ -5,6 +5,7 @@
 #include "AppSettingsDialog.h"
 #include "ProjectDialog.h"
 #include "MProjectModel.h"
+#include "RequestToRemote.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -32,6 +33,10 @@ MartletWindow::MartletWindow(QWidget *parent) :
 
     m_client = new MartletClient;
     connect(m_client, SIGNAL(recordedTextArrived(QVariant)), this, SLOT(onRecordedTextUpdate(QVariant)));
+    m_client->client()->connectRemoteSignal(PLAYBACK_TEST_START_1,
+                                            this, SLOT(onTestSrated(QVariant)));
+    m_client->client()->connectRemoteSignal(PLAYBACK_TEST_DONE_2,
+                                            this, SLOT(onTestDone(QVariant, QVariant)));
 }
 
 MartletWindow::~MartletWindow()
@@ -39,6 +44,17 @@ MartletWindow::~MartletWindow()
     m_childAppProcess.close();
     delete ui;
 }
+
+void MartletWindow::onTestSrated(QVariant name)
+{
+    qDebug("onTestSrated %s ", qPrintable(name.toString()));
+}
+
+void MartletWindow::onTestDone(QVariant name, QVariant status)
+{
+    qDebug("onTestDone %s ==== %s", qPrintable(name.toString()), qPrintable(status.toString()));
+}
+
 
 void MartletWindow::changeEvent(QEvent *e)
 {

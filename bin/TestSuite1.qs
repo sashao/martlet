@@ -14,6 +14,10 @@ MouseMove,10,109,23,.qspyForm.spyGroup.appPathComboBox
 MouseMove,10,216,43,.qspyForm.spyGroup
 MouseMove,10,213,46,.qspyForm.spyGroup
 MouseMove,10,211,48,.qspyForm.spyGroup
+
+VERIFY,.qspyForm.spyGroup.appPathComboBox,enabled,1
+VERIFY,.qspyForm.spyGroup.appPathComboBox,enabled,0
+
 MouseMove,10,208,50,.qspyForm.spyGroup
 MouseMove,10,206,52,.qspyForm.spyGroup
 MouseMove,11,203,54,.qspyForm.spyGroup

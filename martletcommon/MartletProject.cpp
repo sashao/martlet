@@ -12,8 +12,9 @@ MartletProject* MartletProject::m_instance = 0;
 
 
 MartletProject::MartletProject()
-    : m_isDirty(false)
+    : type(this)
     , fileName(this)
+    , m_isDirty(false)
 
 {
     setName("Project");

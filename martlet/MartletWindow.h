@@ -82,6 +82,8 @@ private slots:
     void tryConnectAndStart();
     void onMartexConnected();
     void onTestedAppConnected();
+    void onTestSrated(QVariant);
+    void onTestDone(QVariant, QVariant);
 
     void on_actionProject_Add_suite_triggered();
     void on_actionSuite_Delete_triggered();

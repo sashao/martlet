@@ -6,10 +6,12 @@
 #include <QString>
 #include <QMap>
 #include <QPair>
+#include <QVariant>
 
 #include "AbstractCommand.h"
 
 typedef QMap<QEvent::Type, AbstractCommand*> TypeCommandMap;
+
 class AbstractObjectNameMapper;
 
 class AbstractEventFabric : public QObject
@@ -31,6 +33,10 @@ public:
 
     virtual void playSingleLineEvent(const QString& commandStr);
     virtual void playAll(const QString& commandStrings);
+
+signals:
+    void startingTest(QVariant name);
+    void testFinished(QVariant name, QVariant result);
 
 protected:
     CommandData deserializeEvent(const QString& commandStr);

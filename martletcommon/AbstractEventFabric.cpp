@@ -54,6 +54,32 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
 {
     // Omit empty strings
     if (commandStr.isEmpty()) return;
+
+    if (commandStr.startsWith("VERIFY")) {
+        emit startingTest(commandStr);
+        QString result = "FAILED";
+        const QStringList slist = commandStr.split(',');
+        /// "VERIFY,widget,property,value"
+        if ( slist.count()==4 )
+        {
+            QObject* widget = m_pNameMapper->getObjectFromName(slist[1]);
+            if (widget)
+            {
+                const QString prop = slist[2];
+                const QString value = slist[3];
+                const QVariant actual = widget->property(qPrintable(prop));
+                QVariant toCompare = QVariant::fromValue(value);
+                toCompare.convert(actual.type());
+                if(actual == toCompare && actual.isValid()) {
+                    result = "PASSED";
+                }
+                result += actual.toString() + toCompare.toString();
+            }
+        }
+        emit testFinished(commandStr, result);
+        return;
+    }
+
     CommandData data = deserializeEvent(commandStr);
     // Sanity check
     if (!data.isValid()) {
@@ -63,17 +89,8 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
 
     QObject* widget = m_pNameMapper->getObjectFromName(data.objNameString);
     if (data.isValid() && (widget != 0)) {
-//        QTime timer;
-//        timer.start();
-//        const unsigned int pause = 8;
-//        if ( pause < data.pause_msecs ) {
-//            int delta =  data.pause_msecs /*- timer.elapsed()*/;
-//            while ( delta > 0 ) {
-//                usleep(qMin((int)pause, delta));
-//                QApplication::processEvents();
-//                delta = data.pause_msecs - timer.elapsed();
-//            }
-//        }
+
+
         static QEventLoop eventLoop;
         QTimer::singleShot(data.pause_msecs, &eventLoop, SLOT(quit()));
         eventLoop.exec();
@@ -89,8 +106,10 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
         {
             QApplication::sendEvent(widget, data.event);
         }
+
     } else {
-        qDebug("Something went wrong while string decoding. (event = %d, object= %d)", long(data.event), long(widget));
+        qDebug("Something went wrong while string decoding. (event = %d, object= %d)",
+               static_cast<int>(data.event->type()), reinterpret_cast<int>(widget) );
     }
 }
 

@@ -18,18 +18,18 @@ MartletServer::MartletServer()
 
     const short port = 2877;
 
-    m_server->connectRemoteSignal(SPY_START_0, this, SLOT(startSpy()), 1);
-    m_server->connectRemoteSignal(SPY_STOP_0, this, SLOT(stopSpy()), 1);
+    m_server->connectRemoteSignal(SPY_START_0, this, SLOT(startSpy()));
+    m_server->connectRemoteSignal(SPY_STOP_0, this, SLOT(stopSpy()));
 
-    m_server->connectRemoteSignal(RECORDING_START_1, this, SLOT(record(QVariant)), 1);
-    m_server->connectRemoteSignal(RECORDING_STOP_1, this, SLOT(stopRecording(QVariant)), 1);
-    m_server->connectRemoteSignal(RECORDING_GET_1, this, SLOT(getRecordedText(QVariant)), 1);
+    m_server->connectRemoteSignal(RECORDING_START_1, this, SLOT(record(QVariant)));
+    m_server->connectRemoteSignal(RECORDING_STOP_1, this, SLOT(stopRecording(QVariant)));
+    m_server->connectRemoteSignal(RECORDING_GET_1, this, SLOT(getRecordedText(QVariant)));
 
     m_server->connectRemoteSignal(PLAYBACK_UPLOAD_2,
-                                   this, SLOT(uploadScript(QVariant, QVariant)), 2);
+                                   this, SLOT(uploadScript(QVariant, QVariant)));
     m_server->connectRemoteSignal(PLAYBACK_PLAY_1,
-                                  this, SLOT(play(QVariant)), 1);
-    m_server->connectRemoteSignal(PLAYBACK_STOP_0, this, SLOT(stopPlayback()), 1);
+                                  this, SLOT(play(QVariant)));
+    m_server->connectRemoteSignal(PLAYBACK_STOP_0, this, SLOT(stopPlayback()));
 
     m_server->connectToHost( "127.0.0.1", port );
 }
@@ -65,8 +65,16 @@ void MartletServer::uploadScript(const QVariant& relativePath, const QVariant& s
 void MartletServer::play(const QVariant& relativePath)
 {
 //    QMessageBox::information(0, "MartletServer::play", relativePath.toString());
-    if (m_filesystem.contains(relativePath.toString()))
-    AbstractEventFabric::instance()->playAll(m_filesystem.value(relativePath.toString()));
+    if (m_filesystem.contains(relativePath.toString())) {
+        m_server->connectSignalToRemote(AbstractEventFabric::instance(),
+                                        SIGNAL(startingTest(QVariant)),
+                                        PLAYBACK_TEST_START_1);
+        m_server->connectSignalToRemote(AbstractEventFabric::instance(),
+                                        SIGNAL(testFinished(QVariant,QVariant)),
+                                        PLAYBACK_TEST_DONE_2);
+        AbstractEventFabric::instance()->playAll(m_filesystem.value(relativePath.toString()));
+        AbstractEventFabric::instance()->disconnect(0, 0, 0);
+    }
 }
 
 void MartletServer::stopPlayback()

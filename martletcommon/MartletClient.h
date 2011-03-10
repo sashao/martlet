@@ -43,6 +43,7 @@ signals:
 private slots:
 //    void processReturnValue( int requestId, QVariant value );
 //    void processFault( int requestId, int errorCode, QString errorString );
+    void onPlaybackFinished();
 
 private:
     /// Communicates with remote app

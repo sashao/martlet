@@ -16,8 +16,9 @@ MartletClient::MartletClient()
 //             this, SLOT(processFault( int, int, QString )) );
 
     client()->connectRemoteSignal(RECORDING_OUTPUT_1, this,
-                                  SIGNAL(recordedTextArrived(QVariant)), 1);
-
+                                  SIGNAL(recordedTextArrived(QVariant)));
+    client()->connectRemoteSignal(PLAYBACK_FINISHED_0, this,
+                                  SLOT(onPlaybackFinished()));
 }
 
 MartletClient::~MartletClient()
@@ -51,29 +52,6 @@ QRemoter* MartletClient::client()
     return m_client.data();
 }
 
-//void MartletClient::processReturnValue( int requestId, QVariant value )
-//{
-//    qDebug()<< "Got responce from the server  " <<  value;
-//    qDebug()<< "textId == "<< textId << " | requestId == " << requestId;
-//    if(requestId == textId){
-//        emit recordedTextArrived(value.toString());
-//        textId = -1;
-//    } else {
-//    }
-//}
-
-//void MartletClient::processFault( int requestId, int errorCode, QString errorString )
-//{
-//    if (!isConnected()) { // handle only after connected errors.
-//        return;
-//    }
-//    Q_UNUSED(requestId);
-//    QMessageBox::warning(0, tr("Request failed"),
-//         QString("XML-RPC request  failed.\n\nFault code: %1\n'%2'\n") \
-//         .arg(errorCode).arg(errorString),
-//         QMessageBox::Ok );
-//}
-
 void MartletClient::uploadScript(const QString& relativePath, const QString& scriptLines)
 {
     client()->perform(PLAYBACK_UPLOAD_2, relativePath, scriptLines);
@@ -99,6 +77,12 @@ void MartletClient::askForRecordedText(QString fname)
 {
     client()->perform(RECORDING_GET_1, fname);
 }
+
+void MartletClient::onPlaybackFinished()
+{
+    qDebug("Playback Finished");
+}
+
 
 void MartletClient::startSpy()
 {
