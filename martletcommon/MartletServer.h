@@ -27,10 +27,12 @@ private slots:
     void startSpy();
     void stopSpy();
 
+    void quit();
+
     //     RECORDING RELATED
     void record(const QVariant& suiteName);
     void stopRecording(const QVariant& suiteName);
-    void getRecordedText(const QVariant suiteName);
+    void getRecordedText(const QVariant& suiteName);
 
 private:
     QScopedPointer<QRemoter> m_server;

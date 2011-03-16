@@ -80,7 +80,7 @@ void MartletClient::askForRecordedText(QString fname)
 
 void MartletClient::onPlaybackFinished()
 {
-    qDebug("Playback Finished");
+    client()->perform(APP_QUIT_0);
 }
 
 

@@ -19,7 +19,8 @@
 
 MartletWindow::MartletWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MartletWindow)
+    ui(new Ui::MartletWindow),
+    m_mode_play(true)
 {
     ui->setupUi(this);
     
@@ -37,6 +38,11 @@ MartletWindow::MartletWindow(QWidget *parent) :
                                             this, SLOT(onTestSrated(QVariant)));
     m_client->client()->connectRemoteSignal(PLAYBACK_TEST_DONE_2,
                                             this, SLOT(onTestDone(QVariant, QVariant)));
+//    m_client->client()->connectRemoteSignal(PLAYBACK_FINISHED_0,
+//                                            this, SLOT(onPlaybackFinished()));
+    qDebug("Connection before Playing script ... ");
+    connect(m_client->client(), SIGNAL(connected()),
+            this, SLOT(onTestedAppConnected()));
 }
 
 MartletWindow::~MartletWindow()
@@ -55,6 +61,10 @@ void MartletWindow::onTestDone(QVariant name, QVariant status)
     qDebug("onTestDone %s ==== %s", qPrintable(name.toString()), qPrintable(status.toString()));
 }
 
+void MartletWindow::onPlaybackFinished()
+{
+    m_client->client()->perform(APP_QUIT_0);
+}
 
 void MartletWindow::changeEvent(QEvent *e)
 {
@@ -293,6 +303,7 @@ void MartletWindow::on_actionStart_program_triggered()
 void MartletWindow::on_actionRecord_triggered()
 {
     Q_ASSERT(MartletProject::getCurrent() != NULL);
+    m_mode_play = false;
     startApp();
 }
 
@@ -329,19 +340,23 @@ void MartletWindow::onMartexConnected()
 
 void MartletWindow::onTestedAppConnected()
 {
-    // todo
-//    m_client->startRecording("f.qs");
-
-    qDebug("Play script ... ");
-    m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
-    m_client->play("H.qs");
-    qDebug("Remote Playback started");
+    if (m_mode_play)
+    {
+        qDebug("Play script ... ");
+        m_client->uploadScript("H.qs", ui->plainTextEdit->toPlainText());
+        m_client->play("H.qs");
+        qDebug("Remote Playback started");
+    } else {
+        qDebug("Record script ... ");
+        m_client->startRecording("f.qs");
+    }
 
 }
 
 
 void MartletWindow::on_actionStop_recording_triggered()
 {
+    qDebug("void MartletWindow::on_actionStop_recording_triggered()");
     m_client->stopRecording("f.qs");
     m_client->askForRecordedText("f.qs");
     ui->plainTextEdit->setPlainText("\nWaitinng for text from client ....");
@@ -349,9 +364,7 @@ void MartletWindow::on_actionStop_recording_triggered()
 
 void MartletWindow::on_actionPlay_triggered()
 {
-    qDebug("Connection before Playing script ... ");
-    connect(m_client->client(), SIGNAL(connected()),
-            this, SLOT(onTestedAppConnected()));
+    m_mode_play = true;
     m_client->startListening();
 
     startApp();

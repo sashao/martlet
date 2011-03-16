@@ -58,6 +58,7 @@ private:
 //    MartletServer* m_server;
     MProjectModel* m_Model;
     QProcess m_childAppProcess;
+    bool m_mode_play;
 
     void startApp();
     
@@ -84,6 +85,7 @@ private slots:
     void onTestedAppConnected();
     void onTestSrated(QVariant);
     void onTestDone(QVariant, QVariant);
+    void onPlaybackFinished();
 
     void on_actionProject_Add_suite_triggered();
     void on_actionSuite_Delete_triggered();
