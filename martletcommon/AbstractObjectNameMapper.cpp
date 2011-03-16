@@ -26,5 +26,5 @@ QString AbstractObjectNameMapper::makeCachedObjectName(QObject* obj )
         m_cachePair.first = obj;
         m_cachePair.second = makeObjectName(obj);
     }
-    return m_cachePair.second;    
+    return m_cachePair.second;
 }

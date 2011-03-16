@@ -210,7 +210,19 @@ void MartletWindow::loadCurrentProjectIntoUI()
 
 void MartletWindow::on_actionSave_triggered()
 {
-    // TODO
+    TestFile * tf = getCurrentItem<TestFile>();
+    if (tf) {
+        const QString fname = QString::fromStdString( tf->name() );
+        qDebug("Saving to file %s", qPrintable(fname));
+        QFile file(fname);
+        file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
+        const QString txt = ui->plainTextEdit->toPlainText();
+        file.write(txt.toLocal8Bit());
+        file.close();
+    } else {
+        QMessageBox::critical(this, "Martlet Error", "Failed to save file. Select file in tree view first.");
+    }
+
 }
 
 void MartletWindow::on_actionOpen_triggered()
@@ -226,7 +238,11 @@ void MartletWindow::on_actionSave_2_triggered()
 
 void MartletWindow::on_actionSave_As_triggered()
 {
-    //TODO
+//    const QString fname = QString::fromStdString( MartletProject::getCurrent()->currentSuite()->name() );
+//    QFile file(fname);
+//    file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
+//    file.write(txt.toLocal8Bit());
+//    file.close();
 }
 
 void MartletWindow::on_actionLoad_triggered()
@@ -394,6 +410,8 @@ void MartletWindow::onRecordedTextUpdate(const QVariant& txt)
 {
     qDebug() << "Text arrived to main window" << txt;
     ui->plainTextEdit->setPlainText( txt.toString() );
+
+    QTimer::singleShot(500, m_client, SLOT(onPlaybackFinished()));
 
 //    const QString fname = QString::fromStdString( MartletProject::getCurrent()->currentSuite()->name() );
 //    QFile file(fname);

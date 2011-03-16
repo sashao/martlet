@@ -37,7 +37,8 @@ void AbstractEventFabric::setInstance(AbstractEventFabric* fabric)
 
 QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 {
-	QString output;
+    QString output;
+    output.reserve(100);
 	if (m_commandMap.contains(event->type())){
         AbstractCommand* command = m_commandMap.value(event->type());
         const QString uniqueObjName = m_pNameMapper->makeCachedObjectName(obj);
