@@ -2,7 +2,7 @@
 #include <QString>
 #include <QEvent>
 #include <QMouseEvent>
-
+#include <QDebug>
 
 
 
@@ -17,20 +17,23 @@ CSVCommand::CSVCommand(QObject *parent)
 
 void CSVCommand::fillDataFromList(CommandData& data, QStringList& list) const
 {
-    Q_ASSERT(list.count()==5);
+    Q_ASSERT(list.count()== 5+3);
     data.pause_msecs = list.at(1).toUInt();
     data.objNameString = list.at(4);
     QPoint pos(list.at(2).toInt(), list.at(3).toInt());
 
-//	QMouseEvent* me = new QMouseEvent(QEvent::MouseButtonPress,QPoint(5,5), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-    QMouseEvent* me = new QMouseEvent(type(), pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+    const Qt::MouseButton mb = static_cast<Qt::MouseButton>(list.at(5).toInt());
+    Qt::MouseButtons mbs;      mbs &= list.at(6).toInt();
+    Qt::KeyboardModifiers kms; kms &= list.at(7).toInt();
+
+    QMouseEvent* me = new QMouseEvent(type(), pos, mb, mbs, kms);
     data.event = me;
 }
 
-
-
-
-
+QString modifiers(const QMouseEvent* me)
+{
+    return QString(",%1,%2,%3").arg(me->button()).arg(me->buttons()).arg(me->modifiers());
+}
 
 
 
@@ -43,7 +46,7 @@ QString CSVMousePressCommand::record(const CommandData& data)
 {
 	const QMouseEvent* me = static_cast<const QMouseEvent*>(data.event);
 	if (me) {
-        return QString("MousePress,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString);
+        return QString("MousePress,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString)+modifiers(me);
     } else {
         qDebug("NOT AN QMouseEvent");
     }
@@ -81,7 +84,7 @@ QString CSVMouseReleaseCommand::record(const CommandData& data)
 {
 	const QMouseEvent* me = static_cast<const QMouseEvent*>(data.event);
 	if (me) {
-		return QString("MouseRelease,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString);
+        return QString("MouseRelease,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString)+modifiers(me);
     } else {
         qDebug("NOT AN QMouseEvent");
     }
@@ -120,7 +123,7 @@ QString CSVMouseMoveCommand::record(const CommandData& data)
 {
 	const QMouseEvent* me = static_cast<const QMouseEvent*>(data.event);
 	if (me) {
-		return QString("MouseMove,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString);
+        return QString("MouseMove,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString)+modifiers(me);
     } else {
         qDebug("NOT AN QMouseEvent");
     }
@@ -159,7 +162,7 @@ QString CSVMouseEnterCommand::record(const CommandData& data)
 {
 	const QMouseEvent* me = static_cast<const QMouseEvent*>(data.event);
 	if (me) {
-		return QString("MouseEnter,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString);
+        return QString("MouseEnter,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString)+modifiers(me);
 	}
 	return QString();
 }
@@ -197,7 +200,7 @@ QString CSVMouseLeaveCommand::record(const CommandData& data)
 {
 	const QMouseEvent* me = static_cast<const QMouseEvent*>(data.event);
 	if (me) {
-		return QString("MouseLeave,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString);
+        return QString("MouseLeave,%1,%2,%3,%4").arg(data.pause_msecs).arg(me->x()).arg(me->y()).arg(data.objNameString)+modifiers(me);
 	}
 	return QString();
 }
