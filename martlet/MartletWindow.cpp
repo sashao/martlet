@@ -38,6 +38,8 @@ MartletWindow::MartletWindow(QWidget *parent) :
                                             this, SLOT(onTestSrated(QVariant)));
     m_client->client()->connectRemoteSignal(PLAYBACK_TEST_DONE_2,
                                             this, SLOT(onTestDone(QVariant, QVariant)));
+    m_client->client()->connectRemoteSignal(APP_DEBUG_2,
+                                            this, SLOT(onDebug(QVariant,QVariant)));
 //    m_client->client()->connectRemoteSignal(PLAYBACK_FINISHED_0,
 //                                            this, SLOT(onPlaybackFinished()));
     qDebug("Connection before Playing script ... ");
@@ -64,6 +66,11 @@ void MartletWindow::onTestDone(QVariant name, QVariant status)
 void MartletWindow::onPlaybackFinished()
 {
     m_client->client()->perform(APP_QUIT_0);
+}
+
+void MartletWindow::onDebug(QVariant type, QVariant message)
+{
+    ui->logTextEdit->append( QString("%1: %2").arg(type.toString()).arg(message.toString()));
 }
 
 void MartletWindow::changeEvent(QEvent *e)
@@ -314,6 +321,7 @@ void MartletWindow::startApp()
         const QString app = QString("./martex ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
         Q_ASSERT( !app.isEmpty() );
 //        qDebug("Starting listener client.");
+            m_client->startListening();
 //        tryConnectAndStart();
         qDebug("Starting App.");
         m_childAppProcess.start(app);
@@ -365,8 +373,6 @@ void MartletWindow::on_actionStop_recording_triggered()
 void MartletWindow::on_actionPlay_triggered()
 {
     m_mode_play = true;
-    m_client->startListening();
-
     startApp();
 //    m_childAppProcess.waitForStarted();
 

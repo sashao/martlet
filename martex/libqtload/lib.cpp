@@ -7,9 +7,15 @@
 #include "filter.h"
 #include "MartletServer.h"
 #include "CSVEventFabric.h"
+#include "RequestToRemote.h"
 
 static bool installed = false;
 
+static MartletServer* myServer = 0;
+void TransferOutput(QtMsgType type, const char *msg)
+{
+    myServer->client()->perform( APP_DEBUG_2, type, QString::fromAscii(msg) );
+}
 
 #ifdef Q_OS_WIN
 
@@ -123,9 +129,10 @@ bool QCoreApplication::event(QEvent *e)
 	{
 
 		QCoreApplication::instance()->installEventFilter( new filter());
-        MartletServer* myServer = new MartletServer();
+        myServer = new MartletServer();
         AbstractEventFabric::setInstance(new CSVEventFabric());
 		installed = true;
+        qInstallMsgHandler(TransferOutput);
 	}
 	return QObject::event(e);
 }

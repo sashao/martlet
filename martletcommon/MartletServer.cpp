@@ -47,6 +47,11 @@ MartletServer::MartletServer()
     m_server->connectToHost( "127.0.0.1", port );
 }
 
+QRemoter *MartletServer::client()
+{
+    return m_server.data();
+}
+
 void MartletServer::connected()
 {
 //    QMessageBox::information(0, "Connected", "Connected \n\n\n\n\n\n");
@@ -103,21 +108,21 @@ void MartletServer::stopPlayback()
 
 void MartletServer::record(const QVariant& /*suiteName*/)
 {
-        m_server->perform(PLAYBACK_FINISHED_0);
+    qDebug(Q_FUNC_INFO);
     m_catcher.startRecording();
 }
 
 void MartletServer::stopRecording(const QVariant& /*suiteName*/)
 {
-        m_server->perform(PLAYBACK_FINISHED_0);
+    qDebug(Q_FUNC_INFO);
     m_catcher.stopRecording();
 }
 
 void MartletServer::getRecordedText(const QVariant& /*suiteName*/)
 {
+    qDebug(Q_FUNC_INFO);
     const QString ret = AbstractEventFabric::instance()->getOutput();
     m_server->perform(RECORDING_OUTPUT_1, ret);
-    m_server->perform(PLAYBACK_FINISHED_0);
 }
 
 

@@ -15,6 +15,7 @@ class MartletServer : public QObject
     Q_OBJECT
 public:
     MartletServer();
+    QRemoter *client();
 
 private slots:
     void connected();

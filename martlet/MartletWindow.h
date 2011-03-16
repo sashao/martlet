@@ -85,6 +85,7 @@ private slots:
     void onTestedAppConnected();
     void onTestSrated(QVariant);
     void onTestDone(QVariant, QVariant);
+    void onDebug(QVariant, QVariant);
     void onPlaybackFinished();
 
     void on_actionProject_Add_suite_triggered();
