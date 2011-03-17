@@ -147,12 +147,17 @@ void MartletWindow::on_treeView_clicked(QModelIndex index)
             // load file
             ui->plainTextEdit->setPlainText( txt );
 
-        } else
-        if ( getCurrentItem<TestCase>() ) {
-        } else
-        if ( getCurrentItem<Suite>() ) {
-        } else
-        if ( getCurrentItem<MartletProject>() ) {
+            ui->stackedWidget->setCurrentIndex(1);
+
+        } else if ( getCurrentItem<TestCase>() )
+        {
+            ui->stackedWidget->setCurrentIndex(0);
+        } else if ( getCurrentItem<Suite>() )
+        {
+            ui->stackedWidget->setCurrentIndex(0);
+        } else if ( getCurrentItem<MartletProject>() )
+        {
+            ui->stackedWidget->setCurrentIndex(0);
         }
 
     }
@@ -336,6 +341,17 @@ void MartletWindow::on_actionStart_program_triggered()
 void MartletWindow::on_actionRecord_triggered()
 {
     Q_ASSERT(MartletProject::getCurrent() != NULL);
+
+    const QMessageBox::StandardButton btn = QMessageBox::question(
+            this,
+            "Martlet",
+            "Would you like to append lines to existing script or replace it ?",
+            QMessageBox::Ok|QMessageBox::Reset,
+            QMessageBox::Ok);
+
+    if (btn == QMessageBox::Reset) {
+        ui->plainTextEdit->clear();
+    }
     m_mode_play = false;
     startApp();
 }
@@ -384,6 +400,7 @@ void MartletWindow::onTestedAppConnected()
         qDebug("Record script ... ");
         m_client->startRecording("f.qs");
     }
+    ui->logTextEdit->clear();
 
 }
 
@@ -393,7 +410,7 @@ void MartletWindow::on_actionStop_recording_triggered()
     qDebug("void MartletWindow::on_actionStop_recording_triggered()");
     m_client->stopRecording("f.qs");
     m_client->askForRecordedText("f.qs");
-    ui->plainTextEdit->setPlainText("\nWaitinng for text from client ....");
+    qDebug("Waitinng for text from client ....");
 }
 
 void MartletWindow::on_actionPlay_triggered()
@@ -419,7 +436,7 @@ void MartletWindow::on_pushButton_4_clicked() // play
 void MartletWindow::onRecordedTextUpdate(const QVariant& txt)
 {
     qDebug() << "Text arrived to main window" << txt;
-    ui->plainTextEdit->setPlainText( txt.toString() );
+    ui->plainTextEdit->appendPlainText( txt.toString() );
 
     QTimer::singleShot(500, m_client, SLOT(onPlaybackFinished()));
 
