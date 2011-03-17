@@ -531,3 +531,8 @@ void MartletWindow::on_actionSave_File_triggered()
         }
     }
 }
+
+void MartletWindow::on_actionAbout_triggered()
+{
+    QMessageBox::information(this, "Martlet", "Qt GUI automation testing application\nAuthors: Oleksandr Omelchuk, Anatolii Kyrylyuk\nLicense: GPL\n");
+}
