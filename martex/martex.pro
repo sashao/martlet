@@ -22,5 +22,5 @@ DESTDIR = $$GLOBTOP/bin
 
 win32:CONFIG+=console
 
-PRE_TARGETDEPS += $$GLOBTOP/bin/libmartletcommon.a
+#PRE_TARGETDEPS += $$GLOBTOP/bin/libmartletcommon.a
 

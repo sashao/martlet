@@ -6,7 +6,7 @@ TEMPLATE = lib
 TARGET = loki
 
 CONFIG += warn_on
-CONFIG += staticlib
+#CONFIG += staticlib
 CONFIG += debug_and_release
 
 DEPENDPATH += . \

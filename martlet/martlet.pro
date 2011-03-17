@@ -38,5 +38,5 @@ LIBS += -lmartletcommon \
     -lloki \
     -lboost_serialization
 
-PRE_TARGETDEPS += $$GLOBTOP/bin/libmartletcommon.a
+#PRE_TARGETDEPS += $$GLOBTOP/bin/libmartletcommon.a
 
