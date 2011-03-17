@@ -61,6 +61,16 @@ void MartletWindow::onTestSrated(QVariant name)
 void MartletWindow::onTestDone(QVariant name, QVariant status)
 {
     qDebug("onTestDone %s ==== %s", qPrintable(name.toString()), qPrintable(status.toString()));
+    const QString description = status.toString();
+    QColor color = Qt::black;
+
+    if (description.startsWith("FAIL")) {
+        color = Qt::red;
+    }
+    ui->resultsTextEdit->append( QString("<span style=\" color:%1;\">Test <b>%2</b> %3</span>")
+                                .arg(color.name())
+                                .arg(name.toString())
+                                .arg(description));
 }
 
 void MartletWindow::onPlaybackFinished()
