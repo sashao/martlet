@@ -23,8 +23,10 @@ void CSVCommand::fillDataFromList(CommandData& data, QStringList& list) const
     QPoint pos(list.at(2).toInt(), list.at(3).toInt());
 
     const Qt::MouseButton mb = static_cast<Qt::MouseButton>(list.at(5).toInt());
-    Qt::MouseButtons mbs;      mbs &= list.at(6).toInt();
-    Qt::KeyboardModifiers kms; kms &= list.at(7).toInt();
+    Qt::MouseButtons mbs;      mbs |= static_cast<Qt::MouseButton>(list.at(6).toInt());
+    Qt::KeyboardModifiers kms; kms |= static_cast<Qt::KeyboardModifier>(list.at(7).toInt());
+
+//    qDebug("construct mbuttons %d %d ", list.at(6).toInt(), int(mbs));
 
     QMouseEvent* me = new QMouseEvent(type(), pos, mb, mbs, kms);
     data.event = me;
@@ -32,7 +34,10 @@ void CSVCommand::fillDataFromList(CommandData& data, QStringList& list) const
 
 QString modifiers(const QMouseEvent* me)
 {
-    return QString(",%1,%2,%3").arg(me->button()).arg(me->buttons()).arg(me->modifiers());
+    return QString(",%1,%2,%3")
+            .arg(static_cast<int>(me->button()))
+            .arg(int(me->buttons()))
+            .arg(int(me->modifiers()));
 }
 
 
