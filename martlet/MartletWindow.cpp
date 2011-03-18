@@ -6,6 +6,7 @@
 #include "ProjectDialog.h"
 #include "MProjectModel.h"
 #include "RequestToRemote.h"
+#include "QObjectPropertyModel.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -45,6 +46,14 @@ MartletWindow::MartletWindow(QWidget *parent) :
     qDebug("Connection before Playing script ... ");
     connect(m_client->client(), SIGNAL(connected()),
             this, SLOT(onTestedAppConnected()));
+
+#ifdef TEST_PROPERTY_MODEL
+    QObjectPropertyModel* model = new QObjectPropertyModel(ui->stackedWidget);
+    ui->tableView->setModel(model);
+    ui->tableView->setMinimumWidth(300);
+#else
+    ui->tableView->hide();
+#endif
 }
 
 MartletWindow::~MartletWindow()

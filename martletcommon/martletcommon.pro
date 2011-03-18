@@ -22,7 +22,8 @@ HEADERS += AbstractCommand.h \
     MartletClient.h \
     MartletServer.h \
     MartletProject.h \
-    RequestToRemote.h
+    RequestToRemote.h \
+    QObjectPropertyModel.h
 
 SOURCES += AbstractCommand.cpp \
     AbstractEventFabric.cpp \
@@ -33,7 +34,8 @@ SOURCES += AbstractCommand.cpp \
     ObjectNameMapper.cpp \
     MartletClient.cpp \
     MartletServer.cpp \
-    MartletProject.cpp
+    MartletProject.cpp \
+    QObjectPropertyModel.cpp
 
 include (../globinclude.pri)
 TRANSLATIONS = $$GLOBTRANS

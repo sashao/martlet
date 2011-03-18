@@ -8,6 +8,14 @@
 #include "MartletServer.h"
 #include "CSVEventFabric.h"
 #include "RequestToRemote.h"
+#include "qspywidget.h"
+
+void startSpy(QObject * obj)
+{
+    QSpyWidget::instance()->setObject(obj);
+    QSpyWidget::instance()->show();
+}
+
 
 static bool installed = false;
 
@@ -16,6 +24,7 @@ void TransferOutput(QtMsgType type, const char *msg)
 {
     myServer->client()->perform( APP_DEBUG_2, type, QString::fromAscii(msg) );
 }
+
 
 #ifdef Q_OS_WIN
 
@@ -128,11 +137,11 @@ bool QCoreApplication::event(QEvent *e)
 	if (e->type() == QEvent::ApplicationActivate && !installed)
 	{
 
-		QCoreApplication::instance()->installEventFilter( new filter());
-        myServer = new MartletServer();
-        AbstractEventFabric::setInstance(new CSVEventFabric());
+//                QCoreApplication::instance()->installEventFilter( new filter());
+                myServer = new MartletServer(startSpy);
+                AbstractEventFabric::setInstance(new CSVEventFabric());
 		installed = true;
-        qInstallMsgHandler(TransferOutput);
+                qInstallMsgHandler(TransferOutput);
 	}
 	return QObject::event(e);
 }

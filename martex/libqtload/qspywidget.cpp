@@ -16,6 +16,7 @@
 #include <QCloseEvent>
 #include <QPointer>
 #include <QDebug>
+#include <QInputDialog>
 
 
 QSpyWidget * QSpyWidget::m_instance = 0;
@@ -51,12 +52,12 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 //	pe->setObject(oi);
 
 	createActions();
-	createTrayIcon();
+//	createTrayIcon();
     
 	connect(pe, SIGNAL(propertyChanged(QString,  QVariant)),
 			this, SLOT(handle_propertyChanged(QString,  QVariant)));
 
-	trayIcon->show();
+//	trayIcon->show();
 	this->show();
 }
 
@@ -74,6 +75,7 @@ void QSpyWidget::setObject(QObject * obj)
 {
 	if (obj) selected = obj;
 	else return;
+
 
 	updateObjectTree(obj);
 //	if (updateObjectTree(obj))
@@ -94,8 +96,12 @@ bool QSpyWidget::updateObjectTree(QObject * obj)
 		ww->setGeometry(QRect(QPoint(0,0), w->size() ));
 		ww->show();
 		ww->raise();                */
-		m_top = w->topLevelWidget();
-		if (m_top == this) return false;
+                m_top = w->topLevelWidget();
+#ifndef _DEBUG
+                // do not spy myself
+                // QT_NO_DEBUG
+                if (m_top == this) return false;
+#endif
 
 		m_ui->treeWidget->clear();
 
@@ -217,6 +223,20 @@ void QSpyWidget::on_treeWidget_itemClicked(QTreeWidgetItem* item, int /*column*/
 void QSpyWidget::handle_propertyChanged ( const QString & name, const QVariant & value )
 {
     qDebug()<< "Changing property "<< name << " to "<< value;
-	pe->object()->setProperty(qPrintable(name), value);
+
+
+
+    QString str = QInputDialog::getText(this,
+                                        "Spy",
+                                        QString("Property editor currently does not support editing properties.\n"
+                                                "Enter new '%1' property value again : ").arg(name),
+                                        QLineEdit::Normal,
+                                        pe->object()->property(name.toLocal8Bit()).toString());
+
+    if (!str.isNull()) {
+        pe->object()->setProperty(name.toLocal8Bit(), str);
+        pe->setPropertyValue(name, str, true);
+    }
+
 }
 

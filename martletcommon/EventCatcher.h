@@ -14,6 +14,9 @@ public:
 	void startRecording();
 	void stopRecording();
 
+        void (*m_spy)(QObject *);
+
+
 private:
 	bool eventFilter(QObject *obj, QEvent *ev);	
 };

@@ -6,10 +6,12 @@
 #include <QApplication>
 
 
-MartletServer::MartletServer()
+
+MartletServer::MartletServer(void (*spy)(QObject*))
     : m_server(new QRemoter(this))
     , m_catcher(this)
 {
+    m_catcher.m_spy = spy;
     //register sum and difference methods, with return type int and two int parameters
     connect( m_server.data(), SIGNAL(connected()),
              this, SLOT(connected()));
