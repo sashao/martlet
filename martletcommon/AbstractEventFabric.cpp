@@ -109,8 +109,8 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
         }
 
     } else {
-        qDebug("Something went wrong while string decoding. (event = %d, object= %d)",
-               static_cast<int>(data.event->type()), reinterpret_cast<int>(widget) );
+        //qDebug("Something went wrong while string decoding. (event = %d, object= %d)",
+        //       static_cast<int>(data.event->type()), reinterpret_cast<int>(widget) );
     }
 }
 

@@ -227,5 +227,61 @@ QEvent::Type CSVMouseLeaveCommand::type() const
 
 
 
+CSVKeyPressCommand::CSVKeyPressCommand(QObject *parent)
+    : CSVCommand(parent)
+{
+}
+
+QString CSVKeyPressCommand::record(const CommandData& data)
+{
+    const QKeyEvent* me = static_cast<const QKeyEvent*>(data.event);
+    if (me) {
+        return QString("KeyPress,%1").arg(data.pause_msecs).arg(me->key());
+    }
+    return QString();
+}
+
+CommandData CSVKeyPressCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("KeyPress")) {
+        QStringList items = commanStr.split(',');
+        fillDataFromList(returnData, items);
+    }
+    return returnData;
+}
+
+QEvent::Type CSVKeyPressCommand::type() const
+{
+    return QEvent::KeyPress;
+}
 
 
+CSVKeyReleaseCommand::CSVKeyReleaseCommand(QObject *parent)
+    : CSVCommand(parent)
+{
+}
+
+QString CSVKeyReleaseCommand::record(const CommandData& data)
+{
+    const QKeyEvent* me = static_cast<const QKeyEvent*>(data.event);
+    if (me) {
+        return QString("KeyRelease,%1").arg(data.pause_msecs).arg(me->key());
+    }
+    return QString();
+}
+
+CommandData CSVKeyReleaseCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("KeyRelease")) {
+        QStringList items = commanStr.split(',');
+        fillDataFromList(returnData, items);
+    }
+    return returnData;
+}
+
+QEvent::Type CSVKeyReleaseCommand::type() const
+{
+    return QEvent::KeyRelease;
+}

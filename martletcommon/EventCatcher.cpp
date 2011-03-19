@@ -60,6 +60,11 @@ bool EventCatcher::eventFilter(QObject *obj, QEvent *ev)
                 qDebug("Event type %d - '%s'", ev->type(), qPrintable(str));
                 }
             }
+
+    else if (ev->type() == QEvent::KeyPress || ev->type() == QEvent::KeyRelease) {
+        QString str(AbstractEventFabric::instance()->recordEvent(ev, obj));
+    }
+
     }
 	return false;
 }

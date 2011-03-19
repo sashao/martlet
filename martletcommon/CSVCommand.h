@@ -96,6 +96,28 @@ public:
 
 
 
+class CSVKeyPressCommand : public CSVCommand
+{
+    Q_OBJECT
+public:
+    CSVKeyPressCommand(QObject *parent);
+    virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
+    virtual QEvent::Type type() const;
+};
+
+
+class CSVKeyReleaseCommand : public CSVCommand
+{
+    Q_OBJECT
+public:
+    CSVKeyReleaseCommand(QObject *parent);
+    virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
+    virtual QEvent::Type type() const;
+};
+
+
 
 
 
