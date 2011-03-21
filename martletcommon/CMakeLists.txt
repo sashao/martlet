@@ -5,7 +5,7 @@ find_package(Qt4 REQUIRED)
 set( QT_USE_QTGUI   TRUE )
 
 file(GLOB MC_SRCS *.cpp)
-file(GLOB MC_HDRS *.h)
+file(GLOB MC_HDRS ${HREGEXP})
 
 QT4_WRAP_CPP(MC_SRCS ${MC_HDRS})
 

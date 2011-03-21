@@ -5,7 +5,7 @@ find_package(Qt4 REQUIRED)
 set( QT_USE_QTGUI   TRUE )
 
 file(GLOB SRCS *.cpp)
-file(GLOB HDRS *.h)
+file(GLOB HDRS ${HREGEXP})
 file(GLOB UI *.ui)
 
 QT4_WRAP_CPP(SRCS ${HDRS})

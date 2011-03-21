@@ -16,7 +16,7 @@ add_definitions (-DPROPERTYEDITOR_VERSION=\"${PROPERTYEDITOR_VERSION}\")
 
 find_package(Qt4 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS serialization)
-
+set( HREGEXP "*.h" )
 
 set( QT_USE_QTGUI   TRUE )
 set( QT_USE_QTNETWORK   TRUE )

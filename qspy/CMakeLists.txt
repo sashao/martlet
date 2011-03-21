@@ -3,7 +3,7 @@ project(qspy)
 find_package(Qt4 REQUIRED)
 
 file(GLOB SRCS *.cpp)
-file(GLOB HDRS *.h)
+file(GLOB HDRS ${HREGEXP})
 file(GLOB UI *.ui)
 
 QT4_WRAP_CPP( SRCS ${HDRS} )
