@@ -30,4 +30,7 @@ qrc_*
 *_
 /loki-lib
 /third_party/loki
+CMakeFiles/
+CMakeCache.txt
+
 
