@@ -14,7 +14,8 @@ public:
 	virtual bool canDeserialize(const QString ){ return false; }
 
 protected:
-    void fillDataFromList(CommandData& data, QStringList& list) const;
+        void fillMouseDataFromList(CommandData& data, QStringList& list) const;
+        void fillKeyDataFromList(CommandData& data, QStringList& list) const;
 };
 
 

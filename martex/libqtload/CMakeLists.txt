@@ -1,4 +1,4 @@
-project(libqtload)
+project(qtload)
 
 find_package(Qt4 REQUIRED)
 
@@ -9,12 +9,8 @@ file(GLOB HDRS ${HREGEXP})
 file(GLOB UI *.ui)
 
 QT4_WRAP_CPP(SRCS ${HDRS})
-QT4_WRAP_UI( HUI ${UI} )
+QT4_WRAP_UI( UIH ${UI} )
 
-#if (WIN32)
-#  add_definitions(-DLIB_EXPORTS)
-#endif(WIN32)
-
-add_library(libqtload SHARED ${SRCS})
+add_library(QtLoad SHARED ${SRCS})
 
 

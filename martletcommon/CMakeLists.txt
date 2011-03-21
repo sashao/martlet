@@ -9,9 +9,6 @@ file(GLOB MC_HDRS ${HREGEXP})
 
 QT4_WRAP_CPP(MC_SRCS ${MC_HDRS})
 
-#if (WIN32)
-#  add_definitions(-DLIB_EXPORTS)
-#endif(WIN32)
 
 add_library(martletcommon SHARED ${MC_SRCS})
 
