@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QTimer>
+#include <QDateTime>
 
 
 
@@ -69,7 +70,7 @@ void MartletWindow::onTestDone(QVariant name, QVariant status)
 {
     qDebug("onTestDone %s ==== %s", qPrintable(name.toString()), qPrintable(status.toString()));
     const QString description = status.toString();
-    QColor color = Qt::black;
+    QColor color = Qt::green;
 
     if (description.startsWith("FAIL")) {
         color = Qt::red;
@@ -419,6 +420,8 @@ void MartletWindow::onTestedAppConnected()
         m_client->startRecording("f.qs");
     }
     ui->logTextEdit->clear();
+    ui->resultsTextEdit->append("\n Starting new session: ");
+    ui->resultsTextEdit->append(QDateTime::currentDateTime().toString());
 
 }
 
@@ -527,8 +530,12 @@ void MartletWindow::on_actionTK_Add_File_triggered()
 {
     TestCase * tk = getCurrentItem<TestCase>();
     if (tk) {
-        const QString n = QInputDialog::getText(this, "Enter test file name", "Test File name");
+        QString n = QInputDialog::getText(this, "Enter test file name", "Test File name");
         if (!n.isEmpty())  {
+            const QFileInfo fi(n);
+            if (fi.suffix().isEmpty()) {
+                n.append(".qs");
+            }
             tk->files.push_back(new TestFile(tk, n));
             loadCurrentProjectIntoUI();
         }
