@@ -11,9 +11,8 @@ set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
 set (COMMON_DIR martletcommon)
 set (MARTLET_DIR martlet)
 set (RPC_DIR third_party/qnetworkrpc/src)
-file (GLOB RSC "${CMAKE_BINARY_DIR}/resources/*.qrc")
 
-add_definitions (-DPROPERTYEDITOR_VERSION=\"${PROPERTYEDITOR_VERSION}\")
+#add_definitions (-DPROPERTYEDITOR_VERSION=\"${PROPERTYEDITOR_VERSION}\")
 
 find_package(Qt4 REQUIRED)
 find_package(Boost REQUIRED COMPONENTS serialization)
@@ -27,7 +26,7 @@ include_directories(
         ${QT_INCLUDE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
         ${COMMON_DIR}
-        third_party
+        "${CMAKE_CURRENT_SOURCE_DIR}/third_party"
         ${}
         )
 link_directories( "${CMAKE_BINARY_DIR}/bin")
