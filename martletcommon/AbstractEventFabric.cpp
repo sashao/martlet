@@ -34,27 +34,40 @@ void AbstractEventFabric::setInstance(AbstractEventFabric* fabric)
 	m_instance = fabric;
 }
 
+void maskNewLines(QString& str )
+{
+    str = str.replace("\n", "#N#");
+}
+
+void unmaskNewLines(QString& str )
+{
+    str = str.replace("#N#", "\n" );
+}
 
 QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 {
     QString output;
     output.reserve(100);
-	if (m_commandMap.contains(event->type())){
+    if (m_commandMap.contains(event->type())){
         AbstractCommand* command = m_commandMap.value(event->type());
         const QString uniqueObjName = m_pNameMapper->makeCachedObjectName(obj);
         CommandData data(event, uniqueObjName, AbstractCommand::getPauseMSecs());
         output = command->record( data );
         AbstractCommand::recordLastEventTime();
+        maskNewLines(output);
         m_output.append(output);
         m_output.append("\n");
-	}
-	return output;
+    }
+    return output;
 }
 
-void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
+void AbstractEventFabric::playSingleLineEvent(const QString& command)
 {
     // Omit empty strings
-    if (commandStr.isEmpty()) return;
+    if (command.isEmpty()) return;
+    QString commandStr = command;
+    unmaskNewLines(commandStr);
+
 
     if (commandStr.startsWith("VERIFY")) {
         emit startingTest(commandStr);
@@ -97,20 +110,26 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
         eventLoop.exec();
         
         const QWidget* w = qobject_cast<QWidget *>(widget);
-        const QMouseEvent* me = static_cast<QMouseEvent* >(data.event);
-        if (w && me) 
+        if (w)
         {
-            const QPoint mpos(w->mapToGlobal(me->pos()));
-            QCursor::setPos(mpos);
+            if (data.event && (
+                    data.event->type() == QEvent::MouseMove ||
+                    data.event->type() == QEvent::MouseButtonPress ||
+                    data.event->type() == QEvent::MouseButtonRelease ) )
+            {
+                const QMouseEvent* me = static_cast<QMouseEvent* >(data.event);
+                const QPoint mpos(w->mapToGlobal(me->pos()));
+                QCursor::setPos(mpos);
+            }
         }
-        if (data.event->type() != QEvent::MouseMove)
+        if (data.event->type() /*!= QEvent::MouseMove*/)
         {
             QApplication::sendEvent(widget, data.event);
         }
 
     } else {
-        qDebug("Something went wrong while string decoding. (event = %d, object= %d)",
-               static_cast<int>(data.event->type()), reinterpret_cast<int>(widget) );
+        //qDebug("Something went wrong while string decoding. (event = %d, object= %d)",
+        //       static_cast<int>(data.event->type()), reinterpret_cast<int>(widget) );
     }
 }
 

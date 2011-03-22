@@ -1,7 +1,9 @@
 #include "ProjectDialog.h"
 #include "ui_ProjectDialog.h"
 #include "MartletProject.h"
-        
+#include "AppSettingsDialog.h"
+#include <QFileDialog>
+
 ProjectDialog::ProjectDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ProjectDialog),
@@ -48,15 +50,45 @@ void ProjectDialog::changeEvent(QEvent *e)
 
 void ProjectDialog::on_fnameButton_clicked()
 {
-    
+    QString fname = QFileDialog::getSaveFileName(this,
+                                                 tr("Select New project file"), AppSettingsDialog::currentDir() ,
+                                                 tr("Martlet Project Files (*.mtproject *.mtp)"));
+
+    if (!fname.isEmpty()) {
+        QFileInfo fi (fname);
+        if (fi.suffix().isEmpty()) {
+            fname.append(".mtp");
+        }
+        ui->filenameEdit->setText(fname);
+    }
 }
 
 void ProjectDialog::on_execButton_clicked()
 {
-    
+    const QString fname = QFileDialog::getOpenFileName(
+                this,
+                "Select executable"
+                "",
+                "Executables (*)"
+
+                );
+    if (!fname.isEmpty()) {
+        ui->executableName->setText(fname);
+    }
 }
 
 void ProjectDialog::on_buttonBox_accepted()
 {
     populateToProject();
+}
+
+void ProjectDialog::on_filenameEdit_textChanged(const QString &arg1)
+{
+    ui->executableName->setEnabled(!arg1.isEmpty());
+}
+
+void ProjectDialog::on_executableName_textChanged(const QString &arg1)
+{
+    QFileInfo fi(arg1);
+   ui->buttonBox->setEnabled(!arg1.isEmpty() && fi.exists());
 }

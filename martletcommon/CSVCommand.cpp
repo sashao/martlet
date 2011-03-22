@@ -5,17 +5,13 @@
 #include <QDebug>
 
 
-
-
-
-
 CSVCommand::CSVCommand(QObject *parent)
 	: AbstractCommand(parent)
 {
 
 }
 
-void CSVCommand::fillDataFromList(CommandData& data, QStringList& list) const
+void CSVCommand::fillMouseDataFromList(CommandData& data, QStringList& list) const
 {
     Q_ASSERT(list.count()== 5+3);
     data.pause_msecs = list.at(1).toUInt();
@@ -30,6 +26,25 @@ void CSVCommand::fillDataFromList(CommandData& data, QStringList& list) const
 
     QMouseEvent* me = new QMouseEvent(type(), pos, mb, mbs, kms);
     data.event = me;
+}
+
+void CSVCommand::fillKeyDataFromList(CommandData& data, QStringList& list) const
+{
+    Q_ASSERT(list.count()== 6);
+    data.pause_msecs = list.at(1).toUInt();
+    data.objNameString = list.at(5);
+
+    const Qt::Key key = static_cast<Qt::Key>(list.at(2).toInt());
+    Qt::KeyboardModifiers kms; kms |= static_cast<Qt::KeyboardModifier>(list.at(3).toInt());
+    QString text;
+    const QStringList sl  = list.at(4).split('|', QString::SkipEmptyParts);
+    foreach (QString d, sl) {
+        text.append(QChar(d.toUInt()));
+    }
+
+    QKeyEvent* me = new QKeyEvent(type(), key, kms, text);
+    data.event = me;
+
 }
 
 QString modifiers(const QMouseEvent* me)
@@ -63,7 +78,7 @@ CommandData CSVMousePressCommand::deserialize(const QString commanStr)
     CommandData returnData;
     if (commanStr.startsWith("MousePress")) {
         QStringList items = commanStr.split(',');
-        fillDataFromList(returnData, items);
+        fillMouseDataFromList(returnData, items);
     }
     return returnData;
 }
@@ -101,7 +116,7 @@ CommandData CSVMouseReleaseCommand::deserialize(const QString commanStr)
     CommandData returnData;
     if (commanStr.startsWith("MouseRelease")) {
         QStringList items = commanStr.split(',');
-        fillDataFromList(returnData, items);
+        fillMouseDataFromList(returnData, items);
     }
     return returnData;
 }
@@ -140,7 +155,7 @@ CommandData CSVMouseMoveCommand::deserialize(const QString commanStr)
     CommandData returnData;
     if (commanStr.startsWith("MouseMove")) {
         QStringList items = commanStr.split(',');
-        fillDataFromList(returnData, items);
+        fillMouseDataFromList(returnData, items);
     }
     return returnData;
 }
@@ -177,7 +192,7 @@ CommandData CSVMouseEnterCommand::deserialize(const QString commanStr)
     CommandData returnData;
     if (commanStr.startsWith("MouseEnter")) {
         QStringList items = commanStr.split(',');
-        fillDataFromList(returnData, items);
+        fillMouseDataFromList(returnData, items);
     }
     return returnData;
 }
@@ -215,7 +230,7 @@ CommandData CSVMouseLeaveCommand::deserialize(const QString commanStr)
     CommandData returnData;
     if (commanStr.startsWith("MouseLeave")) {
         QStringList items = commanStr.split(',');
-        fillDataFromList(returnData, items);
+        fillMouseDataFromList(returnData, items);
     }
     return returnData;
 }
@@ -227,5 +242,88 @@ QEvent::Type CSVMouseLeaveCommand::type() const
 
 
 
+CSVKeyPressCommand::CSVKeyPressCommand(QObject *parent)
+    : CSVCommand(parent)
+{
+}
+
+QString CSVKeyPressCommand::record(const CommandData& data)
+{
+    const QKeyEvent* ke = static_cast<const QKeyEvent*>(data.event);
+    if (ke) {
+        QString text;
+        text.reserve(20);
+        for (int i = 0; i < ke->text().size(); ++i) {
+            text.append( QString::number(ke->text().at(i).unicode())+ '|');
+        }
+        return QString("KeyPress,%1,%2,%3,%4,%5")
+                .arg(data.pause_msecs)
+                .arg(int(ke->key()))
+                .arg(int(ke->modifiers()))
+                .arg(text)
+                .arg(data.objNameString);
+
+    }
+    return QString();
+}
+
+CommandData CSVKeyPressCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("KeyPress")) {
+        QStringList items = commanStr.split(',');
+        fillKeyDataFromList(returnData, items);
+    }
+    return returnData;
+}
+
+QEvent::Type CSVKeyPressCommand::type() const
+{
+    return QEvent::KeyPress;
+}
 
 
+
+
+
+
+
+
+CSVKeyReleaseCommand::CSVKeyReleaseCommand(QObject *parent)
+    : CSVCommand(parent)
+{
+}
+
+QString CSVKeyReleaseCommand::record(const CommandData& data)
+{
+    const QKeyEvent* ke = static_cast<const QKeyEvent*>(data.event);
+    if (ke) {
+        QString text;
+        text.reserve(20);
+        for (int i = 0; i < ke->text().size(); ++i) {
+            text.append( QString::number(ke->text().at(i).unicode())+ '|');
+        }
+        return QString("KeyRelease,%1,%2,%3,%4,%5")
+                        .arg(data.pause_msecs)
+                        .arg(int(ke->key()))
+                        .arg(int(ke->modifiers()))
+                        .arg(text)
+                        .arg(data.objNameString);
+    }
+    return QString();
+}
+
+CommandData CSVKeyReleaseCommand::deserialize(const QString commanStr)
+{
+    CommandData returnData;
+    if (commanStr.startsWith("KeyRelease")) {
+        QStringList items = commanStr.split(',');
+        fillKeyDataFromList(returnData, items);
+    }
+    return returnData;
+}
+
+QEvent::Type CSVKeyReleaseCommand::type() const
+{
+    return QEvent::KeyRelease;
+}

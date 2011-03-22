@@ -30,6 +30,8 @@ private slots:
     void on_buttonBox_accepted();
     void on_execButton_clicked();
     void on_fnameButton_clicked();
+    void on_filenameEdit_textChanged(const QString &arg1);
+    void on_executableName_textChanged(const QString &arg1);
 };
 
 #endif // PROJECTDIALOG_H

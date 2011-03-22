@@ -14,7 +14,8 @@ public:
 	virtual bool canDeserialize(const QString ){ return false; }
 
 protected:
-    void fillDataFromList(CommandData& data, QStringList& list) const;
+        void fillMouseDataFromList(CommandData& data, QStringList& list) const;
+        void fillKeyDataFromList(CommandData& data, QStringList& list) const;
 };
 
 
@@ -94,6 +95,28 @@ public:
 	virtual QEvent::Type type() const;
 };
 
+
+
+class CSVKeyPressCommand : public CSVCommand
+{
+    Q_OBJECT
+public:
+    CSVKeyPressCommand(QObject *parent);
+    virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
+    virtual QEvent::Type type() const;
+};
+
+
+class CSVKeyReleaseCommand : public CSVCommand
+{
+    Q_OBJECT
+public:
+    CSVKeyReleaseCommand(QObject *parent);
+    virtual QString record(const CommandData& data);
+    virtual CommandData deserialize(const QString commanStr);
+    virtual QEvent::Type type() const;
+};
 
 
 

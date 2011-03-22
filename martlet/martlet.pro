@@ -40,3 +40,5 @@ LIBS += -lmartletcommon \
 
 #PRE_TARGETDEPS += $$GLOBTOP/bin/libmartletcommon.a
 
+OTHER_FILES += \
+    qml.qml

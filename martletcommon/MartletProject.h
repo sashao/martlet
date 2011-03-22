@@ -2,6 +2,7 @@
 #define MARTLETPROJECT_H
 
 #include <QObject>
+#include <QPixmap>
 
 #include <vector>
 #include <boost/serialization/string.hpp>
@@ -14,6 +15,9 @@ class TestItem: public QObject
 private:
 protected:
     std::string m_name;
+    int m_page;
+    QPixmap m_icon;
+    QString m_toolTip;
 public:
     TestItem(TestItem * parent = 0);
 
@@ -51,7 +55,13 @@ public:
     {
         m_name = name;
     }
+
+    int page() const;
+    QPixmap icon() const;
+    QString toolTip() const;
+
     friend class MartletProject;
+
 };
 
 

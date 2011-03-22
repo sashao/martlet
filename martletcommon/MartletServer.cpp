@@ -63,7 +63,8 @@ void MartletServer::connected()
 void MartletServer::disconnected()
 {
 //    QMessageBox::information(0, "DDDDD", "DISCONNECT \n\n\n\n\n\n");
-    qDebug(Q_FUNC_INFO);
+    QApplication::quit();
+//    qDebug(Q_FUNC_INFO);
 }
 
 void MartletServer::startSpy()
@@ -91,6 +92,7 @@ void MartletServer::play(const QVariant& relativePath)
 {
 //    QMessageBox::information(0, "MartletServer::play", relativePath.toString());
     if (m_filesystem.contains(relativePath.toString())) {
+        m_catcher.blockSpontaneousEvents(true);
         m_server->connectSignalToRemote(AbstractEventFabric::instance(),
                                         SIGNAL(startingTest(QVariant)),
                                         PLAYBACK_TEST_START_1);
@@ -99,6 +101,7 @@ void MartletServer::play(const QVariant& relativePath)
                                         PLAYBACK_TEST_DONE_2);
         AbstractEventFabric::instance()->playAll(m_filesystem.value(relativePath.toString()));
         AbstractEventFabric::instance()->disconnect(0, 0, 0);
+        m_catcher.blockSpontaneousEvents(false);
         m_server->perform(PLAYBACK_FINISHED_0);
     }
 }
