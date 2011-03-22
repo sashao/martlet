@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QPixmap>
+#include <QDir>
 
 #include <vector>
 #include <boost/serialization/string.hpp>
@@ -18,6 +19,7 @@ protected:
     int m_page;
     QPixmap m_icon;
     QString m_toolTip;
+
 public:
     TestItem(TestItem * parent = 0);
 
@@ -81,6 +83,7 @@ class TestFile : public TestItem
 
 
 
+
 class TestCase : public TestItem
 {
         Q_OBJECT
@@ -96,6 +99,9 @@ class TestCase : public TestItem
         void serialize(archive& ar, const unsigned int /*version*/);
 
 };
+
+
+
 
 class Suite : public TestItem
 {
@@ -116,6 +122,9 @@ private:
     void serialize(archive& ar, const unsigned int /*version*/);
 };
 
+
+
+
 class MartletProject : public TestItem
 {
     Q_OBJECT
@@ -126,9 +135,10 @@ public:
     
     static MartletProject* getCurrent();
     static void setCurrent(MartletProject* pro);
-    Suite* currentSuite();
+    Suite* currentSuite() const;
+    QDir projectDir() const;
 
-    bool isValid();
+    bool isValid() const;
     void loadFromFile(const  std::string& str );
     void saveToFile(const  std::string& str);
     /// saves to @ref fileName

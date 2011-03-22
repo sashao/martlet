@@ -145,7 +145,8 @@ void MartletWindow::on_treeView_clicked(QModelIndex index)
 
         if ( TestFile * tf = getCurrentItem<TestFile>() ) {
 
-            const QString fname = QDir::currentPath()+QDir::separator()+ QString::fromStdString( tf->name() );
+            const QString fname = MartletProject::getCurrent()->projectDir()
+                                  .filePath(QString::fromStdString( tf->name() ));
             qDebug("Loading file %s", qPrintable(fname));
             QFile file(fname);
             file.open(QFile::ReadOnly|QFile::Text|QFile::Truncate);
@@ -216,8 +217,8 @@ void MartletWindow::on_actionNew_triggered()
          
         if (pdialog.result() == QDialog::Accepted)
         {
-            Suite* suite1 = new Suite(pro, "TestSuite1");
-            pro->suites.push_back(suite1);
+//            Suite* suite1 = new Suite(pro, "TestSuite1");
+//            pro->suites.push_back(suite1);
             pro->save();
             // load project
             loadCurrentProjectIntoUI();
@@ -237,9 +238,10 @@ void MartletWindow::on_actionSave_triggered()
 {
     TestFile * tf = getCurrentItem<TestFile>();
     if (tf) {
-        const QString fname = QString::fromStdString( tf->name() );
+        const QString fname = MartletProject::getCurrent()->projectDir()
+                              .filePath(QString::fromStdString( tf->name() ));
         qDebug("Saving to file %s", qPrintable(fname));
-        QFile file(fname);
+        QFile file( fname );
         file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
         const QString txt = ui->plainTextEdit->toPlainText();
         file.write(txt.toLocal8Bit());
@@ -287,7 +289,7 @@ void MartletWindow::on_actionLoad_triggered()
 
     if (!fileName.isEmpty()) {
         m_Model->setProject(0);
-        delete MartletProject::getCurrent();    
+        delete MartletProject::getCurrent();
         MartletProject::setCurrent(0);
         
         MartletProject* pro = new MartletProject();
@@ -370,9 +372,15 @@ void MartletWindow::startApp()
 {
     if( m_childAppProcess.state() != QProcess::Running) {
         Q_ASSERT(MartletProject::getCurrent() != NULL);
-        const QString app = QString("./martex ") + QString::fromStdString(MartletProject::getCurrent()->executable.name());
+        const QString app = QString("./martex ") +
+           QDir::cleanPath(
+               MartletProject::getCurrent()->projectDir().filePath(
+                     QString::fromStdString(
+                            MartletProject::getCurrent()->executable.name())));
+
+        qDebug("Starting app '%s'", qPrintable(app));
         Q_ASSERT( !app.isEmpty() );
-//        qDebug("Starting listener client.");
+        qDebug("Starting listener client.");
             m_client->startListening();
 //        tryConnectAndStart();
         qDebug("Starting App.");
@@ -550,7 +558,8 @@ void MartletWindow::on_actionSave_File_triggered()
     if (tf) {
         const QString txt = ui->plainTextEdit->toPlainText();
         if (!txt.isEmpty())  {
-            const QString fname = QDir::currentPath()+QDir::separator()+ QString::fromStdString( tf->name() );
+            const QString fname = MartletProject::getCurrent()->projectDir()
+                                  .filePath( QString::fromStdString( tf->name() ));
             QFile file(fname);
             file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
             file.write(txt.toLocal8Bit());

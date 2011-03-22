@@ -2,6 +2,7 @@
 #include <QTextStream>
 #include <QMessageBox>
 #include <QDebug>
+#include <QFileInfo>
 
 #include <fstream>
 #include <boost/archive/xml_oarchive.hpp>
@@ -20,6 +21,7 @@ MartletProject* MartletProject::m_instance = 0;
 MartletProject::MartletProject()
     : type(this)
     , fileName(this)
+    , executable(this)
     , m_isDirty(false)
 
 {
@@ -45,12 +47,17 @@ void MartletProject::setCurrent(MartletProject* pro)
     m_instance = pro;
 }
 
-Suite* MartletProject::currentSuite()
+Suite* MartletProject::currentSuite() const
 {
     return suites.front();
 }
 
-bool MartletProject::isValid()
+QDir MartletProject::projectDir() const
+{
+    const QFileInfo fi(QString::fromStdString(fileName.name()));
+    return fi.absoluteDir();
+}
+bool MartletProject::isValid() const
 {
     if (executable.name().empty()) return false;
     if (fileName.name().empty()) return false;
@@ -175,6 +182,9 @@ TestFile::TestFile(TestItem *parent, const QString& name)
 {
     setName(name.toStdString());
     setParent(parent);
+    m_page = 1;
+    m_icon = makeIcon(":/model/f.png");
+    m_toolTip = "Script File";
 }
 
 TestFile::TestFile(){
@@ -207,6 +217,9 @@ TestCase::TestCase(TestItem *parent, const QString& name)
 {
     setName(name.toStdString());
     setParent(parent);
+    m_page = 0;
+    m_icon = makeIcon(":/model/tk.png");
+    m_toolTip = "Test Case";
 }
 
 TestCase::TestCase(){

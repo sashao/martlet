@@ -3,6 +3,9 @@
 #include "MartletProject.h"
 #include "AppSettingsDialog.h"
 #include <QFileDialog>
+#include <QPushButton>
+
+
 
 ProjectDialog::ProjectDialog(QWidget *parent) :
     QDialog(parent),
@@ -31,7 +34,9 @@ void ProjectDialog::populateToProject()
     Q_ASSERT(m_pro != 0);
     qDebug("ProjectDialog: Populating updated information to project.");
     m_pro->fileName .setName(ui->filenameEdit->text().toStdString());
-    m_pro->executable.setName( ui->executableName->text().toStdString());
+    const QString rfn = m_pro->projectDir().relativeFilePath(
+            ui->executableName->text());
+    m_pro->executable.setName( rfn.toStdString() );
     m_pro->type.setName( ui->typeComboBox->currentText().toStdString());
 }
 
@@ -90,5 +95,6 @@ void ProjectDialog::on_filenameEdit_textChanged(const QString &arg1)
 void ProjectDialog::on_executableName_textChanged(const QString &arg1)
 {
     QFileInfo fi(arg1);
-   ui->buttonBox->setEnabled(!arg1.isEmpty() && fi.exists());
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(
+            !arg1.isEmpty() && fi.exists() && ui->executableName->isEnabled());
 }
