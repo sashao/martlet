@@ -34,27 +34,40 @@ void AbstractEventFabric::setInstance(AbstractEventFabric* fabric)
 	m_instance = fabric;
 }
 
+void maskNewLines(QString& str )
+{
+    str = str.replace("\n", "#N#");
+}
+
+void unmaskNewLines(QString& str )
+{
+    str = str.replace("#N#", "\n" );
+}
 
 QString AbstractEventFabric::recordEvent(QEvent* event, QObject* obj )
 {
     QString output;
     output.reserve(100);
-	if (m_commandMap.contains(event->type())){
+    if (m_commandMap.contains(event->type())){
         AbstractCommand* command = m_commandMap.value(event->type());
         const QString uniqueObjName = m_pNameMapper->makeCachedObjectName(obj);
         CommandData data(event, uniqueObjName, AbstractCommand::getPauseMSecs());
         output = command->record( data );
         AbstractCommand::recordLastEventTime();
+        maskNewLines(output);
         m_output.append(output);
         m_output.append("\n");
-	}
-	return output;
+    }
+    return output;
 }
 
-void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
+void AbstractEventFabric::playSingleLineEvent(const QString& command)
 {
     // Omit empty strings
-    if (commandStr.isEmpty()) return;
+    if (command.isEmpty()) return;
+    QString commandStr = command;
+    unmaskNewLines(commandStr);
+
 
     if (commandStr.startsWith("VERIFY")) {
         emit startingTest(commandStr);
