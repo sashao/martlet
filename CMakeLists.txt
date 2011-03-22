@@ -39,4 +39,5 @@ add_subdirectory(martex)
 add_subdirectory(martex/libqtload)
 add_subdirectory(qspy)
 add_subdirectory(third_party/qnetworkrpc/src)
+add_subdirectory(examples/QtImageCut)
 
