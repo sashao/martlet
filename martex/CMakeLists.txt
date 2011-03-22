@@ -3,12 +3,12 @@ project(martex)
 find_package(Qt4 REQUIRED)
 set( QT_USE_QTGUI   FALSE )
 
-file(GLOB MT_SRCS *.cpp)
-file(GLOB MT_HDRS ${HREGEXP})
+file(GLOB SRCS *.cpp)
+file(GLOB HDRS ${HREGEXP})
 
-QT4_WRAP_CPP( MT_SRCS ${MT_HDRS} )
+QT4_WRAP_CPP( SRCS ${HDRS} )
 
-add_executable(martex ${MT_SRCS} ${MT_HDRS} )
+add_executable(martex ${SRCS} ${HDRS} )
 add_dependencies(martex martletcommon qnetworkrpc)
 
 

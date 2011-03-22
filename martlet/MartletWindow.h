@@ -12,6 +12,7 @@ namespace Ui {
 }
 
 class MProjectModel;
+class QSignalMapper;
 
 class MartletWindow : public QMainWindow {
     Q_OBJECT
@@ -59,10 +60,15 @@ private:
     MProjectModel* m_Model;
     QProcess m_childAppProcess;
     bool m_mode_play;
+    QSignalMapper* m_string_mapper;
 
     void startApp();
+    void loadFromSettings();
+    void saveSettings();
+    void addRecentProject(const QString& fname);
     
 private slots:
+    void openProject(const QString & fname);
     void onRecordedTextUpdate(const QVariant& txt);
     void on_actionStop_recording_triggered();
     void on_actionPlay_triggered();

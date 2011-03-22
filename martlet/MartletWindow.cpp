@@ -7,13 +7,15 @@
 #include "MProjectModel.h"
 #include "RequestToRemote.h"
 #include "QObjectPropertyModel.h"
+#include "MartletSettings.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QTimer>
 #include <QDateTime>
-
+#include <QScrollBar>
+#include<QSignalMapper>
 
 
 
@@ -22,7 +24,8 @@
 MartletWindow::MartletWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MartletWindow),
-    m_mode_play(true)
+    m_mode_play(true),
+    m_string_mapper( new QSignalMapper(this) )
 {
     ui->setupUi(this);
     
@@ -42,8 +45,8 @@ MartletWindow::MartletWindow(QWidget *parent) :
                                             this, SLOT(onTestDone(QVariant, QVariant)));
     m_client->client()->connectRemoteSignal(APP_DEBUG_2,
                                             this, SLOT(onDebug(QVariant,QVariant)));
-//    m_client->client()->connectRemoteSignal(PLAYBACK_FINISHED_0,
-//                                            this, SLOT(onPlaybackFinished()));
+    m_client->client()->connectRemoteSignal(PLAYBACK_FINISHED_0,
+                                            this, SLOT(onPlaybackFinished()));
     qDebug("Connection before Playing script ... ");
     connect(m_client->client(), SIGNAL(connected()),
             this, SLOT(onTestedAppConnected()));
@@ -53,13 +56,53 @@ MartletWindow::MartletWindow(QWidget *parent) :
     ui->tableView->setModel(model);
     ui->tableView->setMinimumWidth(300);
 #endif
+    loadFromSettings();
 }
+
+
 
 MartletWindow::~MartletWindow()
 {
+    saveSettings();
     m_childAppProcess.close();
     delete ui;
 }
+
+void MartletWindow::loadFromSettings()
+{
+    ui->menuRecent_Projects->clear();
+    const QVariant pv = MartletSettings::settings().value("projects");
+    QStringList sl = pv.toStringList();
+    sl.removeDuplicates();
+    foreach (QString f, sl) {
+        addRecentProject(f);
+    }
+    connect(m_string_mapper, SIGNAL(mapped(const QString &)),
+                 this, SLOT(openProject(const QString &)));
+}
+
+
+void MartletWindow::saveSettings()
+{
+    const QList<QAction *> alist = ui->menuRecent_Projects->actions();
+    QStringList sl;
+    foreach (QAction* a, alist) {
+        sl.append(a->text());
+    }
+    sl.removeDuplicates();
+    MartletSettings::settings().setValue("projects", sl);
+}
+
+void MartletWindow::addRecentProject(const QString& fname)
+{
+    const QFileInfo fi(fname);
+    if (fi.exists()) {
+        QAction* a = ui->menuRecent_Projects->addAction(fname);
+        connect(a, SIGNAL(triggered()), m_string_mapper, SLOT(map()));
+        m_string_mapper->setMapping(a, fname);
+    }
+}
+
 
 void MartletWindow::onTestSrated(QVariant name)
 {
@@ -83,7 +126,7 @@ void MartletWindow::onTestDone(QVariant name, QVariant status)
 
 void MartletWindow::onPlaybackFinished()
 {
-    m_client->client()->perform(APP_QUIT_0);
+    qDebug("m_client->client()->perform(APP_QUIT_0);");
 }
 
 void MartletWindow::onDebug(QVariant type, QVariant message)
@@ -232,6 +275,7 @@ void MartletWindow::loadCurrentProjectIntoUI()
 {
     m_Model->setProject(MartletProject::getCurrent());    
     ui->treeView->expandAll();
+    addRecentProject(QString::fromStdString(MartletProject::getCurrent()->fileName.name()));
 }
 
 
@@ -289,20 +333,27 @@ void MartletWindow::on_actionLoad_triggered()
                        tr("Martlet Project Files (*.mtproject *.mtp)"));
 
     if (!fileName.isEmpty()) {
-        m_Model->setProject(0);
-        delete MartletProject::getCurrent();
-        MartletProject::setCurrent(0);
-        
-        MartletProject* pro = new MartletProject();
-        // load project
-        pro->loadFromFile(fileName.toStdString());
-
-        MartletProject::setCurrent(pro);
-
-        loadCurrentProjectIntoUI();
-        setState<ProjectOpenedState>();
+        openProject(fileName);
     }
 }
+
+void MartletWindow::openProject(const QString & fname)
+{
+    Q_ASSERT(!fname.isEmpty());
+    m_Model->setProject(0);
+    delete MartletProject::getCurrent();
+    MartletProject::setCurrent(0);
+
+    MartletProject* pro = new MartletProject();
+    // load project
+    pro->loadFromFile(fname.toStdString());
+
+    MartletProject::setCurrent(pro);
+
+    loadCurrentProjectIntoUI();
+    setState<ProjectOpenedState>();
+}
+
 
 void MartletWindow::on_actionNew_Suite_triggered()
 {
@@ -422,6 +473,9 @@ void MartletWindow::onTestedAppConnected()
     ui->logTextEdit->clear();
     ui->resultsTextEdit->append("\n Starting new session: ");
     ui->resultsTextEdit->append(QDateTime::currentDateTime().toString());
+    if (ui->resultsTextEdit->verticalScrollBar()) {
+        ui->resultsTextEdit->verticalScrollBar()->setValue(30000);
+    }
 
 }
 

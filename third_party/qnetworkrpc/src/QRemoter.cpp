@@ -183,7 +183,6 @@ bool QRemoter::connectRemoteSignal(const QString& commandName,
     Q_ASSERT(receiver != 0);
     Q_ASSERT(method != 0);
     Q_ASSERT(!commandName.isEmpty());
-    Q_ASSERT(!m_connectionsMap.contains(commandName));
     const int paramsCount = getParamsCount(method);
     QRemoterSignalsWatcer * watcher = 0;
     if (!m_connectionsMap.contains(commandName)) {
