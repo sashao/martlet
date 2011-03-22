@@ -36,8 +36,8 @@ QString modifiers(const QMouseEvent* me)
 {
     return QString(",%1,%2,%3")
             .arg(static_cast<int>(me->button()))
-            .arg(int(me->buttons()))
-            .arg(int(me->modifiers()));
+            .arg(static_cast<int>(me->buttons()))
+            .arg(static_cast<int>(me->modifiers()));
 }
 
 
