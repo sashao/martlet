@@ -46,6 +46,7 @@ bool EventCatcher::eventFilter(QObject *obj, QEvent *event)
         // block spontaneous mouse move events during playback
         return true;
     }
+
     {
         if ( event->type() == QEvent::MouseButtonPress ) {
             QMouseEvent *me = static_cast<QMouseEvent *>(event);

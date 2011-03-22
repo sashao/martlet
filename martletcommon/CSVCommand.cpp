@@ -5,10 +5,6 @@
 #include <QDebug>
 
 
-
-
-
-
 CSVCommand::CSVCommand(QObject *parent)
 	: AbstractCommand(parent)
 {
@@ -40,7 +36,11 @@ void CSVCommand::fillKeyDataFromList(CommandData& data, QStringList& list) const
 
     const Qt::Key key = static_cast<Qt::Key>(list.at(2).toInt());
     Qt::KeyboardModifiers kms; kms |= static_cast<Qt::KeyboardModifier>(list.at(3).toInt());
-    const QString text = list.at(4);
+    QString text;
+    const QStringList sl  = list.at(4).split('|', QString::SkipEmptyParts);
+    foreach (QString d, sl) {
+        text.append(QChar(d.toUInt()));
+    }
 
     QKeyEvent* me = new QKeyEvent(type(), key, kms, text);
     data.event = me;
@@ -249,14 +249,20 @@ CSVKeyPressCommand::CSVKeyPressCommand(QObject *parent)
 
 QString CSVKeyPressCommand::record(const CommandData& data)
 {
-    const QKeyEvent* me = static_cast<const QKeyEvent*>(data.event);
-    if (me) {
+    const QKeyEvent* ke = static_cast<const QKeyEvent*>(data.event);
+    if (ke) {
+        QString text;
+        text.reserve(20);
+        for (int i = 0; i < ke->text().size(); ++i) {
+            text.append( QString::number(ke->text().at(i).unicode())+ '|');
+        }
         return QString("KeyPress,%1,%2,%3,%4,%5")
                 .arg(data.pause_msecs)
-                .arg(int(me->key()))
-                .arg(int(me->modifiers()))
-                .arg(me->text())
+                .arg(int(ke->key()))
+                .arg(int(ke->modifiers()))
+                .arg(text)
                 .arg(data.objNameString);
+
     }
     return QString();
 }
@@ -290,13 +296,18 @@ CSVKeyReleaseCommand::CSVKeyReleaseCommand(QObject *parent)
 
 QString CSVKeyReleaseCommand::record(const CommandData& data)
 {
-    const QKeyEvent* me = static_cast<const QKeyEvent*>(data.event);
-    if (me) {
+    const QKeyEvent* ke = static_cast<const QKeyEvent*>(data.event);
+    if (ke) {
+        QString text;
+        text.reserve(20);
+        for (int i = 0; i < ke->text().size(); ++i) {
+            text.append( QString::number(ke->text().at(i).unicode())+ '|');
+        }
         return QString("KeyRelease,%1,%2,%3,%4,%5")
                         .arg(data.pause_msecs)
-                        .arg(int(me->key()))
-                        .arg(int(me->modifiers()))
-                        .arg(me->text())
+                        .arg(int(ke->key()))
+                        .arg(int(ke->modifiers()))
+                        .arg(text)
                         .arg(data.objNameString);
     }
     return QString();
