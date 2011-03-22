@@ -153,19 +153,16 @@ void MartletWindow::on_treeView_clicked(QModelIndex index)
             file.close();
             // load file
             ui->plainTextEdit->setPlainText( txt );
-
-            ui->stackedWidget->setCurrentIndex(1);
-
         } else if ( getCurrentItem<TestCase>() )
         {
-            ui->stackedWidget->setCurrentIndex(0);
         } else if ( getCurrentItem<Suite>() )
         {
-            ui->stackedWidget->setCurrentIndex(0);
         } else if ( getCurrentItem<MartletProject>() )
         {
-            ui->stackedWidget->setCurrentIndex(0);
         }
+        TestItem* ti = getCurrentItem<TestItem>();
+        Q_ASSERT(ti != 0);
+        ui->stackedWidget->setCurrentIndex(ti->page());
 
     }
 

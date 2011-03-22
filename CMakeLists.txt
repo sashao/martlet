@@ -11,6 +11,7 @@ set (VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_RELEASE}" )
 set (COMMON_DIR martletcommon)
 set (MARTLET_DIR martlet)
 set (RPC_DIR third_party/qnetworkrpc/src)
+file (GLOB RSC "${CMAKE_BINARY_DIR}/resources/*.qrc")
 
 add_definitions (-DPROPERTYEDITOR_VERSION=\"${PROPERTYEDITOR_VERSION}\")
 

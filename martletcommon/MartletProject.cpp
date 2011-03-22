@@ -8,6 +8,12 @@
 #include <boost/archive/xml_iarchive.hpp>
 
 
+QPixmap makeIcon(const QString& name)
+{
+    const QPixmap orig(name);
+    return orig.scaled(32, 32);
+}
+
 MartletProject* MartletProject::m_instance = 0;
 
 
@@ -18,6 +24,10 @@ MartletProject::MartletProject()
 
 {
     setName("Project");
+    m_page = 0;
+    m_icon = makeIcon(":/model/p.png");
+    m_toolTip = "Project";
+
 }
 
 MartletProject::~MartletProject()
@@ -133,8 +143,26 @@ void MartletProject::notifyAboutChanges(int suiteIdx)
 
 TestItem::TestItem(TestItem * parent)
     : QObject(parent)
+    , m_page(0)
+    , m_icon (/*makeIcon(":/model/tk.png")*/)
+    , m_toolTip("Node")
 {
     setName("Unnamed TestItem");
+}
+
+int TestItem::page() const
+{
+    return m_page;
+}
+
+QPixmap TestItem::icon() const
+{
+    return m_icon;
+}
+
+QString TestItem::toolTip() const
+{
+    return m_toolTip;
 }
 
 
@@ -150,6 +178,9 @@ TestFile::TestFile(TestItem *parent, const QString& name)
 }
 
 TestFile::TestFile(){
+    m_page = 1;
+    m_icon = makeIcon(":/model/f.png");
+    m_toolTip = "Script File";
 }
 
 template<class archive>
@@ -179,6 +210,9 @@ TestCase::TestCase(TestItem *parent, const QString& name)
 }
 
 TestCase::TestCase(){
+    m_page = 0;
+    m_icon = makeIcon(":/model/tk.png");
+    m_toolTip = "Test Case";
 }
 
 template<class archive>
@@ -211,6 +245,9 @@ Suite::Suite(TestItem *parent, const std::string& nm)
 {
     setParent(parent);
     setName(nm);
+    m_page = 0;
+    m_icon = makeIcon(":/model/s.png");
+    m_toolTip = "Tests Suite";
 }
 
 Suite::~Suite()

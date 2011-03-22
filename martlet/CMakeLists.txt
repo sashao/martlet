@@ -8,8 +8,9 @@ file(GLOB UI *.ui)
 
 QT4_WRAP_CPP( SRCS ${HDRS} )
 QT4_WRAP_UI( UI_H ${UI} )
+QT4_ADD_RESOURCES( RSRC ${RSC} )
 
-add_executable(martlet ${SRCS} ${HDRS} ${UI_H})
+add_executable(martlet ${SRCS} ${HDRS} ${UI_H} ${RSRC})
 add_dependencies(martlet martletcommon qnetworkrpc)
 
 #include_directories(${Boost_INCLUDE_DIRS})

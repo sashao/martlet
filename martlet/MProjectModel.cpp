@@ -3,6 +3,7 @@
         
 #include <QVariant>
 
+
 using namespace std;
         
 MProjectModel::MProjectModel(QObject *parent) :
@@ -78,10 +79,28 @@ QVariant MProjectModel::data ( const QModelIndex & index, int role) const
         return QVariant();
 
     QVariant result;
-    if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        TestItem *testItem = static_cast<TestItem *> (index.internalPointer());
-        if (testItem) {
-            result.setValue<QString>(QString::fromStdString(testItem->name()));
+    TestItem *testItem = static_cast<TestItem *> (index.internalPointer());
+    if (testItem)
+    {
+        switch (role)
+        {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        {
+                result.setValue<QString>(QString::fromStdString(testItem->name()));
+        }
+        break;
+        case Qt::DecorationRole:
+        {
+            result = testItem->icon();
+        }
+        break;
+        case Qt::ToolTipRole:
+        {
+            result = testItem->toolTip();
+        }
+        break;
+
         }
     }
 

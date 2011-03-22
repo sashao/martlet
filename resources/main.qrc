@@ -1,0 +1,13 @@
+<RCC>
+  <qresource prefix="model">
+    <file>f.png</file>
+    <file>s.png</file>
+    <file>p.png</file>
+    <file>tk.png</file>
+  </qresource>
+  <qresource prefix="logo">
+    <file>icon.ico</file>
+    <file>icon.png</file>
+    <file>logo.png</file>
+  </qresource>
+</RCC>
