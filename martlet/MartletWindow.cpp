@@ -51,6 +51,8 @@ MartletWindow::MartletWindow(QWidget *parent) :
     connect(m_client->client(), SIGNAL(connected()),
             this, SLOT(onTestedAppConnected()));
     connect(ui->plainTextEdit, SIGNAL(modificationChanged(bool)), ui->plainTextEdit->document(), SLOT(setModified(bool)));
+    connect(ui->plainTextEdit, SIGNAL(modificationChanged(bool)), ui->actionSave, SLOT(setEnabled(bool)));
+    ui->actionSave->setEnabled(false);
 
 #ifdef TEST_PROPERTY_MODEL
     QObjectPropertyModel* model = new QObjectPropertyModel(ui->stackedWidget);
