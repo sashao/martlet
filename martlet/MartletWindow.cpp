@@ -189,10 +189,16 @@ void MartletWindow::on_actionNew_triggered()
         }
     }
 
-    const QString fileName = QFileDialog::getSaveFileName(this,
+    QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Select New project file"), AppSettingsDialog::currentDir() , 
                                                     tr("Martlet Project Files (*.mtproject *.mtp)"));
-    if (!fileName.isEmpty()) {
+    if (!fileName.isEmpty())
+    {
+
+        QFileInfo fi (fileName);
+        if (fi.suffix().isEmpty()) {
+            fileName.append(".mtp");
+        }
 
         m_Model->setProject(0);
         delete MartletProject::getCurrent();
@@ -468,13 +474,13 @@ void MartletWindow::on_actionProject_Add_suite_triggered()
 
 void MartletWindow::on_actionSuite_Delete_triggered()
 {
-    Suite * s = getCurrentItem<Suite>();
-    if (s) {
+    Suite * suite = getCurrentItem<Suite>();
+    if (suite) {
         std::vector<Suite *>::iterator i =
-                std::find(MartletProject::getCurrent()->suites.begin(), MartletProject::getCurrent()->suites.end(), s);
+                std::find(MartletProject::getCurrent()->suites.begin(), MartletProject::getCurrent()->suites.end(), suite);
         if (i != MartletProject::getCurrent()->suites.end()) {
             MartletProject::getCurrent()->suites.erase(i, i+1);
-            delete s;
+            delete suite;
             loadCurrentProjectIntoUI();
         }
     }
@@ -482,11 +488,11 @@ void MartletWindow::on_actionSuite_Delete_triggered()
 
 void MartletWindow::on_actionSuite_Add_Test_Case_triggered()
 {
-    Suite * s = getCurrentItem<Suite>();
-    if (s) {
+    Suite * testCase = getCurrentItem<Suite>();
+    if (testCase) {
         const QString n = QInputDialog::getText(this, "Enter test case name", "Test Case name");
         if (!n.isEmpty())  {
-            s->testCases.push_back(new TestCase(s, n));
+            testCase->testCases.push_back(new TestCase(testCase, n));
             loadCurrentProjectIntoUI();
         }
     }
