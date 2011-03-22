@@ -65,6 +65,8 @@ private:
     void startApp();
     void loadFromSettings();
     void saveSettings();
+    void checkFileModified();
+    void checkProjectModified();
     void addRecentProject(const QString& fname);
     
 private slots:
@@ -103,6 +105,7 @@ private slots:
     void on_actionFile_Delete_From_Suite_triggered();
     void on_actionFile_Delete_Phisically_triggered();
     void on_treeView_clicked(QModelIndex index);
+    void loadFile(const QString& fname);
     void on_actionSave_File_triggered();
     void on_actionAbout_triggered();
 };

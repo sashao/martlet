@@ -50,6 +50,7 @@ MartletWindow::MartletWindow(QWidget *parent) :
     qDebug("Connection before Playing script ... ");
     connect(m_client->client(), SIGNAL(connected()),
             this, SLOT(onTestedAppConnected()));
+    connect(ui->plainTextEdit, SIGNAL(modificationChanged(bool)), ui->plainTextEdit->document(), SLOT(setModified(bool)));
 
 #ifdef TEST_PROPERTY_MODEL
     QObjectPropertyModel* model = new QObjectPropertyModel(ui->stackedWidget);
@@ -64,9 +65,33 @@ MartletWindow::MartletWindow(QWidget *parent) :
 MartletWindow::~MartletWindow()
 {
     saveSettings();
+    checkFileModified();
+    checkProjectModified();
     m_childAppProcess.close();
     delete ui;
 }
+
+void MartletWindow::checkFileModified()
+{
+    if (ui->plainTextEdit->document()->isModified() == true) {
+        const QMessageBox::StandardButton btn = QMessageBox::question(this, "Martlet",
+                              QString("You have unsaved file '%1'. Do you want to save it ?")
+                              .arg(ui->plainTextEdit->property("FileName").toString()),
+                              QMessageBox::Yes|QMessageBox::No, QMessageBox::Yes);
+        if (btn == QMessageBox::Yes) {
+            on_actionSave_File_triggered();
+        }
+    }
+
+}
+
+void MartletWindow::checkProjectModified()
+{
+    if (MartletProject::getCurrent() && MartletProject::getCurrent()->isDirty()) {
+        on_actionSave_2_triggered();
+    }
+}
+
 
 void MartletWindow::loadFromSettings()
 {
@@ -187,17 +212,14 @@ void MartletWindow::on_treeView_clicked(QModelIndex index)
 {
     if (index.isValid()) {
 
+        checkFileModified();
+
         if ( TestFile * tf = getCurrentItem<TestFile>() ) {
 
             const QString fname = MartletProject::getCurrent()->projectDir()
                                   .filePath(QString::fromStdString( tf->name() ));
-            qDebug("Loading file %s", qPrintable(fname));
-            QFile file(fname);
-            file.open(QFile::ReadOnly|QFile::Text|QFile::Truncate);
-            QString txt = file.readAll();
-            file.close();
-            // load file
-            ui->plainTextEdit->setPlainText( txt );
+
+            loadFile(fname);
         } else if ( getCurrentItem<TestCase>() )
         {
         } else if ( getCurrentItem<Suite>() )
@@ -205,6 +227,7 @@ void MartletWindow::on_treeView_clicked(QModelIndex index)
         } else if ( getCurrentItem<MartletProject>() )
         {
         }
+
         TestItem* ti = getCurrentItem<TestItem>();
         Q_ASSERT(ti != 0);
         ui->stackedWidget->setCurrentIndex(ti->page());
@@ -291,6 +314,7 @@ void MartletWindow::on_actionSave_triggered()
         const QString txt = ui->plainTextEdit->toPlainText();
         file.write(txt.toLocal8Bit());
         file.close();
+        ui->plainTextEdit->document()->setModified(false);
     } else {
         QMessageBox::critical(this, "Martlet Error", "Failed to save file. Select file in tree view first.");
     }
@@ -415,6 +439,7 @@ void MartletWindow::on_actionRecord_triggered()
 
     if (btn == QMessageBox::Reset) {
         ui->plainTextEdit->clear();
+        ui->plainTextEdit->document()->setModified(true);
     }
     m_mode_play = false;
     startApp();
@@ -512,6 +537,7 @@ void MartletWindow::onRecordedTextUpdate(const QVariant& txt)
 {
     qDebug() << "Text arrived to main window" << txt;
     ui->plainTextEdit->appendPlainText( txt.toString() );
+    ui->plainTextEdit->document()->setModified(true);
 
     QTimer::singleShot(500, m_client, SLOT(onPlaybackFinished()));
 
@@ -612,21 +638,36 @@ void MartletWindow::on_actionFile_Delete_Phisically_triggered()
 
 }
 
+void MartletWindow::loadFile(const QString& fname)
+{
+    qDebug("Loading file %s", qPrintable(fname));
+    QFile file(fname);
+    file.open(QFile::ReadOnly|QFile::Text|QFile::Truncate);
+    QString txt = file.readAll();
+    file.close();
+    // load file
+    ui->plainTextEdit->setPlainText( txt );
+    ui->plainTextEdit->setProperty("FileName", fname);
+    ui->plainTextEdit->document()->setModified(false);
+}
 
 void MartletWindow::on_actionSave_File_triggered()
 {
-    TestFile * tf = getCurrentItem<TestFile>();
-    if (tf) {
+//    TestFile * tf = getCurrentItem<TestFile>();
+//    if (tf) {
         const QString txt = ui->plainTextEdit->toPlainText();
-        if (!txt.isEmpty())  {
-            const QString fname = MartletProject::getCurrent()->projectDir()
-                                  .filePath( QString::fromStdString( tf->name() ));
+        QString fname = ui->plainTextEdit->property("FileName").toString();
+        Q_ASSERT(!fname.isEmpty());
+        if (!txt.isEmpty() && !fname.isEmpty())  {
+//            fname = MartletProject::getCurrent()->projectDir()
+//                                          .filePath( fname );
+            qDebug("Saving file %s", qPrintable(fname));
             QFile file(fname);
             file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
             file.write(txt.toLocal8Bit());
             file.close();
         }
-    }
+//    }
 }
 
 void MartletWindow::on_actionAbout_triggered()

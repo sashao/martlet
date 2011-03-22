@@ -98,9 +98,6 @@ p, li { white-space: pre-wrap; }
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QColumnView" name="columnView"/>
-          </item>
          </layout>
         </widget>
         <widget class="QWidget" name="filePage">
