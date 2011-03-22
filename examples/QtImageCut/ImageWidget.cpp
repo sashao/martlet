@@ -117,7 +117,7 @@ void ImageWidget::paintEvent( QPaintEvent * /*event*/ )
         painter.drawRect(m_rect);
     }
     painter.end();
-    qDebug("Paint Event");
+//    qDebug("Paint Event");
 }
 
 void ImageWidget::mouseMoveEvent ( QMouseEvent * event )
@@ -125,7 +125,7 @@ void ImageWidget::mouseMoveEvent ( QMouseEvent * event )
     if (m_bDragMode) {
         QRect old = m_rect;
         m_rect.setBottomRight(event->pos());
-        qDebug("Move event %d %d", event->pos().x(), event->pos().y());
+//        qDebug("Move event %d %d", event->pos().x(), event->pos().y());
         repaint(old.united(m_rect).adjusted(0,0, lineWidth, lineWidth));
     }
 }

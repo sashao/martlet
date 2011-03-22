@@ -1,8 +1,24 @@
-This is 0.1 version of Martlet Qt4 based application for developers.
+This is 0.4 version of Martlet Qt4 Gui testting application.
+
+It allws you to nearly automatical record and playback of test scripts.
+
+This is early release
+
+HOMEPAGE:
+https://sites.google.com/site/qmartlet/home
 
 
 Main features:
 Spy Qt4 applications object trees and properties.
+        
+Martlet - autamatic scripts recording/and playback.
+        - Manage multiple scripts as a project.
+        - Record user events in a simple csv format.
+        - Test application
+        - Currently only Mouse/Keyboard events are supported.
+        - Spy object tree and properties.
+        - Add "VERIFY" lines to your script.
+        
 
 Next steps:
 
@@ -11,14 +27,14 @@ git clone git://github.com/sashao/martlet.git
 
 This is Qt4 project.
 Currently only Linux OS supported.
-Tested platforms: Fedora 10,9 / Qt 4.4.0-4.5.0
+Tested platforms: Fedora  / Qt 4.7.0-4.7.2
 
 Build all:
-    qmake && make
+    cmake . && make
 
 Run:
     cd /bin
-    ./martex <qt4_executable>
+    ./martlet
 
 Install:
     Any Authomatic installations is not supported.
@@ -33,18 +49,5 @@ Developer:
 
 Thanks for Help:
     Anatoliy Kyrylyuk anatoliykyryliuk@gmail.com
-
-
-GIT COMMANDS:
-
-Roll back:
-    $ git checkout A2 -- .  
-    $ git commit -m 'going back to A2'
-
-
-
-If someone happens to have a problem with pushing updates, at this command:
-	$ git config branch.master.remote origin
-EX:	$ git config branch.master.merge refs/heads/master
 
 
