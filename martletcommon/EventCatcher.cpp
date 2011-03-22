@@ -9,6 +9,7 @@
 EventCatcher::EventCatcher(QObject *parent)
 	: QObject(parent)
         , m_spy(0)
+        , m_blockSpontaneous(false)
 {
 
 
@@ -30,12 +31,24 @@ void EventCatcher::stopRecording()
 	QApplication::instance()->removeEventFilter(this);
 }
 
-bool EventCatcher::eventFilter(QObject *obj, QEvent *ev)
+void EventCatcher::blockSpontaneousEvents(const bool block)
 {
-    //    if (ev->spontaneous())
+    m_blockSpontaneous = block;
+}
+
+bool EventCatcher::eventFilter(QObject *obj, QEvent *event)
+{
+    if (m_blockSpontaneous && event->spontaneous() && (
+                               event->type() == QEvent::MouseMove ||
+                               event->type() == QEvent::MouseButtonPress ||
+                               event->type() == QEvent::MouseButtonRelease ))
     {
-        if (m_spy && ev->type() == QEvent::MouseButtonPress) {
-            QMouseEvent *me = static_cast<QMouseEvent *>(ev);
+        // block spontaneous mouse move events during playback
+        return true;
+    }
+    {
+        if ( event->type() == QEvent::MouseButtonPress ) {
+            QMouseEvent *me = static_cast<QMouseEvent *>(event);
             if (me->modifiers().testFlag(Qt::ControlModifier)) {
                 m_spy(obj);
             }
@@ -57,9 +70,9 @@ bool EventCatcher::eventFilter(QObject *obj, QEvent *ev)
                 QMessageBox::information(0, obj->objectName(), props);
             }
         }
-        QString str(AbstractEventFabric::instance()->recordEvent(ev, obj));
+        QString str(AbstractEventFabric::instance()->recordEvent(event, obj));
         if (!str.isNull()) {
-            qDebug("Event type %d - '%s'", ev->type(), qPrintable(str));
+            qDebug("Event type %d - '%s'", event->type(), qPrintable(str));
         }
     }
     return false;

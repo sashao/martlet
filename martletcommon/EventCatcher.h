@@ -16,9 +16,11 @@ public:
 
         void (*m_spy)(QObject *);
 
+        void blockSpontaneousEvents(const bool block);
 
 private:
 	bool eventFilter(QObject *obj, QEvent *ev);	
+        bool m_blockSpontaneous;
 };
 
 #endif // EVENTCATCHER_H

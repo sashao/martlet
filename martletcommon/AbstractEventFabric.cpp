@@ -97,13 +97,19 @@ void AbstractEventFabric::playSingleLineEvent(const QString& commandStr)
         eventLoop.exec();
         
         const QWidget* w = qobject_cast<QWidget *>(widget);
-        const QMouseEvent* me = static_cast<QMouseEvent* >(data.event);
-        if (w && me) 
+        if (w)
         {
-            const QPoint mpos(w->mapToGlobal(me->pos()));
-            QCursor::setPos(mpos);
+            if (data.event && (
+                    data.event->type() == QEvent::MouseMove ||
+                    data.event->type() == QEvent::MouseButtonPress ||
+                    data.event->type() == QEvent::MouseButtonRelease ) )
+            {
+                const QMouseEvent* me = static_cast<QMouseEvent* >(data.event);
+                const QPoint mpos(w->mapToGlobal(me->pos()));
+                QCursor::setPos(mpos);
+            }
         }
-        if (data.event->type() != QEvent::MouseMove)
+        if (data.event->type() /*!= QEvent::MouseMove*/)
         {
             QApplication::sendEvent(widget, data.event);
         }
