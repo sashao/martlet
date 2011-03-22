@@ -63,7 +63,8 @@ void MartletServer::connected()
 void MartletServer::disconnected()
 {
 //    QMessageBox::information(0, "DDDDD", "DISCONNECT \n\n\n\n\n\n");
-    qDebug(Q_FUNC_INFO);
+    QApplication::quit();
+//    qDebug(Q_FUNC_INFO);
 }
 
 void MartletServer::startSpy()

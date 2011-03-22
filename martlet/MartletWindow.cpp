@@ -51,8 +51,6 @@ MartletWindow::MartletWindow(QWidget *parent) :
     QObjectPropertyModel* model = new QObjectPropertyModel(ui->stackedWidget);
     ui->tableView->setModel(model);
     ui->tableView->setMinimumWidth(300);
-#else
-    ui->tableView->hide();
 #endif
 }
 
