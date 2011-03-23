@@ -47,6 +47,7 @@ bool	QObjectPropertyModel::setData ( const QModelIndex & index, const QVariant &
     const QMetaProperty mp = m_obj->metaObject()->property(index.row());
     mp.write(m_obj, value);
     emit dataChanged(index, index);
+	return false;
 }
 
 QVariant	QObjectPropertyModel::data ( const QModelIndex & index, int role) const

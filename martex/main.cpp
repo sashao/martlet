@@ -21,12 +21,19 @@
 #include <QInjector.h>
 #include <QFile>
 #include <QDebug>
+#include <QMessageBox>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
 #else
 #include <dlfcn.h>
 #endif
+
+
+void TransferOutput(QtMsgType type, const char *msg)
+{
+    QMessageBox::information(0, "martex", QString::fromAscii(msg) );
+}
 
 int main(int argc, char *argv[])
 {
@@ -39,17 +46,18 @@ int main(int argc, char *argv[])
 	QString str(QObject::tr("translate me"));
 
 #ifdef Q_OS_WIN
+//        qInstallMsgHandler(TransferOutput);
 
         const QString appName(argv[1]);
-		QInjector inj;
+                QInjector inj;
         if (!inj.libraryFileExists()) {
             qDebug()<<"Injection library does not exist. Ecpected "<< inj.libraryPath();
         } else if (QFile::exists(appName)) {
-            qDebug()<<"Injection library : "<< inj.libraryPath();
-            qDebug()<<"Application : "<< appName;            
+//            qDebug()<<"Injection library : "<< inj.libraryPath();
+//            qDebug()<<"Application : "<< appName;
             inj.start(appName);
         } else {
-            qDebug()<<"Application does not exist. Given "<< appName;            
+            qDebug()<<"Application does not exist. Given "<< appName;
         }
 
 #else

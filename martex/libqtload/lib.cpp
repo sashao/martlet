@@ -18,6 +18,7 @@
 #include <QThread>
 #include <QEvent>
 #include <QPushButton>
+#include <QMessageBox>
 
 #include "filter.h"
 #include "MartletServer.h"
@@ -35,7 +36,7 @@ void startSpy(QObject * obj)
 static bool installed = false;
 
 static MartletServer* myServer = 0;
-void TransferOutput(QtMsgType type, const char *msg)
+__declspec(dllexport) void TransferOutput(QtMsgType type, const char *msg)
 {
     myServer->client()->perform( APP_DEBUG_2, type, QString::fromAscii(msg) );
 }
@@ -47,35 +48,73 @@ void TransferOutput(QtMsgType type, const char *msg)
 
  class MyThread : public QThread
  {
+
  public:
 	 void run();
  };
 
+ DWORD ThreadProc (LPVOID lpdwThreadParam )
+ {
+          QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
+             QPushButton w;
+                             w.show();
+                             QEventLoop el;
+                             el.exec();
+//                             QCoreApplication::instance()->exec();
+ //            	  for (;;){
+ //                                    QCoreApplication::instance()->processEvents();
+ //                      }
 
-bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
+ //ENd of thread
+ return 0;
+ }
+
+
+
+//bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
+__declspec(dllexport) INT APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID pvReserved)
 {
-	printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-	if(dwReason == DLL_PROCESS_ATTACH)
+
+     QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
+        printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+        if(dwReason == DLL_PROCESS_ATTACH)
    {
-      printf("Attaching   helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+
+            CreateThread(NULL, //Choose default security
+            0, //Default stack size
+            (LPTHREAD_START_ROUTINE)&ThreadProc,
+            //Routine to execute
+            (LPVOID) NULL, //Thread parameter
+            0, //Immediately run the thread
+            NULL //Thread Id
+            );
+
+
+            //		MessageBoxA(NULL, "Hello", "Hi", MB_OK);
+
+            printf("Attaching   helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+      MyThread* h = new MyThread();
+      h->start();
 
    }
    else if(dwReason == DLL_PROCESS_DETACH)
    {
       printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
    }
-	 /*   if (!installed)
-	{
-		filter *f = new filter();
-		f->moveToThread(QCoreApplication::instance()->thread());
-		QCoreApplication::instance()->installEventFilter( f );
-		f->moveToThread(QCoreApplication::instance()->thread());
-		installed = true;
-	}*/
-   return true;
-}   
+        if (!installed)
+        {
+                filter *f = new filter();
+                f->moveToThread(QCoreApplication::instance()->thread());
+                QCoreApplication::instance()->installEventFilter( f );
+                f->moveToThread(QCoreApplication::instance()->thread());
+                installed = true;
+        }
+   return TRUE;
+}
 
-/*BOOL APIENTRY DllMain( HANDLE hModule,
+
+/*
+BOOL APIENTRY DllMain( HANDLE hModule,
                        DWORD  ul_reason_for_call,
                        LPVOID lpReserved )
 {
@@ -83,27 +122,30 @@ bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
     {
         // Increase reference count via LoadLibrary
 
-        char lib_name[MAX_PATH]; 
-        ::GetModuleFileName( hModule, lib_name, MAX_PATH );
-        ::LoadLibrary( lib_name );
+
+//        char lib_name[MAX_PATH];
+//        ::GetModuleFileName( hModule, lib_name, MAX_PATH );
+//        ::LoadLibrary( lib_name );
 
         // Safely remove hook
 
-        ::UnhookWindowsHookEx( g_hHook );
+//        ::UnhookWindowsHookEx( g_hHook );
     }    
     return TRUE;
 }
 */
-#ifdef _MANAGED
-#pragma managed(pop)
-#endif
+
+//#ifdef _MANAGED
+//#pragma managed(pop)
+//#endif
 
 
 
- void MyThread::run()
+ __declspec(dllexport) void MyThread::run()
  {
 	if (!installed)
 	{
+            qDebug("void MyThread::run()");
 		filter *f = new filter();
 //		f->moveToThread(QCoreApplication::instance()->thread());
 		QCoreApplication::instance()->installEventFilter( f );
@@ -117,7 +159,7 @@ class Hello
 {
 public:
     Hello() {
-
+        qDebug("void MyThread::run()");
 	  	MyThread* t = new MyThread;
 		t->start();
 		//QPushButton w;
@@ -135,7 +177,7 @@ public:
     }
 };
 
-Hello h;
+static Hello h;
 
 
 

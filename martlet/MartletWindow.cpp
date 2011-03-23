@@ -676,6 +676,7 @@ void MartletWindow::on_actionSave_File_triggered()
 //    if (tf) {
         const QString txt = ui->plainTextEdit->toPlainText();
         QString fname = ui->plainTextEdit->property("FileName").toString();
+
         Q_ASSERT(!fname.isEmpty());
         if (!txt.isEmpty() && !fname.isEmpty())  {
 //            fname = MartletProject::getCurrent()->projectDir()
@@ -685,6 +686,7 @@ void MartletWindow::on_actionSave_File_triggered()
             file.open(QFile::WriteOnly|QFile::Text|QFile::Truncate);
             file.write(txt.toLocal8Bit());
             file.close();
+            ui->plainTextEdit->document()->setModified(false);
         }
 //    }
 }
