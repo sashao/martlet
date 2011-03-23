@@ -2,7 +2,7 @@
 QSpy:
     * Events spy
     
-    
-    
-http://code.google.com/p/qxmlrpc/
 
+// NOTE: a path to this loader must be specified in
+// HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows\AppInit_DLLs
+// registry key
