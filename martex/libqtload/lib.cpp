@@ -41,6 +41,25 @@ void TransferOutput(QtMsgType type, const char *msg)
     myServer->client()->perform( APP_DEBUG_2, type, QString::fromAscii(msg) );
 }
 
+#ifdef Q_OS_LINUX
+#define __declspec(...)
+#endif
+
+__declspec(dllexport) void installMartlet()
+{
+    if (!installed)
+    {
+        myServer = new MartletServer(startSpy);
+        myServer->moveToThread(QCoreApplication::instance()->thread());
+
+        AbstractEventFabric* ef = new CSVEventFabric();
+        ef->moveToThread(QCoreApplication::instance()->thread());
+
+        AbstractEventFabric::setInstance( ef );
+        qInstallMsgHandler(TransferOutput);
+        installed = true;
+    }
+}
 
 #ifdef Q_OS_WIN
 
@@ -55,31 +74,36 @@ void TransferOutput(QtMsgType type, const char *msg)
 
  DWORD ThreadProc (LPVOID lpdwThreadParam )
  {
-          QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
-             QPushButton w;
-                             w.show();
-                             QEventLoop el;
-                             el.exec();
+//          QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
+//             QPushButton w;
+//                             w.show();
+//                             QEventLoop el;
+//                             el.exec();
 //                             QCoreApplication::instance()->exec();
- //            	  for (;;){
- //                                    QCoreApplication::instance()->processEvents();
- //                      }
-
+//            	  for (;;){
+//                                    QCoreApplication::instance()->processEvents();
+//                      }
+installMartlet();
  //ENd of thread
  return 0;
  }
 
 
+// BOOL WINAPI DllMain(
+//   __in  HINSTANCE hinstDLL,
+//   __in  DWORD fdwReason,
+//   __in  LPVOID lpvReserved
+// );
 
 //bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
-__declspec(dllexport) INT APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVOID pvReserved)
+__declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID pvReserved)
 {
 
      QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
         printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         if(dwReason == DLL_PROCESS_ATTACH)
    {
-
+            // DisableThreadLibraryCalls(hModule);
             CreateThread(NULL, //Choose default security
             0, //Default stack size
             (LPTHREAD_START_ROUTINE)&ThreadProc,
@@ -93,22 +117,16 @@ __declspec(dllexport) INT APIENTRY DllMain(HMODULE hModule, DWORD dwReason, LPVO
             //		MessageBoxA(NULL, "Hello", "Hi", MB_OK);
 
             printf("Attaching   helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-      MyThread* h = new MyThread();
-      h->start();
+//      MyThread* h = new MyThread();
+//      h->start();
 
    }
    else if(dwReason == DLL_PROCESS_DETACH)
    {
       printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
    }
-        if (!installed)
-        {
-                filter *f = new filter();
-                f->moveToThread(QCoreApplication::instance()->thread());
-                QCoreApplication::instance()->installEventFilter( f );
-                f->moveToThread(QCoreApplication::instance()->thread());
-                installed = true;
-        }
+
+   installMartlet();
    return TRUE;
 }
 
@@ -143,41 +161,24 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
  __declspec(dllexport) void MyThread::run()
  {
-	if (!installed)
-	{
-            qDebug("void MyThread::run()");
-		filter *f = new filter();
-//		f->moveToThread(QCoreApplication::instance()->thread());
-		QCoreApplication::instance()->installEventFilter( f );
-//		f->moveToThread(QCoreApplication::instance()->thread());
-		installed = true;
-	}
-     exec();
+    installMartlet();
+//     exec();
  }
 
 class Hello
 {
 public:
-    Hello() {
+    Hello()
+    {
         qDebug("void MyThread::run()");
 	  	MyThread* t = new MyThread;
 		t->start();
-		//QPushButton w;
-		//w.show();
-		//QEventLoop el;
-		//el.exec();
-		//QCoreApplication::instance()->exec();
-/*	  for (;;){
-			QCoreApplication::instance()->processEvents();
-	  }
-*/
 
 //		MessageBoxA(NULL, "Hello", "Hi", MB_OK);
-
     }
 };
 
-static Hello h;
+//static Hello h;
 
 
 
@@ -191,14 +192,9 @@ bool QCoreApplication::event(QEvent *e)
         return true;
     }
 
-	if (e->type() == QEvent::ApplicationActivate && !installed)
+    if (e->type() == QEvent::ApplicationActivate)
 	{
-
-//                QCoreApplication::instance()->installEventFilter( new filter());
-                myServer = new MartletServer(startSpy);
-                AbstractEventFabric::setInstance(new CSVEventFabric());
-		installed = true;
-                qInstallMsgHandler(TransferOutput);
+        installMartlet();
 	}
 	return QObject::event(e);
 }

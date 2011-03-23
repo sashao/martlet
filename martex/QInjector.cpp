@@ -45,9 +45,17 @@ QString QInjector::libraryPath()
     const QString libraryExtension(".so");
     const QString libraryVersion("");
 #endif
+
     const QString libName("libQtLoad");
-    const QString r = QDir::cleanPath(QDir::currentPath()+QDir::separator()+libName+libraryVersion+libraryExtension).replace("/", "\\");
+    QString r = QDir::currentPath()+QDir::separator()+libName+libraryVersion+libraryExtension;
+
+#ifdef Q_OS_WIN
+    r = QDir::cleanPath(r).replace("/", "\\");
+#endif
     const QFileInfo fi(r);
+    if (!fi.exists()) {
+        QMessageBox::critical(0, "Martex", QString("Failed to find '%1'").arg(r));
+    }
     Q_ASSERT(fi.exists());
     return r;
 }
@@ -89,11 +97,143 @@ void QInjector::on_proc_started()
 
 #include <windows.h>
 
+extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
+{
+//  std::string dllFileName(envBuffer);
+//  dllFileName.append("\\BWAPI.dll");
+
+  LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
+  if (loadLibAddress == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get loadLibAddress.\n");
+    MessageBoxA(NULL, "Could not get loadLibAddress.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
+  if (pathAddress == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get pathAddress.\n");
+    MessageBoxA(NULL, "Could not get pathAddress.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  SIZE_T bytesWritten;
+  BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
+  if (success == FALSE || bytesWritten != dllFileName.size() + 1)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not Write proc memory.\n");
+    MessageBoxA(NULL, "Could not Write proc memory.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
+  if (hThread == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not Create remote thread.\n");
+    MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  WaitForSingleObject(hThread, INFINITE);
+
+  DWORD hLibModule = NULL; // Base address of the loaded module
+  GetExitCodeThread(hThread, &hLibModule);
+  if (hLibModule == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get hLibModule.\n");
+    MessageBoxA(NULL, "Could not get hLibModule.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
+  CloseHandle(hThread);
+  return true; //everything OK
+}
+extern "C" __declspec(dllexport) bool ApplyPatch(HANDLE hProcess, DWORD)
+{
+  char envBuffer[ENV_BUFFER_SIZE];
+  DWORD result = GetEnvironmentVariableA("ChaosDir", envBuffer, ENV_BUFFER_SIZE);
+  if (result == 0)
+    result = GetCurrentDirectoryA(ENV_BUFFER_SIZE, envBuffer);
+
+  if (result == 0)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not find ChaosDir or current directory.\n");
+    MessageBoxA(NULL, "Could not find ChaosDir or current directory.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  std::string dllFileName(envBuffer);
+  dllFileName.append("\\BWAPI.dll");
+
+  LPTHREAD_START_ROUTINE loadLibAddress = (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandle("Kernel32"), "LoadLibraryA" );
+  if (loadLibAddress == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get loadLibAddress.\n");
+    MessageBoxA(NULL, "Could not get loadLibAddress.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  void* pathAddress = VirtualAllocEx(hProcess, NULL, dllFileName.size() + 1, MEM_COMMIT, PAGE_READWRITE);
+  if (pathAddress == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get pathAddress.\n");
+    MessageBoxA(NULL, "Could not get pathAddress.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  SIZE_T bytesWritten;
+  BOOL success = WriteProcessMemory(hProcess, pathAddress, dllFileName.c_str(), dllFileName.size() + 1, &bytesWritten);
+  if (success == FALSE || bytesWritten != dllFileName.size() + 1)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not Write proc memory.\n");
+    MessageBoxA(NULL, "Could not Write proc memory.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  HANDLE hThread = CreateRemoteThread(hProcess, NULL, 0, loadLibAddress, pathAddress, 0, NULL);
+  if (hThread == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not Create remote thread.\n");
+    MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  WaitForSingleObject(hThread, INFINITE);
+
+  DWORD hLibModule = NULL; // Base address of the loaded module
+  GetExitCodeThread(hThread, &hLibModule);
+  if (hLibModule == NULL)
+  {
+    FILE* f = fopen("bwapi-error.txt", "a+");
+    fprintf(f, "Could not get hLibModule.\n");
+    MessageBoxA(NULL, "Could not get hLibModule.\n", "Error", MB_OK);
+    fclose(f);
+  }
+
+  VirtualFreeEx(hProcess, pathAddress, dllFileName.size() + 1, MEM_RELEASE);
+  CloseHandle(hThread);
+  return true; //everything OK
+}
+
 bool insertDll(DWORD procID, std::string dll)
 {
     //Find the address of the LoadLibrary api, luckily for us, it is loaded in the same address for every process
-    HMODULE hLocKernel32 = GetModuleHandle("Kernel32");
+    HMODULE hLocKernel32 = GetModuleHandle(L"Kernel32.dll");
+    if (hLocKernel32 == NULL) return false ;
     FARPROC hLocLoadLibrary = GetProcAddress(hLocKernel32, "LoadLibraryA");
+    QMessageBox::information(0, "injector", QString("'%1''  000   '%2'").arg((int)hLocKernel32).arg((int)hLocLoadLibrary));
 
     //Adjust token privileges to open system processes
     HANDLE hToken;
