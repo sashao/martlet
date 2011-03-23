@@ -12,5 +12,5 @@ add_executable(martex ${SRCS} ${HDRS} )
 add_dependencies(martex martletcommon qnetworkrpc)
 
 
-target_link_libraries(martex qnetworkrpc martletcommon ${QT_LIBRARIES} ${Boost_LIBRARIES} )
+target_link_libraries(martex qnetworkrpc martletcommon ${QT_LIBRARIES} ${Boost_LIBRARIES} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTNETWORK_LIBRARY} )
 

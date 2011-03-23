@@ -12,5 +12,6 @@ QT4_WRAP_CPP(SRCS ${HDRS})
 QT4_WRAP_UI( UI_H ${UI} )
 
 add_library(QtLoad SHARED ${SRCS} ${UI_H})
+target_link_libraries(QtLoad qnetworkrpc martletcommon ${QT_LIBRARIES} ${Boost_LIBRARIES} ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTNETWORK_LIBRARY} )
 
 
