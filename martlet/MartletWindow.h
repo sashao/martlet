@@ -70,6 +70,7 @@ private:
     void addRecentProject(const QString& fname);
     
 private slots:
+    void on_actionExit_triggered();
     void openProject(const QString & fname);
     void onRecordedTextUpdate(const QVariant& txt);
     void on_actionStop_recording_triggered();
@@ -80,7 +81,7 @@ private slots:
     void on_actionNew_Suite_triggered();
     void on_actionLoad_triggered();
     void on_actionSave_As_triggered();
-    void on_actionSave_2_triggered();
+    void on_actionSaveProject_triggered();
     void on_actionOpen_triggered();
     void on_actionSave_triggered();
     void on_actionNew_triggered();

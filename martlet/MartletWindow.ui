@@ -283,7 +283,7 @@ p, li { white-space: pre-wrap; }
     <addaction name="actionNew"/>
     <addaction name="actionLoad"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_2"/>
+    <addaction name="actionSaveProject"/>
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
     <addaction name="actionNew_Suite"/>
@@ -371,7 +371,7 @@ p, li { white-space: pre-wrap; }
     <string>New ...</string>
    </property>
   </action>
-  <action name="actionSave_2">
+  <action name="actionSaveProject">
    <property name="text">
     <string>Save</string>
    </property>

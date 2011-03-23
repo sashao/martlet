@@ -90,7 +90,7 @@ void MartletWindow::checkFileModified()
 void MartletWindow::checkProjectModified()
 {
     if (MartletProject::getCurrent() && MartletProject::getCurrent()->isDirty()) {
-        on_actionSave_2_triggered();
+        on_actionSaveProject_triggered();
     }
 }
 
@@ -327,7 +327,7 @@ void MartletWindow::on_actionOpen_triggered()
 {
 }
 
-void MartletWindow::on_actionSave_2_triggered()
+void MartletWindow::on_actionSaveProject_triggered()
 {
     if (MartletProject::getCurrent()) {
         MartletProject::getCurrent()->save(); 
@@ -675,4 +675,9 @@ void MartletWindow::on_actionSave_File_triggered()
 void MartletWindow::on_actionAbout_triggered()
 {
     QMessageBox::information(this, "Martlet", "Qt GUI automation testing application\nAuthors: Oleksandr Omelchuk, Anatolii Kyrylyuk\nLicense: GPL\n");
+}
+
+void MartletWindow::on_actionExit_triggered()
+{
+    close();
 }
