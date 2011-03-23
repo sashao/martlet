@@ -36,7 +36,7 @@ void startSpy(QObject * obj)
 static bool installed = false;
 
 static MartletServer* myServer = 0;
-__declspec(dllexport) void TransferOutput(QtMsgType type, const char *msg)
+void TransferOutput(QtMsgType type, const char *msg)
 {
     myServer->client()->perform( APP_DEBUG_2, type, QString::fromAscii(msg) );
 }

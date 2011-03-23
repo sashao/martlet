@@ -18,8 +18,17 @@ set( QT_USE_QTGUI   TRUE )
 set( QT_USE_QTNETWORK   TRUE )
 
 find_package(Qt4 REQUIRED)
-#find_package(Boost REQUIRED COMPONENTS serialization)
-set( Boost_LIBRARIES "libboost_serialization-mgw44-mt-d-1_46_1.a")
+
+IF (UNIX)  # All unix-like OS's, including Apple OS X (and Cygwin)
+    find_package(Boost REQUIRED COMPONENTS serialization)
+ELSEIF (WIN32) # All windows versions (including Cygwin)
+ELSEIF (MINGW) # Mingw compiler on windows
+    set( Boost_LIBRARIES "libboost_serialization-mgw44-mt-d-1_46_1.a")
+    set( BOOST_DIR "C:\\Qt\\boost_1_46_1\\")
+    set( Boost_LIBDIR "${BOOST_DIR}\\stage\\lib\\")
+ELSE (MSVC)  # Microsoft compiler on windows
+ENDIF()
+
 set( HREGEXP "*.h" )
 
 include( ${QT_USE_FILE} )
@@ -29,9 +38,9 @@ include_directories(
         ${CMAKE_CURRENT_BINARY_DIR}
         ${COMMON_DIR}
         "${CMAKE_CURRENT_SOURCE_DIR}/third_party"
-        "C:\\Qt\\boost_1_46_1\\"
+        ${BOOST_DIR}
         )
-link_directories( "${CMAKE_BINARY_DIR}/bin" "C:\\Qt\\boost_1_46_1\\stage\\lib\\")
+link_directories( "${CMAKE_BINARY_DIR}/bin" ${BOOST_LIBDIR})
 SET(EXECUTABLE_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 SET(LIBRARY_OUTPUT_PATH "${CMAKE_BINARY_DIR}/bin")
 
