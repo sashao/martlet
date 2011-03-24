@@ -18,14 +18,13 @@ set( QT_USE_QTGUI   TRUE )
 set( QT_USE_QTNETWORK   TRUE )
 
 find_package(Qt4 REQUIRED)
+set( BOOST_DIR "") # sustem by default
 
 IF (UNIX)  # All unix-like OS's, including Apple OS X (and Cygwin)
     find_package(Boost REQUIRED COMPONENTS serialization)
-ELSEIF (WIN32) # All windows versions (including Cygwin)
-    set( Boost_LIBRARIES "libboost_serialization-mgw44-mt-d-1_46_1.a")
-    set( BOOST_DIR "C:\\Qt\\boost_1_46_1")
-    set( Boost_LIBDIR "${BOOST_DIR}\\stage\\lib\\")
-ELSEIF (MINGW) # Mingw compiler on windows
+    add_definitions ("-D__declspec\\(dllexport\\)=" "")
+ELSEIF (WIN32 OR MINGW) # All windows versions (including Cygwin)
+                # Mingw compiler on windows
     set( Boost_LIBRARIES "libboost_serialization-mgw44-mt-d-1_46_1.a")
     set( BOOST_DIR "C:\\Qt\\boost_1_46_1")
     set( Boost_LIBDIR "${BOOST_DIR}\\stage\\lib\\")

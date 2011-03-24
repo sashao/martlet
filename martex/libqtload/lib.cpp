@@ -26,10 +26,6 @@
 #include "RequestToRemote.h"
 #include "qspywidget.h"
 
-#ifndef Q_OS_WIN
-#define __declspec(...)
-#endif
-
 
 __declspec(dllexport) void startSpy(QObject * obj)
 {
@@ -49,7 +45,6 @@ __declspec(dllexport) void TransferOutput(QtMsgType type, const char *msg)
     }
 }
 
-#include <windows.h>
 __declspec(dllexport) void installMartlet()
 {
     if (!installed )
