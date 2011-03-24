@@ -27,7 +27,7 @@ ELSEIF (WIN32 OR MINGW) # All windows versions (including Cygwin)
                 # Mingw compiler on windows
     set( Boost_LIBRARIES "libboost_serialization-mgw44-mt-d-1_46_1.a")
     set( BOOST_DIR "C:\\Qt\\boost_1_46_1")
-    set( Boost_LIBDIR "${BOOST_DIR}\\stage\\lib\\")
+    set( Boost_LIBDIR "${BOOST_DIR}\\stage\\lib")
 ELSE (MSVC)  # Microsoft compiler on windows
 ENDIF()
 

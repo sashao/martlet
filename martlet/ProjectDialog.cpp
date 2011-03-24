@@ -89,9 +89,8 @@ void ProjectDialog::on_execButton_clicked()
 {
     const QString fname = QFileDialog::getOpenFileName(
                 this,
-                "Select executable"
-                "",
-                "Executables (*)"
+                "Select executable", "",
+                "Executables (*);;Windows Exe(*.exe)"
 
                 );
     if (!fname.isEmpty()) {
