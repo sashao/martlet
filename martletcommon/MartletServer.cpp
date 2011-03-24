@@ -21,6 +21,7 @@
 
 #include <QMessageBox>
 #include <QApplication>
+#include <QTimer>
 
 
 
@@ -35,7 +36,7 @@ MartletServer::MartletServer(void (*spy)(QObject*))
     connect( m_server.data(), SIGNAL(disconnected()),
              this, SLOT(disconnected()));
 
-    const short port = 2877;
+
 
     bool r;
     r = m_server->connectRemoteSignal(SPY_START_0, this, SLOT(startSpy()));
@@ -62,7 +63,15 @@ MartletServer::MartletServer(void (*spy)(QObject*))
     Q_ASSERT( r );
 
 //    m_server->connectSignalToRemote()
+//    Q_ASSERT(QApplication::instance().)
+    QTimer::singleShot(1000, this, SLOT(delayedConnect()));
 
+}
+
+void MartletServer::delayedConnect()
+{
+//        QMessageBox::information(0, "DDDDD", "CONNECTING \n\n\n\n\n\n");
+        const short port = 2877;
     m_server->connectToHost( "127.0.0.1", port );
 }
 
@@ -80,7 +89,9 @@ void MartletServer::connected()
 void MartletServer::disconnected()
 {
 //    QMessageBox::information(0, "DDDDD", "DISCONNECT \n\n\n\n\n\n");
+//#ifndef Q_OS_WIN
     QApplication::quit();
+//#endif
 //    qDebug(Q_FUNC_INFO);
 }
 

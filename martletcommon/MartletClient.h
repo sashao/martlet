@@ -33,8 +33,8 @@ public:
         RunningScript
     };
     
-    MartletClient();
-    ~MartletClient();
+    __declspec(dllexport) MartletClient();
+    __declspec(dllexport) ~MartletClient();
     
     bool startListening();
     bool isConnected();

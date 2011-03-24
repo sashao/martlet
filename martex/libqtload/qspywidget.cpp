@@ -49,6 +49,7 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 	m_ui->setupUi(this);
 	m_ui->treeWidget->setColumnWidth(0, 220);
 
+#ifndef Q_OS_WIN32
 	m_formeditor = QDesignerComponents::createFormEditor(0);
 //	m_formeditor->moveToThread(QCoreApplication::instance()->thread());
 
@@ -67,12 +68,12 @@ QSpyWidget::QSpyWidget(QWidget *parent) :
 
 //	pe->setObject(oi);
 
-	createActions();
-//	createTrayIcon();
     
 	connect(pe, SIGNAL(propertyChanged(QString,  QVariant)),
 			this, SLOT(handle_propertyChanged(QString,  QVariant)));
-
+#endif
+//        createTrayIcon();
+        createActions();
 //	trayIcon->show();
 	this->show();
 }
@@ -95,7 +96,9 @@ void QSpyWidget::setObject(QObject * obj)
 
 	updateObjectTree(obj);
 //	if (updateObjectTree(obj))
-		pe->setObject(obj);
+#ifndef Q_OS_WIN32
+        pe->setObject(obj);
+#endif
 }
 
 bool QSpyWidget::updateObjectTree(QObject * obj)
@@ -230,7 +233,9 @@ void QSpyWidget::on_treeWidget_itemClicked(QTreeWidgetItem* item, int /*column*/
 		//	qDebug()<< varObj << item->data(0, Qt::EditRole) << "    "<< long(obj);
 		if (obj)
 		{
-			pe->setObject(obj);
+#ifndef Q_OS_WIN32
+                    pe->setObject(obj);
+#endif
 			selected = obj;
 		}
 	}
@@ -247,12 +252,13 @@ void QSpyWidget::handle_propertyChanged ( const QString & name, const QVariant &
                                         QString("Property editor currently does not support editing properties.\n"
                                                 "Enter new '%1' property value again : ").arg(name),
                                         QLineEdit::Normal,
-                                        pe->object()->property(name.toLocal8Bit()).toString());
+                                        ""/*pe->object()->property(name.toLocal8Bit()).toString()*/);
 
+#ifndef Q_OS_WIN32
     if (!str.isNull()) {
         pe->object()->setProperty(name.toLocal8Bit(), str);
         pe->setPropertyValue(name, str, true);
     }
-
+#endif
 }
 

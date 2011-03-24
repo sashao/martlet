@@ -26,18 +26,18 @@
 //__declspec( dllexport ) void Proc();
 //LRESULT __declspec(dllexport) CALLBACK GetMsgProc(int nCode, WPARAM wParam, LPARAM lParam);
 
-class filter : public QObject
+class __declspec(dllexport) filter : public QObject
 {
 	Q_OBJECT
 
 public:
-	filter();
+        __declspec(dllexport) filter();
 
 signals:
 	void objChanged(QObject * obj);
 
 protected:
-	bool eventFilter(QObject *obj, QEvent *event);
+        __declspec(dllexport) bool eventFilter(QObject *obj, QEvent *event);
 
 };
 

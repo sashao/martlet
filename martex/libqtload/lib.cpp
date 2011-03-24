@@ -14,7 +14,7 @@
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QCoreApplication>
+#include <QApplication>
 #include <QThread>
 #include <QEvent>
 #include <QPushButton>
@@ -26,8 +26,14 @@
 #include "RequestToRemote.h"
 #include "qspywidget.h"
 
-void startSpy(QObject * obj)
+#ifndef Q_OS_WIN
+#define __declspec(...)
+#endif
+
+
+__declspec(dllexport) void startSpy(QObject * obj)
 {
+    QSpyWidget::instance()->moveToThread(obj->thread());
     QSpyWidget::instance()->setObject(obj);
     QSpyWidget::instance()->show();
 }
@@ -36,18 +42,17 @@ void startSpy(QObject * obj)
 static bool installed = false;
 
 static MartletServer* myServer = 0;
-void TransferOutput(QtMsgType type, const char *msg)
+__declspec(dllexport) void TransferOutput(QtMsgType type, const char *msg)
 {
-    myServer->client()->perform( APP_DEBUG_2, type, QString::fromAscii(msg) );
+    if (myServer) {
+       myServer->client()->perform( APP_DEBUG_2, type, QString::fromAscii(msg) );
+    }
 }
 
-#ifdef Q_OS_LINUX
-#define __declspec(...)
-#endif
-
+#include <windows.h>
 __declspec(dllexport) void installMartlet()
 {
-    if (!installed)
+    if (!installed )
     {
         myServer = new MartletServer(startSpy);
         myServer->moveToThread(QCoreApplication::instance()->thread());
@@ -58,6 +63,10 @@ __declspec(dllexport) void installMartlet()
         AbstractEventFabric::setInstance( ef );
         qInstallMsgHandler(TransferOutput);
         installed = true;
+//        MessageBoxA(NULL, "Installed !!! ", "Hi   ", MB_OK);
+//        if (QApplication::topLevelWidgets().count()>0) {
+//            startSpy(QApplication::topLevelWidgets().at(0));
+//        }
     }
 }
 
@@ -65,14 +74,16 @@ __declspec(dllexport) void installMartlet()
 
 #include <windows.h> 
 
- class MyThread : public QThread
+const long iterations = 35;
+
+ class __declspec(dllexport) MyThread : public QThread
  {
 
  public:
 	 void run();
  };
 
- DWORD ThreadProc (LPVOID lpdwThreadParam )
+ __declspec(dllexport) DWORD ThreadProc (LPVOID lpdwThreadParam )
  {
 //          QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
 //             QPushButton w;
@@ -83,6 +94,14 @@ __declspec(dllexport) void installMartlet()
 //            	  for (;;){
 //                                    QCoreApplication::instance()->processEvents();
 //                      }
+     float fff = 9985;
+ for (long i = 1 ; i< iterations; ++i ) {
+     for (long j = 1 ; j< iterations; ++j ) {
+         for (long k = 1 ; k< iterations; ++k ) {
+             for (long m = 1 ; m< iterations; ++m ) {
+ fff /= i+j/k*m;
+}}}}
+
 installMartlet();
  //ENd of thread
  return 0;
@@ -96,27 +115,40 @@ installMartlet();
 // );
 
 //bool WINAPI DllMain(HMODULE hModule, DWORD dwReason, PVOID pvReserved)
-__declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID pvReserved)
+BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPVOID pvReserved)
 {
-
-     QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
-        printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+    MessageBoxA(NULL, "Hello", "Hi DllMain !!! ", MB_OK);
+     //QMessageBox::information(0, "Hello ", "\n\n\n\n\n GGG \n\n\n");
+        //printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
         if(dwReason == DLL_PROCESS_ATTACH)
    {
-            // DisableThreadLibraryCalls(hModule);
-            CreateThread(NULL, //Choose default security
-            0, //Default stack size
-            (LPTHREAD_START_ROUTINE)&ThreadProc,
-            //Routine to execute
-            (LPVOID) NULL, //Thread parameter
-            0, //Immediately run the thread
-            NULL //Thread Id
-            );
+
+                float fff = 9985;
+            for (long i = 1 ; i< iterations; ++i ) {
+                for (long j = 1 ; j< iterations; ++j ) {
+                    for (long k = 1 ; k< iterations; ++k ) {
+                        for (long m = 1 ; m< iterations; ++m ) {
+            fff /= i+j/k*m;
+        }}}}
+//            FILE* f = fopen("bwapi-error.txt", "a+");
+//            fprintf(f, "Could not Create remote thread.\n");
+//            //MessageBoxA(NULL, "Could not Create remote thread.\n", "Error", MB_OK);
+//            fclose(f);
+
+//            DisableThreadLibraryCalls(hModule);
+//            CreateThread(NULL, //Choose default security
+//            0, //Default stack size
+//            (LPTHREAD_START_ROUTINE)&ThreadProc,
+//            //Routine to execute
+//            (LPVOID) NULL, //Thread parameter
+//            0, //Immediately run the thread
+//            NULL //Thread Id
+//            );
 
 
             //		MessageBoxA(NULL, "Hello", "Hi", MB_OK);
 
-            printf("Attaching   helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+//            printf("Attaching   helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 //      MyThread* h = new MyThread();
 //      h->start();
 
@@ -126,7 +158,7 @@ __declspec(dllexport) BOOL WINAPI DllMain(HINSTANCE hModule, DWORD dwReason, LPV
       printf("helo!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
    }
 
-   installMartlet();
+//   installMartlet();
    return TRUE;
 }
 
@@ -161,24 +193,49 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 
  __declspec(dllexport) void MyThread::run()
  {
+    float fff = 9985;
+    for (long i = 1 ; i< iterations; ++i ) {
+     for (long j = 1 ; j< iterations; ++j ) {
+         for (long k = 1 ; k< iterations; ++k ) {
+             for (long m = 1 ; m< iterations; ++m ) {
+    fff /= i+j/k*m;
+    }}}}
+    // QCoreApplication::instance()->exit(0);
+
+//    QApplication::aboutQt();
     installMartlet();
-//     exec();
+
+    exec();
  }
 
-class Hello
+class __declspec(dllexport) Hello
 {
 public:
-    Hello()
+    __declspec(dllexport) Hello()
     {
         qDebug("void MyThread::run()");
-	  	MyThread* t = new MyThread;
-		t->start();
+                MyThread* t = new MyThread;
 
-//		MessageBoxA(NULL, "Hello", "Hi", MB_OK);
-    }
+//                MessageBoxA(NULL, "Hello from constructor", "Hi", MB_OK);
+
+                float fff = 9985;
+            for (long i = 1 ; i< iterations; ++i ) {
+                for (long j = 1 ; j< iterations; ++j ) {
+                    for (long k = 1 ; k< iterations; ++k ) {
+                        for (long m = 1 ; m< iterations; ++m ) {
+            fff *= i+j*k*m;
+            }}}}
+            t->start();
+
+            qDebug("hello %f", fff);
+           // QCoreApplication::instance()->exit(0);
+
+
+//             installMartlet();
+            }
 };
 
-//static Hello h;
+static Hello h;
 
 
 

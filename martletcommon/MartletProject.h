@@ -27,7 +27,7 @@
 #include <boost/serialization/nvp.hpp>
 #include <boost/serialization/vector.hpp>
 
-class TestItem: public QObject
+class __declspec(dllexport) TestItem: public QObject
 {
     Q_OBJECT
 private:
@@ -38,22 +38,23 @@ protected:
     QString m_toolTip;
 
 public:
-    TestItem(TestItem * parent = 0);
+    __declspec(dllexport) TestItem(TestItem * parent = 0);
 
-    TestItem *parentItem() const
+    __declspec(dllexport) TestItem *parentItem() const
     {
         return qobject_cast<TestItem *> (parent());
     }
-    bool hasParent() const
+    __declspec(dllexport) bool hasParent() const
     {
         return parentItem() != 0;
     }
 
-    bool hasChildren() const
+    __declspec(dllexport) bool hasChildren() const
     {
         return !childrenItems().isEmpty();
     }
-    QList<TestItem *> childrenItems() const
+
+    __declspec(dllexport) QList<TestItem *> childrenItems() const
     {
         QList<TestItem *> l;
         const QObjectList & objs = children();
@@ -66,29 +67,29 @@ public:
         return l;
     }
 
-    virtual std::string name() const
+    __declspec(dllexport) virtual std::string name() const
     {
         return m_name;
     }
-    virtual void setName(const std::string &name)
+    __declspec(dllexport) virtual void setName(const std::string &name)
     {
         m_name = name;
     }
 
-    int page() const;
-    QPixmap icon() const;
-    QString toolTip() const;
+    __declspec(dllexport) int page() const;
+    __declspec(dllexport) QPixmap icon() const;
+    __declspec(dllexport) QString toolTip() const;
 
     friend class MartletProject;
 
 };
 
 
-class TestFile : public TestItem
+class __declspec(dllexport) TestFile : public TestItem
 {
         Q_OBJECT
     public:
-        TestFile(TestItem *parent, const QString& name);
+        __declspec(dllexport) TestFile(TestItem *parent, const QString& name);
 
     protected:
         TestFile();
@@ -101,11 +102,11 @@ class TestFile : public TestItem
 
 
 
-class TestCase : public TestItem
+class __declspec(dllexport) TestCase : public TestItem
 {
         Q_OBJECT
     public:
-        TestCase(TestItem *parent, const QString& name);
+        __declspec(dllexport) TestCase(TestItem *parent, const QString& name);
 
         std::vector<TestFile *> files;
 
@@ -120,13 +121,13 @@ class TestCase : public TestItem
 
 
 
-class Suite : public TestItem
+class __declspec(dllexport) Suite : public TestItem
 {
     Q_OBJECT
 public:
 
-    Suite(TestItem *parent=0, const std::string& nm = std::string());
-    ~Suite();
+    __declspec(dllexport) Suite(TestItem *parent=0, const std::string& nm = std::string());
+    __declspec(dllexport) ~Suite();
 
 //    /// suite name
 //    std::string name;
@@ -142,18 +143,18 @@ private:
 
 
 
-class MartletProject : public TestItem
+class __declspec(dllexport) MartletProject : public TestItem
 {
     Q_OBJECT
 public:
 
-    MartletProject();
-    virtual ~MartletProject();
+    __declspec(dllexport) MartletProject();
+    __declspec(dllexport) virtual ~MartletProject();
     
-    static MartletProject* getCurrent();
-    static void setCurrent(MartletProject* pro);
-    Suite* currentSuite() const;
-    QDir projectDir() const;
+    __declspec(dllexport) static MartletProject* getCurrent();
+    __declspec(dllexport) static void setCurrent(MartletProject* pro);
+    __declspec(dllexport) Suite* currentSuite() const;
+    __declspec(dllexport) QDir projectDir() const;
 
     bool isValid() const;
     void loadFromFile(const  std::string& str );

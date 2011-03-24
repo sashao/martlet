@@ -22,9 +22,12 @@ find_package(Qt4 REQUIRED)
 IF (UNIX)  # All unix-like OS's, including Apple OS X (and Cygwin)
     find_package(Boost REQUIRED COMPONENTS serialization)
 ELSEIF (WIN32) # All windows versions (including Cygwin)
+    set( Boost_LIBRARIES "libboost_serialization-mgw44-mt-d-1_46_1.a")
+    set( BOOST_DIR "C:\\Qt\\boost_1_46_1")
+    set( Boost_LIBDIR "${BOOST_DIR}\\stage\\lib\\")
 ELSEIF (MINGW) # Mingw compiler on windows
     set( Boost_LIBRARIES "libboost_serialization-mgw44-mt-d-1_46_1.a")
-    set( BOOST_DIR "C:\\Qt\\boost_1_46_1\\")
+    set( BOOST_DIR "C:\\Qt\\boost_1_46_1")
     set( Boost_LIBDIR "${BOOST_DIR}\\stage\\lib\\")
 ELSE (MSVC)  # Microsoft compiler on windows
 ENDIF()

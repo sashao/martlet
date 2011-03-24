@@ -31,7 +31,7 @@ typedef QMap<QEvent::Type, AbstractCommand*> TypeCommandMap;
 
 class AbstractObjectNameMapper;
 
-class AbstractEventFabric : public QObject
+class __declspec(dllexport) AbstractEventFabric : public QObject
 {
 	Q_OBJECT
 

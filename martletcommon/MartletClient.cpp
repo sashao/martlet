@@ -22,7 +22,7 @@
 #include <QMessageBox>
 #include <QApplication>
 
-MartletClient::MartletClient()
+__declspec(dllexport) MartletClient::MartletClient()
   : textId(-1)
 {
     m_client.reset( new QRemoter(this) );
@@ -38,12 +38,12 @@ MartletClient::MartletClient()
                                   SLOT(onPlaybackFinished()));
 }
 
-MartletClient::~MartletClient()
+__declspec(dllexport) MartletClient::~MartletClient()
 {
 
 }
 
-bool MartletClient::startListening()
+__declspec(dllexport) bool MartletClient::startListening()
 {
     qDebug(Q_FUNC_INFO);
     if (!client()->isConnected()) {
@@ -54,7 +54,7 @@ bool MartletClient::startListening()
     return isConnected();
 }
 
-bool MartletClient::isConnected()
+__declspec(dllexport) bool MartletClient::isConnected()
 {
     return client()->isConnected();
 }
@@ -64,49 +64,49 @@ bool MartletClient::isConnected()
 //    client()->;
 //}
 
-QRemoter* MartletClient::client()
+__declspec(dllexport) QRemoter* MartletClient::client()
 {
     return m_client.data();
 }
 
-void MartletClient::uploadScript(const QString& relativePath, const QString& scriptLines)
+__declspec(dllexport) void MartletClient::uploadScript(const QString& relativePath, const QString& scriptLines)
 {
     client()->perform(PLAYBACK_UPLOAD_2, relativePath, scriptLines);
 }
 
-void MartletClient::play(const QString& relativePath)
+__declspec(dllexport) void MartletClient::play(const QString& relativePath)
 {
     client()->perform(PLAYBACK_PLAY_1, relativePath );
 }
 
      
-void MartletClient::startRecording(QString fname)
+__declspec(dllexport) void MartletClient::startRecording(QString fname)
 {
     client()->perform(RECORDING_START_1, fname);
 }
 
-void MartletClient::stopRecording(QString fname)
+__declspec(dllexport) void MartletClient::stopRecording(QString fname)
 {
     client()->perform(RECORDING_STOP_1, fname);
 }
 
-void MartletClient::askForRecordedText(QString fname)
+__declspec(dllexport) void MartletClient::askForRecordedText(QString fname)
 {
     client()->perform(RECORDING_GET_1, fname);
 }
 
-void MartletClient::onPlaybackFinished()
+__declspec(dllexport) void MartletClient::onPlaybackFinished()
 {
     client()->perform(APP_QUIT_0);
 }
 
 
-void MartletClient::startSpy()
+__declspec(dllexport) void MartletClient::startSpy()
 {
     client()->perform(SPY_START_0);
 }
 
-void MartletClient::stopSpy()
+__declspec(dllexport) void MartletClient::stopSpy()
 {
     client()->perform(SPY_STOP_0);
 }

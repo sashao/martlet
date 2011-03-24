@@ -35,28 +35,28 @@ class QMenu;
 class QCloseEvent;
 
 
-class QSpyWidget : public QWidget {
+class  __declspec(dllexport) QSpyWidget : public QWidget {
     Q_OBJECT
     Q_DISABLE_COPY(QSpyWidget)
 
-	explicit QSpyWidget(QWidget *parent = 0);
-    virtual ~QSpyWidget();
+    __declspec(dllexport) explicit QSpyWidget(QWidget *parent = 0);
+    __declspec(dllexport) virtual ~QSpyWidget();
 
 public:
-	static QSpyWidget *instance();
+        __declspec(dllexport) static QSpyWidget *instance();
 
 public slots:
-	void setObject(QObject * obj);
+        void setObject(QObject * obj);
 
 protected:
-	void createActions();
-	void createTrayIcon();
-	void setVisible(bool visible);
+        __declspec(dllexport) void createActions();
+        __declspec(dllexport) void createTrayIcon();
+        __declspec(dllexport) void setVisible(bool visible);
 
-    virtual void changeEvent(QEvent *e);
-	bool updateObjectTree(QObject * obj);
-	void addChildrens(QTreeWidgetItem *parent, QObject * obj);
-	void closeEvent(QCloseEvent *event);
+        __declspec(dllexport) virtual void changeEvent(QEvent *e);
+        __declspec(dllexport) bool updateObjectTree(QObject * obj);
+        __declspec(dllexport) void addChildrens(QTreeWidgetItem *parent, QObject * obj);
+        __declspec(dllexport) void closeEvent(QCloseEvent *event);
 
 private:
 	static QSpyWidget * m_instance;
@@ -64,10 +64,11 @@ private:
 	QObject *selected;
 	QObject *m_top;
 
+#ifndef Q_OS_WIN32
 	QDesignerObjectInspectorInterface *oi;
 	QDesignerPropertyEditorInterface *pe;
 	QDesignerFormEditorInterface *m_formeditor;
-
+#endif
 	QSystemTrayIcon *trayIcon;
 	QMenu *trayIconMenu;
 
@@ -76,9 +77,9 @@ private:
 	QAction *quitAction;
 
 private slots:
-	void handle_propertyChanged ( const QString & name, const QVariant & value );
-	void on_treeWidget_itemActivated(QTreeWidgetItem* item, int column);
-	void on_treeWidget_itemClicked(QTreeWidgetItem* item, int column);
+        void handle_propertyChanged ( const QString & name, const QVariant & value );
+        void on_treeWidget_itemActivated(QTreeWidgetItem* item, int column);
+        void on_treeWidget_itemClicked(QTreeWidgetItem* item, int column);
 
 };
 

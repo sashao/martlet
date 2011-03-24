@@ -27,16 +27,17 @@
 /**
   * Execute comands on testable app.
   */
-class MartletServer : public QObject
+class __declspec(dllexport) MartletServer : public QObject
 {
     Q_OBJECT
 public:
-    MartletServer( void (*spy)(QObject*) );
-    QRemoter *client();
+    __declspec(dllexport) MartletServer( void (*spy)(QObject*) );
+    __declspec(dllexport) QRemoter *client();
 
 private slots:
     void connected();
     void disconnected();
+    void delayedConnect();
 
     void uploadScript(const QVariant& relativePath, const QVariant& scriptLines);
     void play(const QVariant& relativePath);

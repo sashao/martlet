@@ -54,27 +54,27 @@ MartletProject::~MartletProject()
     
 }
 
-MartletProject* MartletProject::getCurrent()
+__declspec(dllexport) MartletProject* MartletProject::getCurrent()
 {
     return m_instance;
 }
 
-void MartletProject::setCurrent(MartletProject* pro)
+__declspec(dllexport) void MartletProject::setCurrent(MartletProject* pro)
 {
     m_instance = pro;
 }
 
-Suite* MartletProject::currentSuite() const
+__declspec(dllexport) Suite* MartletProject::currentSuite() const
 {
     return suites.front();
 }
 
-QDir MartletProject::projectDir() const
+__declspec(dllexport) QDir MartletProject::projectDir() const
 {
     const QFileInfo fi(QString::fromStdString(fileName.name()));
     return fi.absoluteDir();
 }
-bool MartletProject::isValid() const
+__declspec(dllexport) bool MartletProject::isValid() const
 {
     if (executable.name().empty()) return false;
     if (fileName.name().empty()) return false;
@@ -82,7 +82,7 @@ bool MartletProject::isValid() const
     return true;
 }
 
-void MartletProject::loadFromFile(const  std::string& str )
+__declspec(dllexport) void MartletProject::loadFromFile(const  std::string& str )
 {
     qDebug() << "Loading project from file "<< QString::fromStdString(str);
     Q_ASSERT(!str.empty());
@@ -125,7 +125,7 @@ void MartletProject::loadFromFile(const  std::string& str )
     m_isDirty = false;
 }
 
-void MartletProject::saveToFile(const  std::string& str)
+__declspec(dllexport) void MartletProject::saveToFile(const  std::string& str)
 {
     qDebug() << "Saving project to file "<< QString::fromStdString(fileName.name());
     Q_ASSERT(!str.empty());
@@ -140,7 +140,7 @@ void MartletProject::saveToFile(const  std::string& str)
     m_isDirty = false;
 }
 
-void MartletProject::save()
+__declspec(dllexport) void MartletProject::save()
 {
     saveToFile(fileName.name());
 }
@@ -157,7 +157,7 @@ void MartletProject::serialize(archive& ar, const unsigned int /*version*/)
     ar & make_nvp("Suites", suites);
 }
 
-void MartletProject::notifyAboutChanges(int suiteIdx)
+__declspec(dllexport) void MartletProject::notifyAboutChanges(int suiteIdx)
 {
     emit projectChanged(suiteIdx);
 }
@@ -165,7 +165,7 @@ void MartletProject::notifyAboutChanges(int suiteIdx)
 
 
 
-TestItem::TestItem(TestItem * parent)
+__declspec(dllexport) TestItem::TestItem(TestItem * parent)
     : QObject(parent)
     , m_page(0)
     , m_icon (/*makeIcon(":/model/tk.png")*/)
@@ -174,17 +174,17 @@ TestItem::TestItem(TestItem * parent)
     setName("Unnamed TestItem");
 }
 
-int TestItem::page() const
+__declspec(dllexport) int TestItem::page() const
 {
     return m_page;
 }
 
-QPixmap TestItem::icon() const
+__declspec(dllexport) QPixmap TestItem::icon() const
 {
     return m_icon;
 }
 
-QString TestItem::toolTip() const
+__declspec(dllexport) QString TestItem::toolTip() const
 {
     return m_toolTip;
 }
@@ -195,7 +195,7 @@ QString TestItem::toolTip() const
 
 
 
-TestFile::TestFile(TestItem *parent, const QString& name)
+__declspec(dllexport) TestFile::TestFile(TestItem *parent, const QString& name)
 {
     setName(name.toStdString());
     setParent(parent);
@@ -204,14 +204,14 @@ TestFile::TestFile(TestItem *parent, const QString& name)
     m_toolTip = "Script File";
 }
 
-TestFile::TestFile(){
+__declspec(dllexport) TestFile::TestFile(){
     m_page = 1;
     m_icon = makeIcon(":/model/f.png");
     m_toolTip = "Script File";
 }
 
 template<class archive>
-void TestFile::serialize(archive& ar, const unsigned int /*version*/)
+__declspec(dllexport) void TestFile::serialize(archive& ar, const unsigned int /*version*/)
 {
     using boost::serialization::make_nvp;
     ar & make_nvp("Name", m_name);
@@ -230,7 +230,7 @@ void TestFile::serialize(archive& ar, const unsigned int /*version*/)
 
 
 
-TestCase::TestCase(TestItem *parent, const QString& name)
+__declspec(dllexport) TestCase::TestCase(TestItem *parent, const QString& name)
 {
     setName(name.toStdString());
     setParent(parent);
@@ -239,7 +239,7 @@ TestCase::TestCase(TestItem *parent, const QString& name)
     m_toolTip = "Test Case";
 }
 
-TestCase::TestCase(){
+__declspec(dllexport) TestCase::TestCase(){
     m_page = 0;
     m_icon = makeIcon(":/model/tk.png");
     m_toolTip = "Test Case";

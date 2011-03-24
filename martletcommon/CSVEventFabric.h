@@ -20,7 +20,7 @@
 
 #include "AbstractEventFabric.h"
 
-class CSVEventFabric : public AbstractEventFabric
+class __declspec(dllexport) CSVEventFabric : public AbstractEventFabric
 {
 	Q_OBJECT
 
